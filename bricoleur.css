@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+
+.data_source_name {
+	font-style: italic;
+}
+
+.conclusion {
+	font-weight: bold;
+}
+
+.highlight {
+	font-weight: bold;
+}
+
+div.ui-btn-text { 
+	white-space:normal; 
+}
+
+.ui-li-desc { 
+	white-space:normal; 
+}
+
+.ui-li-heading { 
+	white-space:normal; 
+}
+
+/* special behaviour of left panel on wide viewports once open */
+@media (min-width: 35em){
+	.ui-panel-content-wrap.ui-panel-content-wrap-open-complete.ui-panel-content-wrap-display-push,
+	.ui-panel-content-wrap.ui-panel-content-wrap-open-complete.ui-panel-content-wrap-display-reveal {
+		margin-right: 17em;
+	}
+ 	.ui-panel-content-wrap.ui-panel-content-wrap-open-complete.ui-panel-content-wrap-display-push.ui-panel-content-wrap-position-right,
+	.ui-panel-content-wrap.ui-panel-content-wrap-open-complete.ui-panel-content-wrap-display-reveal.ui-panel-content-wrap-position-right {
+		margin: 0 0 0 17em;
+	}
+	.ui-panel-dismiss-display-push {
+		display: none;
+	}
+}
