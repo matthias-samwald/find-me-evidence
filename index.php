@@ -1,6 +1,6 @@
 <?php
 
-define(SOLR_URL, "http://localhost:8888/solr/collection2000/select?");
+define(SOLR_URL, "http://localhost:8888/solr/collection1/select?");
 define(NUMBER_OF_RESULTS, 20);
 
 function query_solr($q = "diabetes", $dataset = "all", $sort = "by_relevance", $rows = NUMBER_OF_RESULTS, $offset = 0) {
@@ -33,7 +33,6 @@ function xpath($xml, $xpath_expression, $return_entire_array = false) {
 	else {
 		return $result_array;
 	}
-	
 }
 
 if (isset($_GET["q"]) AND q != "") {

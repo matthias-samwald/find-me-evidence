@@ -1,6 +1,6 @@
 <?php 
 
-define(SOLR_URL, "http://localhost:8888/solr/collection2000/get?");
+define(SOLR_URL, "http://localhost:8888/solr/collection1/get?");
 
 function get_solr ($id) {
 	$request_url = SOLR_URL . "id=" . urlencode($id);
