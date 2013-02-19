@@ -1,7 +1,7 @@
 <?php
 
-//define(SOLR_URL, "http://localhost:8888/solr/collection2000/select?");
-define(SOLR_URL, "http://54.228.245.189:8888/solr/collection1/select?");
+define(SOLR_URL, "http://localhost:8888/solr/collection2000/select?");
+//define(SOLR_URL, "http://54.228.245.189:8888/solr/collection1/select?");
 define(NUMBER_OF_RESULTS, 20);
 $categories = Array("Evidence-based summary", "Scientific articles", "Drug information", "Professional discussions", "Wikipedia");
 
@@ -51,10 +51,9 @@ function get_facet_count($xml, $facet_name) {
 }
  
 if (isset($_GET["q"]) AND q != "") {
-
+	$xml = query_solr($_GET["q"], $_GET["category"], $_GET["sort"]);
 }
 
-$xml = query_solr($_GET["q"], $_GET["category"], $_GET["sort"]);
 
 ?>
 
@@ -76,50 +75,67 @@ $xml = query_solr($_GET["q"], $_GET["category"], $_GET["sort"]);
     <a href="../nav.html" data-icon="info" data-iconpos="notext" data-rel="dialog" data-transition="fade">Help</a> </div>
   <div data-role="content">
     <div style="margin: 20px; padding: 10px" > 
-      <form action="index.php" method="get">
-	      <!--<label for="search-input">Search input:</label>-->
-	      <input type="search" name="q" id="q" data-theme="e" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" />
-	      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-	        <select name="category" id="category">
-	          <option value="all" <?php if($_GET["category"] == "all") print('selected="selected"') ?>>Show everything (<?php print($xml->result["numFound"])?>)</option>
-	          <?php foreach($categories as $category) {
-	          			print("<option value=\"$category\"");
-	          			if($_GET["category"] == $category) {
-	          				print('selected="selected"');
-	          			}
-	          			print(">");
-	          			print($category . " (" . get_facet_count($xml, $category) . ")</option>");
-	          		}
-	          ?>
-	        </select>
-	        <select name="sort" id="sort">
-	          <option value="by_relevance" <?php if($_GET["sort"] == "by_relevance") print('selected="selected"') ?>>by relevance</option>
-	          <option value="by_date" <?php if($_GET["sort"] == "by_date") print('selected="selected"') ?>>by date</option>
-	        </select>
-	      </fieldset>
-	    </form>
-    </div>
-    <div>
-      <ul data-role="listview" data-inset="false">
-      
-        <!-- Iterate through documents in result set -->
-        <?php foreach($xml->result->doc as $doc): 
-        	$id = xpath($doc, "str[@name='id']")?>
-	        <li><a href="<?php if(substr($id, 0, 35) == "http://www.ncbi.nlm.nih.gov/pubmed/") print ("show.php?id=" . urlencode($id));
-	        				   else print($id); ?>">
-	          <h3><?php print xpath($doc, "arr[@name='title']/str"); ?></h3>
-	          <p><span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?></span> 
-	             <span><?php print substr(xpath($doc, "date[@name='dateCreated']"), 0, 10) ?></span></p>
-	          <?php if(xpath($doc, "arr[@name='key_assertion']/str")): ?>
-	             <p class="conclusion"><?php print xpath($doc, "arr[@name='key_assertion']/str")?></p>
-	          <?php elseif($snippets = xpath($doc, "//lst[@name='highlighting']/lst[@name='${id}']/arr[@name='body']/str", true)): ?>
-	             <p class="text_snippet"><?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
-	             </p>
-	          <?php endif; ?>
-	        </a></li>
-        <?php endforeach; ?>
-      </ul>
-    </div>
+      <?php if (isset($_GET["q"]) AND q != "" AND ($xml->result["numFound"] > 0)) : // if a query was entered and results were found ?>
+	      <form action="index.php" method="get">
+		      <!--<label for="search-input">Search input:</label>-->
+		      <input type="search" name="q" id="q" data-theme="e" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" />
+		      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+		        <select name="category" id="category">
+		          <option value="all" <?php if($_GET["category"] == "all") print('selected="selected"') ?>>Show everything (<?php print($xml->result["numFound"])?>)</option>
+		          <?php foreach($categories as $category) {
+		          			print("<option value=\"$category\"");
+		          			if($_GET["category"] == $category) {
+		          				print('selected="selected"');
+		          			}
+		          			print(">");
+		          			print($category . " (" . get_facet_count($xml, $category) . ")</option>");
+		          		}
+		          ?>
+		        </select>
+		        <select name="sort" id="sort">
+		          <option value="by_relevance" <?php if($_GET["sort"] == "by_relevance") print('selected="selected"') ?>>by relevance</option>
+		          <option value="by_date" <?php if($_GET["sort"] == "by_date") print('selected="selected"') ?>>by date</option>
+		        </select>
+		      </fieldset>
+		    </form>
+	    </div>
+	    <div>
+	      <ul data-role="listview" data-inset="false">
+	      
+	        <!-- Iterate through documents in result set -->
+	        <?php foreach($xml->result->doc as $doc): 
+	        	$id = xpath($doc, "str[@name='id']")?>
+		        <li><a href="<?php if(substr($id, 0, 35) == "http://www.ncbi.nlm.nih.gov/pubmed/") print ("show.php?id=" . urlencode($id));
+		        				   else print($id); ?>">
+		          <h3><?php print xpath($doc, "arr[@name='title']/str"); ?></h3>
+		          <p><span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?></span> 
+		             <span><?php print substr(xpath($doc, "date[@name='dateCreated']"), 0, 10) ?></span></p>
+		          <?php if(xpath($doc, "arr[@name='key_assertion']/str")): ?>
+		             <p class="conclusion"><?php print xpath($doc, "arr[@name='key_assertion']/str")?></p>
+		          <?php elseif($snippets = xpath($doc, "//lst[@name='highlighting']/lst[@name='${id}']/arr[@name='body']/str", true)): ?>
+		             <p class="text_snippet"><?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
+		             </p>
+		          <?php endif; ?>
+		        </a></li>
+	        <?php endforeach; ?>
+	      </ul>
+	    </div>
+	    
+	 <?php elseif (isset($_GET["q"]) AND q != "" AND ($xml->result["numFound"] == 0)) : // if a query was entered and no results were found?>
+	 	<form action="index.php" method="get">
+		      <!--<label for="search-input">Search input:</label>-->
+		      <input type="search" name="q" id="q" data-theme="e" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" /> 
+		</form>
+		<p>No results found, please refine your query.</p>
+		
+	<?php elseif (isset($_GET["q"]) == false OR q == "") : // if no query was entered, default startup search bar ?>
+		 	<form action="index.php" method="get">
+		      <!--<label for="search-input">Search input:</label>-->
+		      <input type="search" name="q" id="q" data-theme="e" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" /> 
+		</form>
+		<p>Welcome to the Bricoleur search prototype, a medical search engine for rapidly reviewing current medical evidence. Please enter a search query.</p>
+	<?php endif; ?>
+	
   </div>
   <div data-role="footer">
     <h4>Show more results (1234 remaining)</h4>
