@@ -1,12 +1,12 @@
 <?php
 
-define(SOLR_URL, "http://localhost:8888/solr/collection1/select?");
+define(SOLR_URL, "http://localhost:8888/solr/collection2000/select?");
 //define(SOLR_URL, "http://54.228.245.189:8888/solr/collection1/select?");
-define(NUMBER_OF_RESULTS, 20);
+define(MAX_NUMBER_OF_RESULTS_PER_REQUEST, 50);
 $categories = Array("Evidence-based summary", "Scientific articles", "Drug information", "Professional discussions", "Wikipedia");
 
 
-function query_solr($q = "diabetes", $category = "all", $sort = "by_relevance", $rows = NUMBER_OF_RESULTS, $offset = 0) {
+function query_solr($q, $category, $sort, $rows = MAX_NUMBER_OF_RESULTS_PER_REQUEST, $offset = 0) {
 	$request_url = SOLR_URL . "q=" . urlencode($q);
 	if ($category != "all") {
 		$request_url .= urlencode(" category:\"$category\""); // select facet
@@ -51,7 +51,13 @@ function get_facet_count($xml, $facet_name) {
 }
  
 if (isset($_GET["q"]) AND q != "") {
-	$xml = query_solr($_GET["q"], $_GET["category"], $_GET["sort"]);
+	$category = $_GET["category"];
+	if ($category == "") $category = "all"; // set default value if missing
+
+	$sort = $_GET["sort"];
+	if ($sort == "") $sort = "by_relevance"; // set default value if missing
+	
+	$xml = query_solr($_GET["q"], $category, $sort);
 }
 
 
@@ -109,7 +115,9 @@ if (isset($_GET["q"]) AND q != "") {
 		        				   else print($id); ?>">
 		          <h3><?php print xpath($doc, "arr[@name='title']/str"); ?></h3>
 		          <p><span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?></span> 
-		             <span><?php print substr(xpath($doc, "date[@name='dateCreated']"), 0, 10) ?></span></p>
+		              <span class="publication_date"><?php $date_created = substr(xpath($doc, "date[@name='dateCreated']"), 0, 10); 
+		              									if ($date_created != "") print("&nbsp;|&nbsp;" . $date_created) ?>
+		              </span></p>
 		          <?php if(xpath($doc, "arr[@name='key_assertion']/str")): ?>
 		             <p class="conclusion"><?php print xpath($doc, "arr[@name='key_assertion']/str")?></p>
 		          <?php elseif($snippets = xpath($doc, "//lst[@name='highlighting']/lst[@name='${id}']/arr[@name='body']/str", true)): ?>
@@ -136,10 +144,9 @@ if (isset($_GET["q"]) AND q != "") {
 		<p>Welcome to the Bricoleur search prototype, a medical search engine for rapidly reviewing current medical evidence. Please enter a search query.</p>
 	<?php endif; ?>
 	
+  <?php if ($xml->result["numFound"] > MAX_NUMBER_OF_RESULTS_PER_REQUEST) print "<p>Only the first " . MAX_NUMBER_OF_RESULTS_PER_REQUEST . " results are shown.</p>" ?>	
   </div>
-  <div data-role="footer">
-    <h4>Show more results (1234 remaining)</h4>
-  </div>
+  <div data-role="footer"><h4>This prototype is intended for research use only and should not be used to guide medical treatment.</h4></div>
 </div>
 </body>
 </html>
