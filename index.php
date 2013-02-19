@@ -1,6 +1,6 @@
 <?php
 
-define(SOLR_URL, "http://localhost:8888/solr/collection2000/select?");
+define(SOLR_URL, "http://localhost:8888/solr/collection1/select?");
 //define(SOLR_URL, "http://54.228.245.189:8888/solr/collection1/select?");
 define(MAX_NUMBER_OF_RESULTS_PER_REQUEST, 50);
 $categories = Array("Evidence-based summary", "Scientific articles", "Drug information", "Professional discussions", "Wikipedia");
@@ -144,7 +144,7 @@ if (isset($_GET["q"]) AND q != "") {
 		<p>Welcome to the Bricoleur search prototype, a medical search engine for rapidly reviewing current medical evidence. Please enter a search query.</p>
 	<?php endif; ?>
 	
-  <?php if ($xml->result["numFound"] > MAX_NUMBER_OF_RESULTS_PER_REQUEST) print "<p>Only the first " . MAX_NUMBER_OF_RESULTS_PER_REQUEST . " results are shown.</p>" ?>	
+  <?php if ($xml->result["numFound"] > MAX_NUMBER_OF_RESULTS_PER_REQUEST) print "<div style='padding-top:1em'><p>Only the first " . MAX_NUMBER_OF_RESULTS_PER_REQUEST . " results are displayed.</p></div>" ?>	
   </div>
   <div data-role="footer"><h4>This prototype is intended for research use only and should not be used to guide medical treatment.</h4></div>
 </div>
