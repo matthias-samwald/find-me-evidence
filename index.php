@@ -1,14 +1,25 @@
 <?php
 
-define(SOLR_URL, "http://localhost:8888/solr/collection1/select?");
+//define(SOLR_URL, "http://localhost:8888/solr/collection2000/select?");
+define(SOLR_URL, "http://54.228.245.189:8888/solr/collection1/select?");
 define(NUMBER_OF_RESULTS, 20);
+$categories = Array("Evidence-based summary", "Scientific articles", "Drug information", "Professional discussions", "Wikipedia");
 
-function query_solr($q = "diabetes", $dataset = "all", $sort = "by_relevance", $rows = NUMBER_OF_RESULTS, $offset = 0) {
-	
-	$request_url = SOLR_URL . "q=" . urlencode($q) . "&rows=" . urlencode($rows) . 
-		"&wt=xml" . 
+
+function query_solr($q = "diabetes", $category = "all", $sort = "by_relevance", $rows = NUMBER_OF_RESULTS, $offset = 0) {
+	$request_url = SOLR_URL . "q=" . urlencode($q);
+	if ($category != "all") {
+		$request_url .= urlencode(" category:\"$category\""); // select facet
+	}
+	$request_url .=
+		"&bq=" . urlencode("data_source_name:\"Cochrane Database Syst Rev PubMed\"^0.5") .
+		"&defType=edismax" . // select query parser
+		//"&bf=ord(dataset_priority)^0.5" . 
+		//"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
+		"&rows=" . urlencode($rows) . // select number of results returned
+		"&wt=xml" . // select result format
 		"&facet=true" . // switch faceting on
-		"&facet.field=data_source_name" . // use this field for faceting TODO: change data_source_name to category
+		"&facet.field=category" . // use this field for faceting
 		"&hl=true" . // switch highlighting on
 		"&hl.fl=body" . // use this field for highlighting
 		"&hl.snippets=2" . // set maximum number of snippets per field generated 
@@ -18,7 +29,7 @@ function query_solr($q = "diabetes", $dataset = "all", $sort = "by_relevance", $
 		$request_url .= "&sort=dateCreated+desc";
 	}
 	
-	// print $request_url;
+	 print "<!-- Solr query: $request_url -->";
 
 	$response = file_get_contents($request_url);
 	$xml = simplexml_load_string($response);
@@ -35,11 +46,15 @@ function xpath($xml, $xpath_expression, $return_entire_array = false) {
 	}
 }
 
+function get_facet_count($xml, $facet_name) {
+	return xpath($xml, "//lst[@name='facet_counts']/lst[@name='facet_fields']/lst[@name='category']/int[@name='$facet_name']");
+}
+ 
 if (isset($_GET["q"]) AND q != "") {
 
 }
 
-$xml = query_solr($_GET["q"], $_GET["dataset"], $_GET["sort"]);
+$xml = query_solr($_GET["q"], $_GET["category"], $_GET["sort"]);
 
 ?>
 
@@ -65,11 +80,17 @@ $xml = query_solr($_GET["q"], $_GET["dataset"], $_GET["sort"]);
 	      <!--<label for="search-input">Search input:</label>-->
 	      <input type="search" name="q" id="q" data-theme="e" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" />
 	      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-	        <select name="dataset" id="dataset">
-	          <option value="all">Show everything (<?php print($xml->result["numFound"])?>)</option>
-	          <option value="b">Evidence-based summaries (12)</option>
-	          <option value="c">Scientific articles (1234)</option>
-	          <option value="d">Wikipedia articles (1)</option>
+	        <select name="category" id="category">
+	          <option value="all" <?php if($_GET["category"] == "all") print('selected="selected"') ?>>Show everything (<?php print($xml->result["numFound"])?>)</option>
+	          <?php foreach($categories as $category) {
+	          			print("<option value=\"$category\"");
+	          			if($_GET["category"] == $category) {
+	          				print('selected="selected"');
+	          			}
+	          			print(">");
+	          			print($category . " (" . get_facet_count($xml, $category) . ")</option>");
+	          		}
+	          ?>
 	        </select>
 	        <select name="sort" id="sort">
 	          <option value="by_relevance" <?php if($_GET["sort"] == "by_relevance") print('selected="selected"') ?>>by relevance</option>
