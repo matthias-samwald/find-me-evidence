@@ -13,9 +13,9 @@ function query_solr($q, $category, $sort, $rows = MAX_NUMBER_OF_RESULTS_PER_REQU
 	}
 	$request_url .=
 		"&bq=" . urlencode("data_source_name:\"Cochrane Database Syst Rev PubMed\"^0.5") .
-		"&defType=edismax" . // select query parser
+		//"&defType=edismax" . // select query parser
 		//"&bf=ord(dataset_priority)^0.5" . 
-		//"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
+		"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
 		"&rows=" . urlencode($rows) . // select number of results returned
 		"&wt=xml" . // select result format
 		"&facet=true" . // switch faceting on
@@ -23,7 +23,7 @@ function query_solr($q, $category, $sort, $rows = MAX_NUMBER_OF_RESULTS_PER_REQU
 		"&hl=true" . // switch highlighting on
 		"&hl.fl=body" . // use this field for highlighting
 		"&hl.snippets=2" . // set maximum number of snippets per field generated 
-		"&hl.fragsize=200" . // set size of a snippet (in characters)
+		"&hl.fragsize=300" . // set size of a snippet (in characters)
 		"&hl.mergeContiguous=true";  // merge the two snippets into one when they are contiguous
 	if ($sort == "by_date") {
 		$request_url .= "&sort=dateCreated+desc";
@@ -127,13 +127,12 @@ if (isset($_GET["q"]) AND q != "") {
 		        </a></li>
 	        <?php endforeach; ?>
 	      </ul>
+	      <?php if ($xml->result["numFound"] == 0) print("<p>No results found.</p>") // if a query was entered and no results were found?>
 	    </div>
+	 <?php endif; ?>
 	    
-	 <?php elseif (isset($_GET["q"]) AND q != "" AND ($xml->result["numFound"] == 0)) : // if a query was entered and no results were found?>
-	 	<form action="index.php" method="get">
-		      <!--<label for="search-input">Search input:</label>-->
-		      <input type="search" name="q" id="q" data-theme="e" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" /> 
-		</form>
+	 <?php if ($xml->result["numFound"] == 0) : // if a query was entered and no results were found?>
+	 	
 		<p>No results found, please refine your query.</p>
 		
 	<?php elseif (isset($_GET["q"]) == false OR q == "") : // if no query was entered, default startup search bar ?>
