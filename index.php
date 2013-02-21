@@ -76,7 +76,6 @@ if (isset($_GET["q"]) AND q != "") {
 <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
 <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
 <script>
-/*
 	function updateAutocomplete() {
         var $ul = $('#autocomplete'),
             $input = $('#q'),
