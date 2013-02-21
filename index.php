@@ -2,7 +2,7 @@
 
 define(SOLR_URL, "http://localhost:8888/solr/collection1/select?");
 //define(SOLR_URL, "http://54.228.245.189:8888/solr/collection1/select?");
-define(MAX_NUMBER_OF_RESULTS_PER_REQUEST, 50);
+define(MAX_NUMBER_OF_RESULTS_PER_REQUEST, 30);
 $categories = Array("Evidence-based summary", "Scientific articles", "Drug information", "Professional discussions", "Wikipedia");
 
 
@@ -77,14 +77,6 @@ if (isset($_GET["q"]) AND q != "") {
 <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
 <script>
 /*
-$(document).bind('pageinit', function() {  
-		$('#category').change(function() {
-			$("#search_form").trigger("submit");
-		});
-		$('#sort').change(function() {
-			$("#search_form").trigger("submit");
-*/
-	
 	function updateAutocomplete() {
         var $ul = $('#autocomplete'),
             $input = $('#q'),
