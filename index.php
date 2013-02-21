@@ -1,6 +1,6 @@
 <?php
 
-define(SOLR_URL, "http://localhost:8888/solr/collection1/select?");
+define(SOLR_URL, "http://localhost:8888/solr/collection2000/select?");
 //define(SOLR_URL, "http://54.228.245.189:8888/solr/collection1/select?");
 define(MAX_NUMBER_OF_RESULTS_PER_REQUEST, 50);
 $categories = Array("Evidence-based summary", "Scientific articles", "Drug information", "Professional discussions", "Wikipedia");
@@ -13,9 +13,9 @@ function query_solr($q, $category, $sort, $rows = MAX_NUMBER_OF_RESULTS_PER_REQU
 	}
 	$request_url .=
 		"&bq=" . urlencode("data_source_name:\"Cochrane Database Syst Rev PubMed\"^0.5") .
-		//"&defType=edismax" . // select query parser
-		//"&bf=ord(dataset_priority)^0.5" . 
-		"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
+		"&defType=edismax" . // select query parser
+		"&bf=ord(dataset_priority)^0.5" . 
+		//"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
 		"&rows=" . urlencode($rows) . // select number of results returned
 		"&wt=xml" . // select result format
 		"&facet=true" . // switch faceting on
@@ -24,6 +24,9 @@ function query_solr($q, $category, $sort, $rows = MAX_NUMBER_OF_RESULTS_PER_REQU
 		"&hl.fl=body" . // use this field for highlighting
 		"&hl.snippets=2" . // set maximum number of snippets per field generated 
 		"&hl.fragsize=300" . // set size of a snippet (in characters)
+		"&hl.fragmenter=regex" .
+		"&hl.regex.slop=0.6" . // specifies the factor by which the regex fragmenter can stray from the ideal fragment size
+		"&hl.regex.pattern=\w[^\.!\?]{100,500}[\.!\?]" . // regex for matching sentences ... does not work too well? TODO: Should also be modified not to match commas in numbers, but only commas followed by a whitespace
 		"&hl.mergeContiguous=true";  // merge the two snippets into one when they are contiguous
 	if ($sort == "by_date") {
 		$request_url .= "&sort=dateCreated+desc";
@@ -61,9 +64,9 @@ if (isset($_GET["q"]) AND q != "") {
 }
 
 
+
+
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,6 +75,44 @@ if (isset($_GET["q"]) AND q != "") {
 <link href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" rel="stylesheet" type="text/css"/>
 <script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
 <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
+<script>
+/*
+$(document).bind('pageinit', function() {  
+		$('#category').change(function() {
+			$("#search_form").trigger("submit");
+		});
+		$('#sort').change(function() {
+			$("#search_form").trigger("submit");
+*/
+	
+	function updateAutocomplete() {
+        var $ul = $('#autocomplete'),
+            $input = $('#q'),
+            value = $input.val(),
+            html = "";
+        $ul.html( "" );
+        if ( value && value.length > 3 ) {
+            $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
+            $ul.listview( "refresh" );
+            $.ajax({
+            	url: "autocomplete.php",
+				dataType: "json",
+				crossDomain: false,
+                data: {
+                    q: $input.val()
+                }
+            })
+            .then( function ( response ) {
+                $.each( response, function ( i, val ) {
+                	 html += "<li onclick=\"$('#q').val('" + val + "'); $('#search_form').submit();\">" + val + "</li>";
+                });
+                $ul.html( html );
+                $ul.listview( "refresh" );
+                $ul.trigger( "updatelayout");
+            });
+        }	   
+	}
+</script>
 <link href="bricoleur.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -81,12 +122,13 @@ if (isset($_GET["q"]) AND q != "") {
     <a href="../nav.html" data-icon="info" data-iconpos="notext" data-rel="dialog" data-transition="fade">Help</a> </div>
   <div data-role="content">
     <div style="margin: 20px; padding: 10px" > 
-      <?php if (isset($_GET["q"]) AND q != "" AND ($xml->result["numFound"] > 0)) : // if a query was entered and results were found ?>
-	      <form action="index.php" method="get">
+      <?php if (isset($_GET["q"]) AND q != "") : // if a query was entered and results were found ?>
+	      <form action="index.php" method="get" id="search_form" data-ajax="false">
 		      <!--<label for="search-input">Search input:</label>-->
-		      <input type="search" name="q" id="q" data-theme="e" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" />
+		      <input type="search" name="q" id="q" data-theme="e" autocomplete="off" onkeyup="updateAutocomplete()" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" />
+		      <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 		      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-		        <select name="category" id="category">
+		        <select name="category" id="category" onchange='$("#search_form").submit();'>
 		          <option value="all" <?php if($_GET["category"] == "all") print('selected="selected"') ?>>Show everything (<?php print($xml->result["numFound"])?>)</option>
 		          <?php foreach($categories as $category) {
 		          			print("<option value=\"$category\"");
@@ -98,7 +140,7 @@ if (isset($_GET["q"]) AND q != "") {
 		          		}
 		          ?>
 		        </select>
-		        <select name="sort" id="sort">
+		        <select name="sort" id="sort" onchange='$("#search_form").submit();'>
 		          <option value="by_relevance" <?php if($_GET["sort"] == "by_relevance") print('selected="selected"') ?>>by relevance</option>
 		          <option value="by_date" <?php if($_GET["sort"] == "by_date") print('selected="selected"') ?>>by date</option>
 		        </select>
@@ -130,22 +172,19 @@ if (isset($_GET["q"]) AND q != "") {
 	      <?php if ($xml->result["numFound"] == 0) print("<p>No results found.</p>") // if a query was entered and no results were found?>
 	    </div>
 	 <?php endif; ?>
-	    
-	 <?php if ($xml->result["numFound"] == 0) : // if a query was entered and no results were found?>
-	 	
-		<p>No results found, please refine your query.</p>
 		
-	<?php elseif (isset($_GET["q"]) == false OR q == "") : // if no query was entered, default startup search bar ?>
-		 	<form action="index.php" method="get">
+	<?php if (isset($_GET["q"]) == false OR q == "") : // if no query was entered, default startup search bar ?>
+		 	<form action="index.php" method="get" id="search_form" data-ajax="false">
 		      <!--<label for="search-input">Search input:</label>-->
-		      <input type="search" name="q" id="q" data-theme="e" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" /> 
+		      <input type="search" name="q" id="q" data-theme="e" autocomplete="off" onkeyup="updateAutocomplete()" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" />
+		      <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 		</form>
 		<p>Welcome to the Bricoleur search prototype, a medical search engine for rapidly reviewing current medical evidence. Please enter a search query.</p>
 	<?php endif; ?>
 	
   <?php if ($xml->result["numFound"] > MAX_NUMBER_OF_RESULTS_PER_REQUEST) print "<div style='padding-top:1em'><p>Only the first " . MAX_NUMBER_OF_RESULTS_PER_REQUEST . " results are displayed.</p></div>" ?>	
   </div>
-  <div data-role="footer"><h4>This prototype is intended for research use only and should not be used to guide medical treatment.</h4></div>
+  <div data-role="footer"><h4>This prototype is intended for evaluation use only and should not be used to guide medical treatment.</h4></div>
 </div>
 </body>
 </html>
