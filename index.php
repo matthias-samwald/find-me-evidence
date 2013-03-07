@@ -1,70 +1,35 @@
 <?php
 
-define(SOLR_URL, "http://localhost:8888/solr/collection1/select?");
-//define(SOLR_URL, "http://54.228.245.189:8888/solr/collection1/select?");
-define(MAX_NUMBER_OF_RESULTS_PER_REQUEST, 30);
-$categories = Array("Evidence-based summary", "Scientific articles", "Drug information", "Professional discussions", "Wikipedia");
+include_once('config.php');
+include_once('functions.php');
+
+/* Functions */
 
 
-function query_solr($q, $category, $sort, $rows = MAX_NUMBER_OF_RESULTS_PER_REQUEST, $offset = 0) {
-	$request_url = SOLR_URL . "q=" . urlencode($q);
-	if ($category != "all") {
-		$request_url .= urlencode(" category:\"$category\""); // select facet
-	}
-	$request_url .=
-		"&bq=" . urlencode("data_source_name:\"Cochrane Database Syst Rev PubMed\"^0.5") .
-		"&defType=edismax" . // select query parser
-		"&bf=ord(dataset_priority)^0.5" . 
-		//"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
-		"&rows=" . urlencode($rows) . // select number of results returned
-		"&wt=xml" . // select result format
-		"&facet=true" . // switch faceting on
-		"&facet.field=category" . // use this field for faceting
-		"&hl=true" . // switch highlighting on
-		"&hl.fl=body" . // use this field for highlighting
-		"&hl.snippets=2" . // set maximum number of snippets per field generated 
-		"&hl.fragsize=300" . // set size of a snippet (in characters)
-		"&hl.fragmenter=regex" .
-		"&hl.regex.slop=0.6" . // specifies the factor by which the regex fragmenter can stray from the ideal fragment size
-		"&hl.regex.pattern=\w[^\.!\?]{100,500}[\.!\?]" . // regex for matching sentences ... does not work too well? TODO: Should also be modified not to match commas in numbers, but only commas followed by a whitespace
-		"&hl.mergeContiguous=true";  // merge the two snippets into one when they are contiguous
-	if ($sort == "by_date") {
-		$request_url .= "&sort=dateCreated+desc";
-	}
-	
-	 print "<!-- Solr query: $request_url -->";
 
-	$response = file_get_contents($request_url);
-	$xml = simplexml_load_string($response);
-	return $xml;
-}
 
-function xpath($xml, $xpath_expression, $return_entire_array = false) {
-	$result_array = $xml->xpath($xpath_expression); 
-	if ($return_entire_array == false) {
-		return $result_array[0];
-	}
-	else {
-		return $result_array;
-	}
-}
+/* Main code and template*/
 
-function get_facet_count($xml, $facet_name) {
-	return xpath($xml, "//lst[@name='facet_counts']/lst[@name='facet_fields']/lst[@name='category']/int[@name='$facet_name']");
-}
- 
 if (isset($_GET["q"]) AND q != "") {
+	$user_query = $_GET["q"];
+		
 	$category = $_GET["category"];
 	if ($category == "") $category = "all"; // set default value if missing
 
 	$sort = $_GET["sort"];
 	if ($sort == "") $sort = "by_relevance"; // set default value if missing
+
+	$xml = query_solr($user_query, $category, $sort);
 	
-	$xml = query_solr($_GET["q"], $category, $sort);
+	if ($xml->result["numFound"] == 0) {
+		$corrected_query = xpath($xml, "//str[@name='collation']", false);
+		if ($corrected_query != "") {
+			print "<!-- Collation: $corrected_query -->";
+			$xml = query_solr($corrected_query, $category, $sort); // re-run query with suggested collation
+			$query_results_are_based_on_automatic_correction = true;
+		}
+	}
 }
-
-
-
 
 ?>
 <!DOCTYPE html>
@@ -72,9 +37,10 @@ if (isset($_GET["q"]) AND q != "") {
 <head>
 <meta charset="utf-8">
 <title>Bricoleur search prototype</title>
-<link href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" rel="stylesheet" type="text/css"/>
-<script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
-<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
+<link href="js/jquery.mobile-1.3.0.min.css" rel="stylesheet"
+	type="text/css" />
+<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="js/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
 <script>
 	function updateAutocomplete() {
         var $ul = $('#autocomplete'),
@@ -83,7 +49,7 @@ if (isset($_GET["q"]) AND q != "") {
             html = "";
         $ul.html( "" );
         if ( value && value.length > 3 ) {
-            $ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
+            //$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
             $ul.listview( "refresh" );
             $.ajax({
             	url: "autocomplete.php",
@@ -107,75 +73,116 @@ if (isset($_GET["q"]) AND q != "") {
 <link href="bricoleur.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div data-role="page" id="main" data-theme="d">
-  <div data-role="header">
-    <h1>Bricoleur prototype</h1>
-    <a href="../nav.html" data-icon="info" data-iconpos="notext" data-rel="dialog" data-transition="fade">Help</a> </div>
-  <div data-role="content">
-    <div style="margin: 20px; padding: 10px" > 
-      <?php if (isset($_GET["q"]) AND q != "") : // if a query was entered and results were found ?>
-	      <form action="index.php" method="get" id="search_form" data-ajax="false">
-		      <!--<label for="search-input">Search input:</label>-->
-		      <input type="search" name="q" id="q" data-theme="e" autocomplete="off" onkeyup="updateAutocomplete()" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" />
-		      <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
-		      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-		        <select name="category" id="category" onchange='$("#search_form").submit();'>
-		          <option value="all" <?php if($_GET["category"] == "all") print('selected="selected"') ?>>Show everything (<?php print($xml->result["numFound"])?>)</option>
-		          <?php foreach($categories as $category) {
-		          			print("<option value=\"$category\"");
-		          			if($_GET["category"] == $category) {
-		          				print('selected="selected"');
-		          			}
-		          			print(">");
-		          			print($category . " (" . get_facet_count($xml, $category) . ")</option>");
-		          		}
-		          ?>
-		        </select>
-		        <select name="sort" id="sort" onchange='$("#search_form").submit();'>
-		          <option value="by_relevance" <?php if($_GET["sort"] == "by_relevance") print('selected="selected"') ?>>by relevance</option>
-		          <option value="by_date" <?php if($_GET["sort"] == "by_date") print('selected="selected"') ?>>by date</option>
-		        </select>
-		      </fieldset>
-		    </form>
-	    </div>
-	    <div>
-	      <ul data-role="listview" data-inset="false">
-	      
-	        <!-- Iterate through documents in result set -->
-	        <?php foreach($xml->result->doc as $doc): 
-	        	$id = xpath($doc, "str[@name='id']")?>
-		        <li><a href="<?php if(substr($id, 0, 35) == "http://www.ncbi.nlm.nih.gov/pubmed/") print ("show.php?id=" . urlencode($id));
-		        				   else print($id); ?>">
-		          <h3><?php print xpath($doc, "arr[@name='title']/str"); ?></h3>
-		          <p><span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?></span> 
-		              <span class="publication_date"><?php $date_created = substr(xpath($doc, "date[@name='dateCreated']"), 0, 10); 
-		              									if ($date_created != "") print("&nbsp;|&nbsp;" . $date_created) ?>
-		              </span></p>
-		          <?php if(xpath($doc, "arr[@name='key_assertion']/str")): ?>
-		             <p class="conclusion"><?php print xpath($doc, "arr[@name='key_assertion']/str")?></p>
-		          <?php elseif($snippets = xpath($doc, "//lst[@name='highlighting']/lst[@name='${id}']/arr[@name='body']/str", true)): ?>
-		             <p class="text_snippet"><?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
-		             </p>
-		          <?php endif; ?>
-		        </a></li>
-	        <?php endforeach; ?>
-	      </ul>
-	      <?php if ($xml->result["numFound"] == 0) print("<p>No results found.</p>") // if a query was entered and no results were found?>
-	    </div>
-	 <?php endif; ?>
-		
-	<?php if (isset($_GET["q"]) == false OR q == "") : // if no query was entered, default startup search bar ?>
-		 	<form action="index.php" method="get" id="search_form" data-ajax="false">
-		      <!--<label for="search-input">Search input:</label>-->
-		      <input type="search" name="q" id="q" data-theme="e" autocomplete="off" onkeyup="updateAutocomplete()" value="<?php print htmlspecialchars(urldecode($_GET["q"]))?>" />
-		      <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
-		</form>
-		<p>Welcome to the Bricoleur search prototype, a medical search engine for rapidly reviewing current medical evidence. Please enter a search query.</p>
-	<?php endif; ?>
-	
-  <?php if ($xml->result["numFound"] > MAX_NUMBER_OF_RESULTS_PER_REQUEST) print "<div style='padding-top:1em'><p>Only the first " . MAX_NUMBER_OF_RESULTS_PER_REQUEST . " results are displayed.</p></div>" ?>	
-  </div>
-  <div data-role="footer"><h4>This prototype is intended for evaluation use only and should not be used to guide medical treatment.</h4></div>
-</div>
+	<div data-role="page" id="main" data-theme="d">
+		<div data-role="header">
+			<h1>Bricoleur prototype</h1>
+			<a href="../nav.html" data-icon="info" data-iconpos="notext"
+				data-rel="dialog" data-transition="fade">Help</a>
+		</div>
+		<div data-role="content">
+			<div style="margin: 20px; padding: 10px">
+				<?php if ($user_query != "") : // if a query was entered ?>
+				
+				<!-- BEGIN: Search bar with existing results -->
+				<form action="index.php" method="get" id="search_form"
+					data-ajax="false">
+					<!--<label for="search-input">Search input:</label>-->
+					<input type="search" name="q" id="q" data-theme="e"
+						autocomplete="off" onkeyup="updateAutocomplete()"
+						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
+					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
+					<fieldset data-role="controlgroup" data-type="horizontal"
+						data-mini="true">
+						<select name="category" id="category"
+							onchange='$("#search_form").submit();'>
+							<option value="all"
+							<?php if($_GET["category"] == "all") print('selected="selected"') ?>>
+								Show everything (
+								<?php print($xml->result["numFound"])?>
+								)
+							</option>
+							<?php foreach($categories as $category) {
+								print("<option value=\"$category\"");
+								if($_GET["category"] == $category) {
+									print('selected="selected"');
+								}
+								print(">");
+								print($category . " (" . get_facet_count($xml, $category) . ")</option>");
+							}
+							?>
+						</select> <select name="sort" id="sort"
+							onchange='$("#search_form").submit();'>
+							<option value="by_relevance"
+							<?php if($_GET["sort"] == "by_relevance") print('selected="selected"') ?>>by
+								relevance</option>
+							<option value="by_date"
+							<?php if($_GET["sort"] == "by_date") print('selected="selected"') ?>>by
+								date</option>
+						</select>
+					</fieldset>
+				</form>
+				<!-- END: Search bar with existing results -->
+				
+			</div>
+			<?php if ($query_results_are_based_on_automatic_correction == true) {
+						print("<div style='padding-bottom:1em'><p>You original query <em>$user_query</em> did not yield any results. Showing results for <em><b>$corrected_query</b></em> instead.</p></div>\n"); 
+				   }?> 
+			<div>
+			
+				<!-- BEGIN: List of results -->
+				<ul data-role="listview" data-inset="false">
+					<?php foreach($xml->result->doc as $doc):   // Iterate through documents in result set 
+		        		$id = xpath($doc, "str[@name='id']")?>
+						<li><a
+							href="<?php if(substr($id, 0, 35) == "http://www.ncbi.nlm.nih.gov/pubmed/") print ("show.php?id=" . urlencode($id));
+			        				   else print($id); ?>">
+								<h3>
+									<?php print xpath($doc, "arr[@name='title']/str"); ?>
+								</h3>
+								<p>
+									<span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?>
+									</span> <span class="publication_date"><?php $date_created = substr(xpath($doc, "date[@name='dateCreated']"), 0, 10); 
+			              									if ($date_created != "") print("&nbsp;|&nbsp;" . $date_created) ?>
+									</span>
+								</p> <?php if(xpath($doc, "arr[@name='key_assertion']/str")): ?>
+								<p class="conclusion">
+									<?php print xpath($doc, "arr[@name='key_assertion']/str")?>
+								</p> <?php elseif($snippets = xpath($doc, "//lst[@name='highlighting']/lst[@name='${id}']/arr[@name='body']/str", true)): ?>
+								<p class="text_snippet">
+									<?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
+								</p> <?php endif; ?>
+						</a></li>
+					<?php endforeach; ?>
+				</ul>
+				<!-- END: List of results -->
+				
+				<?php if ($xml->result["numFound"] == 0) print("<p>No results found.</p>") // if a query was entered and no results were found?>
+			</div>
+
+			<?php else: // if no query was entered, show default startup search bar ?>
+			
+				<!-- BEGIN: Default startup search bar -->
+				<form action="index.php" method="get" id="search_form"
+					data-ajax="false">
+					<!--<label for="search-input">Search input:</label>-->
+					<input type="search" name="q" id="q" data-theme="e"
+						autocomplete="off" onkeyup="updateAutocomplete()"
+						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
+					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
+				</form>
+				<p>Welcome to the Bricoleur search prototype, a medical search engine
+					for rapidly reviewing current, openly available medical evidence.
+					Please enter a search query.</p>
+				<!-- END: Default startup search bar -->
+				
+			<?php endif; ?>
+
+			<?php if ($xml->result["numFound"] > MAX_NUMBER_OF_RESULTS_PER_REQUEST) print("<div style='padding-top:1em'><p>Only the first " . MAX_NUMBER_OF_RESULTS_PER_REQUEST . " results are displayed.</p></div>") ?>
+		</div>
+		<div data-role="footer">
+			<h4>This prototype is intended for evaluation use only and should not
+				be used to guide medical treatment.</h4>
+		</div>
+	</div>
 </body>
 </html>

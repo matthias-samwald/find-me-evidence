@@ -1,23 +1,7 @@
 <?php 
 
-define(SOLR_URL, "http://localhost:8888/solr/collection1/get?");
-
-function get_solr ($id) {
-	$request_url = SOLR_URL . "id=" . urlencode($id);
-	$response = file_get_contents($request_url);
-	$xml = simplexml_load_string($response);
-	return $xml;
-}
-
-function xpath($xml, $xpath_expression, $return_entire_array = false) {
-	$result_array = $xml->xpath($xpath_expression);
-	if ($return_entire_array == false) {
-		return $result_array[0];
-	}
-	else {
-		return $result_array;
-	}
-}
+include_once('config.php');
+include_once('functions.php');
 
 $xml = get_solr($_GET["id"]);
 
@@ -28,9 +12,10 @@ $xml = get_solr($_GET["id"]);
 <head>
 <meta charset="utf-8">
 <title>Bricoleur search prototype</title>
-<link href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" rel="stylesheet" type="text/css"/>
-<script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
-<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
+<link href="js/jquery.mobile-1.3.0.min.css" rel="stylesheet"
+	type="text/css" />
+<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="js/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
 <link href="bricoleur.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -42,11 +27,11 @@ $xml = get_solr($_GET["id"]);
   <h1><?php print xpath($xml, "doc/arr[@name='title']/str"); ?></h1>
   <p><span class="data_source_name"><?php print xpath($xml, "doc/str[@name='data_source_name']"); ?></span> 
 	            - <span><?php print substr(xpath($xml, "doc/date[@name='dateCreated']"), 0, 10) ?></span></p>
-    <p><?php print xpath($xml, "doc/arr[@name='body']/str"); ?></p>
+    <p class="abstract_text"><?php print xpath($xml, "doc/arr[@name='body']/str"); ?></p>
     <p><a href="<?php $id = xpath($xml, "doc/str[@name='id']"); print $id; ?>"><?php print $id; ?></a></p>
   <p><a href="index.php" data-role="button" data-icon="back" data-rel="back" >Go back</a> 
   </div>
   <div data-role="footer">
-    <h4>Go back</h4>
+    <h4>This prototype is intended for evaluation use only and should not be used to guide medical treatment.</h4>
   </div>
 </div>
