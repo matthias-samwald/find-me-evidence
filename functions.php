@@ -3,15 +3,21 @@
 include_once('config.php');
 
 function query_solr($q, $category, $sort, $rows = MAX_NUMBER_OF_RESULTS_PER_REQUEST, $offset = 0) {
+	// TODO: Switch to http_build_query for constructing URL parameters
+	
 	$request_url = SOLR_URL . "/select?q=" . urlencode($q);
 	if ($category != "all") {
 		$request_url .= "&fq=" . urlencode("{!tag=tagA}category:\"$category\""); // select facet
 	}
 	$request_url .=
-	"&bq=" . urlencode("data_source_name:\"Cochrane Database Syst Rev PubMed\"^0.5") .
+	"&bq=" . urlencode("data_source_name:\"Cochrane Database Syst Rev PubMed\"") .
 	"&defType=edismax" . // select query parser
-	"&bf=ord(dataset_priority)^0.5" .
+	//"&bf=ord(dataset_priority)^0.5" .
 	//"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
+	"&qf=title^5%20key_assertion^2" . // boost selected fields
+	"&pf=title%20key_assertion%20body" . // enable automated phrase-matching (boosting fields and setting slop per-field would also be possible here)
+	"&ps=2" . // default slop for automated phrase-matching
+	"&fl=id,title,data_source_name,dateCreated,key_assertion" . // only these fields will be listed in the response
 	"&rows=" . urlencode($rows) . // select number of results returned
 	"&wt=xml" . // select result format
 	"&facet=true" . // switch faceting on

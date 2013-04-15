@@ -3,13 +3,6 @@
 include_once('config.php');
 include_once('functions.php');
 
-/* Functions */
-
-
-
-
-/* Main code and template*/
-
 if (isset($_GET["q"]) AND q != "") {
 	$user_query = $_GET["q"];
 		
@@ -76,7 +69,7 @@ if (isset($_GET["q"]) AND q != "") {
 	<div data-role="page" id="main" data-theme="d">
 		<div data-role="header">
 			<h1>Bricoleur prototype</h1>
-			<a href="../nav.html" data-icon="info" data-iconpos="notext"
+			<a href="https://code.google.com/p/bricoleur-fast-medical-search/w/list" data-icon="info" data-iconpos="notext"
 				data-rel="dialog" data-transition="fade">Help</a>
 		</div>
 		<div data-role="content">
@@ -97,9 +90,7 @@ if (isset($_GET["q"]) AND q != "") {
 							onchange='$("#search_form").submit();'>
 							<option value="all"
 							<?php if($_GET["category"] == "all") print('selected="selected"') ?>>
-								Show everything (
-								<?php print($xml->result["numFound"])?>
-								)
+								Show everything <?php if($_GET["category"] == "all") print('(' . $xml->result["numFound"] . ')')?>
 							</option>
 							<?php foreach($categories as $category) {
 								print("<option value=\"$category\"");
@@ -144,9 +135,9 @@ if (isset($_GET["q"]) AND q != "") {
 									</span> <span class="publication_date"><?php $date_created = substr(xpath($doc, "date[@name='dateCreated']"), 0, 10); 
 			              									if ($date_created != "") print("&nbsp;|&nbsp;" . $date_created) ?>
 									</span>
-								</p> <?php if(xpath($doc, "arr[@name='key_assertion']/str")): ?>
+								</p> <?php if(xpath($doc, "str[@name='key_assertion']")): ?>
 								<p class="conclusion">
-									<?php print xpath($doc, "arr[@name='key_assertion']/str")?>
+									<?php print xpath($doc, "str[@name='key_assertion']")?>
 								</p> <?php elseif($snippets = xpath($doc, "//lst[@name='highlighting']/lst[@name='${id}']/arr[@name='body']/str", true)): ?>
 								<p class="text_snippet">
 									<?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
@@ -157,6 +148,13 @@ if (isset($_GET["q"]) AND q != "") {
 				<!-- END: List of results -->
 				
 				<?php if ($xml->result["numFound"] == 0) print("<p>No results found.</p>") // if a query was entered and no results were found?>
+				<?php if ($xml->result["numFound"] > MAX_NUMBER_OF_RESULTS_PER_REQUEST) print("<div style='padding-top:1em'><p>Only the first " . MAX_NUMBER_OF_RESULTS_PER_REQUEST . " results are displayed.</p></div>") ?>
+				
+				<p style="text-align:center">
+					<a href="http://www.google.com/search?q=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in Google</a>
+					<a href="http://www.ncbi.nlm.nih.gov/pubmed/?term=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in PubMed</a>
+					<a href="http://www.tripdatabase.com/search?criteria=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in Trip</a>
+				</p>
 			</div>
 
 			<?php else: // if no query was entered, show default startup search bar ?>
@@ -177,7 +175,6 @@ if (isset($_GET["q"]) AND q != "") {
 				
 			<?php endif; ?>
 
-			<?php if ($xml->result["numFound"] > MAX_NUMBER_OF_RESULTS_PER_REQUEST) print("<div style='padding-top:1em'><p>Only the first " . MAX_NUMBER_OF_RESULTS_PER_REQUEST . " results are displayed.</p></div>") ?>
 		</div>
 		<div data-role="footer">
 			<h4>This prototype is intended for evaluation use only and should not
