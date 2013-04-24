@@ -34,6 +34,7 @@ if ($user_query !== "") {
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?php print $page_title ?></title>
 <link href="js/jquery.mobile-1.3.0.min.css" rel="stylesheet"
 	type="text/css" />
@@ -78,7 +79,7 @@ if ($user_query !== "") {
 				data-rel="dialog" data-transition="fade">Help</a>
 		</div>
 		<div data-role="content">
-			<div style="margin: 20px; padding: 10px">
+			<div style="padding-top: 20px; padding-bottom: 20px">
 				<?php if ($user_query != "") : // if a query was entered ?>
 				
 				<!-- BEGIN: Search bar with existing results -->
@@ -94,7 +95,7 @@ if ($user_query !== "") {
 						<select name="category" id="category"
 							onchange='$("#search_form").submit();'>
 							<option value="all"
-							<?php if($_GET["category"] == "all") print('selected="selected"') ?>>
+							<?php if($_GET["category"] == "all") print(' selected="selected"') ?>>
 								Show everything <?php if($_GET["category"] == "all") print('(' . $xml->result["numFound"] . ')')?>
 							</option>
 							<?php foreach($categories as $category) {
@@ -177,14 +178,13 @@ if ($user_query !== "") {
 					for rapidly reviewing current, openly available medical evidence.
 					Please enter a search query.</p>
 				<!-- END: Default startup search bar -->
-				
+				</div>
 			<?php endif; ?>
-
 		</div>
 		<div data-role="footer">
 			<h4>This prototype is intended for evaluation use only and should not
 				be used to guide medical treatment.</h4>
-		</div>
+	
 	</div>
 </body>
 </html>

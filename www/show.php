@@ -13,6 +13,7 @@ $title = xpath($xml, "doc/arr[@name='title']/str");
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bricoleur search prototype: <?php print $title ?></title>
 <link href="js/jquery.mobile-1.3.0.min.css" rel="stylesheet"
 	type="text/css" />
