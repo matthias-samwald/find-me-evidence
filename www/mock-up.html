@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Bricoleur search prototype</title>
+<link href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" rel="stylesheet" type="text/css"/>
+<script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js" type="text/javascript"></script>
+<link href="bricoleur.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div data-role="page" id="main" data-theme="d">
+  <div data-role="header">
+    <h1>Bricoleur prototype</h1>
+    <a href="../nav.html" data-icon="info" data-iconpos="notext" data-rel="dialog" data-transition="fade">Help</a> 
+  </div>
+  <div data-role="content">
+    <div style="margin: 20px; padding: 10px"" >
+      <!--<label for="search-input">Search input:</label>-->
+      <input type="search" name="search-input" id="search-input" data-theme="e" value=""  />   
+      
+      <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+		  <select name="select-datasets" id="select-result-datasets">
+			<option value="a">Show everything (1300)</option>
+			<option value="b">Show evidence-based summaries (14) (</option>
+			<option value="c">Show scientific journal articles (1200)</option>
+			<option value="d">Show Wikipedia articles (20)</option>
+		</select>
+
+		<select name="select-result-order" id="select-result order">
+			<option value="by_relevance">by relevance</option>
+			<option value="by_date">by date</option>
+		</select>
+	</fieldset>   
+   
+    </div>
+
+    <div>
+      <ul data-role="listview" data-inset="false">
+        <li><a href="http://www.merckmanuals.com/professional/endocrine_and_metabolic_disorders/diabetes_mellitus_and_disorders_of_carbohydrate_metabolism/diabetes_mellitus_dm.html">
+          <h3>Diabetes Mellitus and Disorders of Carbohydrate Metabolism</h3>
+          <p class="data_source_name">Merck Manual</p>
+          <p>...Vision, Blurred Vision Loss, Acute Weakness, Generalized Wheezing In This Topic Endocrine and Metabolic Disorders <b>Diabetes</b> Mellitus and Disorders of Carbohydrate Metabolism ...</p>
+          </a></li>
+        <li><a href="#full-abstract-1">
+          <h3>Interventions for latent autoimmune diabetes (LADA) in adults.</h3>
+          <p class="data_source_name">Cochrane Database Syst Rev (PubMed)</p>
+          <p class="conclusion">Conclusion: There are few studies on this topic and existing studies have a high risk of bias. However, there does seem to be an indication that sulphonylurea should not be a first line treatment for antibody positive type 2 diabetes. There is no significant evidence for or against other lines of treatment of Latent autoimmune diabetes in Adults.</p>
+          <!--<p class="ui-li-aside">2007-01-09</p>-->
+          </a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-role="footer">
+    <h4>Show more results (1234 remaining)</h4>
+  </div>
+  <!--
+  <div data-role="panel" id="settings-panel">
+  		<h3>Hello world!</h3>
+		<div>bla</div>
+  -->
+  </div>
+</div>
+
+
+
+<div data-role="page" id="full-abstract-1">
+  <div data-role="header">
+    <h1>Seite zwei</h1>
+    <a href="./mock-up.html" data-icon="back" data-iconpos="notext" data-direction="reverse">Back</a> </div>
+  <div data-role="content"> Inhalt </div>
+  <div data-role="footer">
+    <h4>Fußzeile</h4>
+  </div>
+</div>
+<div data-role="page" id="full-abstract-2">
+  <div data-role="header">
+    <h1>Seite drei</h1>
+  </div>
+  <div data-role="content"> Inhalt </div>
+  <div data-role="footer">
+    <h4>Fußzeile</h4>
+  </div>
+</div>
+<div data-role="page" id="full-abstract-3">
+  <div data-role="header">
+    <h1>Seite vier</h1>
+  </div>
+  <div data-role="content"> Inhalt </div>
+  <div data-role="footer">
+    <h4>Fußzeile</h4>
+  </div>
+</div>
+</body>
+</html>

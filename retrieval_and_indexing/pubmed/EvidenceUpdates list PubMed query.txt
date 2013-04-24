@@ -1,0 +1,131 @@
+## Note: This query was done with te facet "Abstract available" selected in the Web UI (this is not reflected in the query).
+
+"humans"[MeSH Terms] AND 
+(("2005/01/01"[Date - Publication] : "3000/01/01"[Date - Publication])) 
+AND 
+(
+"Acad Emerg Med"[Journal] OR 
+"Acta Orthop"[Journal] OR 
+"Age Ageing"[Journal] OR 
+"Am J Cardiol"[Journal] OR 
+"Am J Epidemiol"[Journal] OR 
+"Am J Gastroenterol"[Journal] OR 
+"Am J Kidney Dis"[Journal] OR 
+"Am J Med"[Journal] OR 
+"Am J Obstet Gynecol"[Journal] OR 
+"Am J Prev Med"[Journal] OR 
+"Am J Psychiatry"[Journal] OR 
+"Am J Public Health"[Journal] OR 
+"Am J Respir Crit Care Med"[Journal] OR 
+"Am J Sports Med"[Journal] OR 
+"Anesth Analg"[Journal] OR 
+"Anesthesiology"[Journal] OR 
+"Ann Emerg Med"[Journal] OR 
+"Ann Fam Med"[Journal] OR 
+"Ann Intern Med"[Journal] OR 
+"Ann Neurol"[Journal] OR 
+"Ann Rheum Dis"[Journal] OR 
+"Ann Surg"[Journal] OR 
+"Ann Thorac Surg"[Journal] OR 
+"Appl Nurs Res"[Journal] OR 
+"Arch Dis Child"[Journal] OR 
+"Arch Dis Child Fetal Neonatal Ed"[Journal] OR 
+"Arch Gen Psychiatry"[Journal] OR 
+"Arch Intern Med"[Journal] OR 
+"Arch Pediatr Adolesc Med"[Journal] OR 
+"Arch Phys Med Rehabil"[Journal] OR 
+"Arch Surg"[Journal] OR 
+"Arthritis Care Res (Hoboken)"[Journal] OR 
+"Arthritis Rheum"[Journal] OR 
+"Arthroscopy"[Journal] OR 
+"BJOG"[Journal] OR 
+"BMJ"[Journal] OR 
+"Br J Gen Pract"[Journal] OR 
+"Br J Psychiatry"[Journal] OR 
+"Br J Surg"[Journal] OR 
+"Can J Anaesth"[Journal] OR 
+"CADTH Technol Overv"[Journal] OR 
+"Cancer Nurs"[Journal] OR 
+"Chest"[Journal] OR 
+"Circulation"[Journal] OR 
+"Clin J Am Soc Nephrol"[Journal] OR 
+"Clin J Pain"[Journal] OR 
+"Clin Orthop Relat Res"[Journal] OR 
+"Clin Pharmacol Ther"[Journal] OR 
+"Clin Rehabil"[Journal] OR 
+"CMAJ"[Journal] OR 
+"Cochrane Database Syst Rev"[Journal] OR 
+"Crit Care Med"[Journal] OR 
+"Diabet Med"[Journal] OR 
+"Diabetes Care"[Journal] OR 
+"Diabetes Obes Metab"[Journal] OR 
+"Eur Heart J"[Journal] OR 
+"Eur Respir J"[Journal] OR 
+"Evid Rep Technol Assess (Full Rep)"[Journal] OR 
+"Fam Pract"[Journal] OR 
+"Foot Ankle Int"[Journal] OR 
+"Gastroenterology"[Journal] OR 
+"Gut"[Journal] OR 
+"Headache"[Journal] OR 
+"Health Technol Assess"[Journal] OR 
+"Heart"[Journal] OR 
+"Implement Sci"[Journal] OR 
+"Int J Clin Pract"[Journal] OR 
+"Int J Nurs Stud"[Journal] OR 
+"Int J Obes (Lond)"[Journal] OR 
+"J Adv Nurs"[Journal] OR 
+"J Allergy Clin Immunol"[Journal] OR 
+"J Am Coll Cardiol"[Journal] OR 
+"J Am Coll Surg"[Journal] OR 
+"J Am Geriatr Soc"[Journal] OR 
+"J Am Soc Nephrol"[Journal] OR 
+"J Arthroplasty"[Journal] OR 
+"J Bone Joint Surg Am"[Journal] OR 
+"J Bone Joint Surg Br"[Journal] OR 
+"J Clin Nurs"[Journal] OR 
+"J Clin Oncol"[Journal] OR 
+"J Clin Pharmacol"[Journal] OR 
+"J Gen Intern Med"[Journal] OR 
+"J Infect Dis"[Journal] OR 
+"J Neurol Neurosurg Psychiatry"[Journal] OR 
+"J Neurosurg"[Journal] OR 
+"J Nurs Scholarsh"[Journal] OR 
+"J Orthop Sports Phys Ther"[Journal] OR 
+"J Orthop Trauma"[Journal] OR 
+"J Pain"[Journal] OR 
+"J Pediatr"[Journal] OR 
+"J Pediatr Orthop"[Journal] OR 
+"J Physiother"[Journal] OR 
+"J Rheumatol"[Journal] OR 
+"J Shoulder Elbow Surg"[Journal] OR 
+"J Surg Oncol"[Journal] OR 
+"J Thorac Cardiovasc Surg"[Journal] OR 
+"J Trauma"[Journal] OR 
+"J Vasc Surg"[Journal] OR 
+"JAMA"[Journal] OR 
+"Kidney Int"[Journal] OR 
+"Lancet"[Journal] OR 
+"Lancet Neurol"[Journal] OR 
+"Lancet Oncol"[Journal] OR 
+"Mayo Clin Proc"[Journal] OR 
+"Med Care"[Journal] OR 
+"N Engl J Med"[Journal] OR 
+"Neurology"[Journal] OR 
+"Nurs Res"[Journal] OR 
+"Obesity (Silver Spring)"[Journal] OR 
+"Obstet Gynecol"[Journal] OR 
+"Pain"[Journal] OR 
+"Pediatrics"[Journal] OR 
+"Pharmacotherapy"[Journal] OR 
+"Phys Ther"[Journal] OR 
+"Prev Med"[Journal] OR 
+"Res Nurs Health"[Journal] OR 
+"Rheumatology (Oxford)"[Journal] OR 
+"Spine (Phila Pa 1976)"[Journal] OR 
+"Spine J"[Journal] OR 
+"Stroke"[Journal] OR 
+"Thorax"[Journal] OR 
+"Transplantation"[Journal] OR 
+"West J Nurs Res"[Journal] OR 
+"World J Surg"[Journal]
+)

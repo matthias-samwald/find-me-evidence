@@ -1,0 +1,37 @@
+@charset "utf-8";
+/* CSS Document */
+
+.data_source_name {
+	font-style: italic;
+}
+
+.conclusion {
+	font-weight: bold;
+}
+
+.highlight {
+	font-weight: bold;
+}
+
+.abstract_text {
+	line-heigth: 150%;
+}
+
+div.ui-btn-text { 
+	white-space:normal; 
+}
+
+.ui-li-desc { 
+	white-space:normal; 
+}
+
+.ui-li-heading { 
+	white-space:normal; 
+}
+
+@media only screen and (min-width: 1000px) {
+	.ui-page {
+		width: 1000px !important;
+		margin: 0 auto !important;
+		position: relative !important;
+	}
