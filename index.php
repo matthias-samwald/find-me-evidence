@@ -29,7 +29,7 @@ if (isset($_GET["q"]) AND q != "") {
 <html>
 <head>
 <meta charset="utf-8">
-<title>Bricoleur search prototype</title>
+<title>Bricoleur search prototype<?php if ($user_query != "") { print ": " . htmlspecialchars(urldecode($user_query)); }?></title>
 <link href="js/jquery.mobile-1.3.0.min.css" rel="stylesheet"
 	type="text/css" />
 <script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
