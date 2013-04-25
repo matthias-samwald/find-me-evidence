@@ -24,7 +24,7 @@ if (isset($_GET["q"]) AND q != "") {
 	}
 }
 
-$page_title = "Bricoleur prototype";
+$page_title = "FindMeEvidence";
 if ($user_query !== "") {
 	$page_title .= ": Search results for " . htmlspecialchars(urldecode($user_query)); 
 }
@@ -74,7 +74,7 @@ if ($user_query !== "") {
 <body>
 	<div data-role="page" id="main" data-theme="d">
 		<div data-role="header">
-			<h3>Bricoleur prototype</h3>
+			<h3>FindMeEvidence</h3>
 			<a href="https://code.google.com/p/bricoleur-fast-medical-search/w/list" data-icon="info" data-iconpos="notext"
 				data-rel="dialog" data-transition="fade">Help</a>
 		</div>
@@ -174,7 +174,7 @@ if ($user_query !== "") {
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
 					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 				</form>
-				<p>Welcome to the Bricoleur search prototype, a medical search engine
+				<p>Welcome to the FindMeEvidence prototype, a medical search engine
 					for rapidly reviewing current, openly available medical evidence.
 					Please enter a search query.</p>
 				<!-- END: Default startup search bar -->
