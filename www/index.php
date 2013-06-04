@@ -25,7 +25,7 @@ if (isset($_GET["q"]) AND q != "") {
 }
 
 $page_title = "FindMeEvidence";
-if ($user_query !== "") {
+if ($user_query != "") {
 	$page_title .= ": Search results for " . htmlspecialchars(urldecode($user_query)); 
 }
 
