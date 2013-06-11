@@ -1,11 +1,11 @@
 <?php
-/* Remove unwanted documents from the index (ideally those would already 
- * be included during crawling/indexing, but sometimes this is not possible for technical reasons
+/* Remove unwanted documents from the index. This is a bit of a hack: Ideally those would already 
+ * be excluded during crawling/indexing, but sometimes this is not possible for technical reasons or for sake of simplicity.
  */
 
 $url = "localhost:8888/solr/collection1/update";
 
-update_solr_index($url, '<delete><query>title:"ATTRACT | HOME"</query></delete>');
+update_solr_index($url, '<delete><query>(title:"ATTRACT | HOME") OR (title:"wikipedia.org/wiki/ATC_code_")</query></delete>');
 update_solr_index($url, '<commit/>');
 update_solr_index($url, '<optimize/>');
 

@@ -40,8 +40,6 @@ function query_solr($q, $category, $sort, $rows = MAX_NUMBER_OF_RESULTS_PER_REQU
 		$request_url .= "&sort=dateCreated+desc";
 	}
 
-	print "<!-- Solr query: $request_url -->";
-
 	$response = file_get_contents($request_url);
 	$xml = simplexml_load_string($response);
 	return $xml;
