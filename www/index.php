@@ -51,6 +51,14 @@ if ($user_query != "") {
 		  };
 		})();
 
+	// Escape HTML characters
+	function escapeHtml(text) {
+		  return text
+		      .replace("&", "&amp;")
+		      .replace('"', "&quot;")
+		      .replace("'", "&#039;");
+		}
+
 	// Update the autocomplete list
 	function updateAutocomplete() {
         var $ul = $('#autocomplete'),
@@ -73,7 +81,7 @@ if ($user_query != "") {
             	$ul.html( "" );
             	$ul.listview( "refresh" );
                 $.each( response, function ( i, val ) {
-                	 html += "<li onclick=\"$('#q').val('" + val + "'); $('#search_form').submit();\">" + val + "</li>";
+                	 html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';
                 });
                 $ul.html( html );
                 $ul.listview( "refresh" );
