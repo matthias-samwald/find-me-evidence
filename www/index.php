@@ -51,7 +51,7 @@ if ($user_query != "") {
 		  };
 		})();
 
-	// Escape HTML characters
+	// Escape HTML characters -- TODO: This does not seem to work (input not changed)
 	function escapeHtml(text) {
 		  return text
 		      .replace("&", "&amp;")

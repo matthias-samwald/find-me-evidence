@@ -30,7 +30,7 @@ $title = xpath($xml, "doc/arr[@name='title']/str");
   <h1><?php print $title ?></h1>
   <p><span class="data_source_name"><?php print xpath($xml, "doc/str[@name='data_source_name']"); ?></span> 
 	            - <span><?php print substr(xpath($xml, "doc/date[@name='dateCreated']"), 0, 10) ?></span></p>
-    <p class="abstract_text"><?php print xpath($xml, "doc/arr[@name='body']/str"); ?></p>
+    <p style="line-height: 150%"><?php print xpath($xml, "doc/arr[@name='body']/str"); ?></p>
     <p><a href="<?php $id = xpath($xml, "doc/str[@name='id']"); print $id; ?>"><?php print $id; ?></a></p>
   <p><a href="index.php" data-role="button" data-icon="back" data-rel="back" >Go back</a></p>
   </div>
