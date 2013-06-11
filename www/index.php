@@ -41,15 +41,26 @@ if ($user_query != "") {
 <script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
 <script src="js/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
 <script>
+
+	// Delay function, used for having a short delay after user typed something before initiating request to autocomplete service
+	var delay = (function(){
+		  var timer = 0;
+		  return function(callback, ms){
+		    clearTimeout (timer);
+		    timer = setTimeout(callback, ms);
+		  };
+		})();
+
+	// Update the autocomplete list
 	function updateAutocomplete() {
         var $ul = $('#autocomplete'),
             $input = $('#q'),
             value = $input.val(),
             html = "";
-        $ul.html( "" );
+        
         if ( value && value.length > 3 ) {
             //$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
-            $ul.listview( "refresh" );
+       
             $.ajax({
             	url: "autocomplete.php",
 				dataType: "json",
@@ -59,6 +70,8 @@ if ($user_query != "") {
                 }
             })
             .then( function ( response ) {
+            	$ul.html( "" );
+            	$ul.listview( "refresh" );
                 $.each( response, function ( i, val ) {
                 	 html += "<li onclick=\"$('#q').val('" + val + "'); $('#search_form').submit();\">" + val + "</li>";
                 });
@@ -87,7 +100,7 @@ if ($user_query != "") {
 					data-ajax="false">
 					<!--<label for="search-input">Search input:</label>-->
 					<input type="search" name="q" id="q" data-theme="e"
-						autocomplete="off" onkeyup="updateAutocomplete()"
+						autocomplete="off" onkeyup="delay(function(){updateAutocomplete();}, 300 );"
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
 					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 					<fieldset data-role="controlgroup" data-type="horizontal"
@@ -170,7 +183,7 @@ if ($user_query != "") {
 					data-ajax="false">
 					<!--<label for="search-input">Search input:</label>-->
 					<input type="search" name="q" id="q" data-theme="e"
-						autocomplete="off" onkeyup="updateAutocomplete()"
+						autocomplete="off" onkeyup="delay(function(){updateAutocomplete();}, 300 );"
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
 					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 				</form>
