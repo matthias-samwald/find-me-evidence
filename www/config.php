@@ -2,7 +2,7 @@
 
 //define(SOLR_URL, "http://localhost:8888/solr/collection1");
 define(SOLR_URL, "http://54.228.245.189:8888/solr/collection1");
-define(MAX_NUMBER_OF_RESULTS_PER_REQUEST, 30);
-$categories = Array("Evidence-based summary", "PubMed", "Drug information", "Professional discussions", "Wikipedia");
+$max_number_of_results_per_request = 30;
+$categories = Array("Evidence-based summary", "PubMed by date", "PubMed by relevance", "Drug information", "Professional discussions", "Wikipedia");
 
 ?>

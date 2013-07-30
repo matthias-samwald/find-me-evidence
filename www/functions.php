@@ -2,7 +2,7 @@
 
 include_once('config.php');
 
-function query_solr($q, $category, $sort, $rows = MAX_NUMBER_OF_RESULTS_PER_REQUEST, $offset = 0) {
+function query_solr($q, $category, $sort, $rows, $offset = 0) {
 	// TODO: Switch to http_build_query for constructing URL parameters
 	
 	$request_url = SOLR_URL . "/select?q=" . urlencode($q);

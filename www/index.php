@@ -9,16 +9,24 @@ if (isset($_GET["q"]) AND q != "") {
 	$category = $_GET["category"];
 	if ($category == "") $category = "all"; // set default value if missing
 
-	$sort = $_GET["sort"];
-	if ($sort == "") $sort = "by_relevance"; // set default value if missing
+	if ($category == "PubMed by date")
+		$sort = "by_date"; 
+	else
+		$sort = "by_relevance"; 
 
-	$xml = query_solr($user_query, $category, $sort);
+	$startpos = $_GET["startpos"];
+	if ($startpos == "") $startpos = 0; // set default value if missing
+
+	$max_number_of_results_per_request = $_GET["quantity"];
+	if ($max_number_of_results_per_request == "") $max_number_of_results_per_request = 30; // set default value if missing
+
+	$xml = query_solr($user_query, $category, $sort, $startpos + $max_number_of_results_per_request);
 	
 	if ($xml->result["numFound"] == 0) {
 		$corrected_query = xpath($xml, "//str[@name='collation']", false);
 		if ($corrected_query != "") {
 			print "<!-- Collation: $corrected_query -->";
-			$xml = query_solr($corrected_query, $category, $sort); // re-run query with suggested collation
+			$xml = query_solr($corrected_query, $category, $sort, $startpos + $max_number_of_results_per_request); // re-run query with suggested collation
 			$query_results_are_based_on_automatic_correction = true;
 		}
 	}
@@ -38,6 +46,9 @@ if ($user_query != "") {
 <title><?php print $page_title ?></title>
 <link href="js/jquery.mobile-1.3.0.min.css" rel="stylesheet"
 	type="text/css" />
+<style>
+.ui-btn-up-d a.ui-link-inherit:visited { color: red; }
+</style>
 <script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
 <script src="js/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
 <script>
@@ -125,18 +136,18 @@ if ($user_query != "") {
 									print('selected="selected"');
 								}
 								print(">");
-								print($category . " (" . get_facet_count($xml, $category) . ")</option>");
+								$facet = $category;
+								if ($category == "PubMed by date")
+									$facet = "PubMed";
+								else if ($category == "PubMed by relevance")
+									$facet = "PubMed";
+								print($category . " (" . get_facet_count($xml, $facet) . ")</option>");
 							}
 							?>
-						</select> <select name="sort" id="sort"
-							onchange='$("#search_form").submit();'>
-							<option value="by_relevance"
-							<?php if($_GET["sort"] == "by_relevance") print('selected="selected"') ?>>by
-								relevance</option>
-							<option value="by_date"
-							<?php if($_GET["sort"] == "by_date") print('selected="selected"') ?>>by
-								date</option>
 						</select>
+
+						<input type="hidden" name="quantity" value="30" onchange='$("#search_form").submit();'>
+
 					</fieldset>
 				</form>
 				<!-- END: Search bar with existing results -->
@@ -149,8 +160,12 @@ if ($user_query != "") {
 			
 				<!-- BEGIN: List of results -->
 				<ul data-role="listview" data-inset="false">
+					$count = 0;
 					<?php foreach($xml->result->doc as $doc):   // Iterate through documents in result set 
-		        		$id = xpath($doc, "str[@name='id']")?>
+						if ($count >= $startpos)
+						{
+				        		$id = xpath($doc, "str[@name='id']")
+					?>
 						<li><a
 							href="<?php if(substr($id, 0, 35) == "http://www.ncbi.nlm.nih.gov/pubmed/") print ("show.php?id=" . urlencode($id));
 			        				   else print($id); ?>">
@@ -170,13 +185,23 @@ if ($user_query != "") {
 									<?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
 								</p> <?php endif; ?>
 						</a></li>
-					<?php endforeach; ?>
+					<?php }
+					$count++;
+					endforeach; ?>
 				</ul>
 				<!-- END: List of results -->
 				
+
 				<?php if ($xml->result["numFound"] == 0) print("<p>No results found.</p>") // if a query was entered and no results were found?>
-				<?php if ($xml->result["numFound"] > MAX_NUMBER_OF_RESULTS_PER_REQUEST) print("<div style='padding-top:1em'><p>Only the first " . MAX_NUMBER_OF_RESULTS_PER_REQUEST . " results are displayed.</p></div>") ?>
-				
+
+<?php
+if ($xml->result["numFound"] > $startpos + $max_number_of_results_per_request)
+print "<p style=\"text-align:center\"><a href=\"index.php?q=" . $user_query . "&startpos=" . ($startpos + 30) . " data-role=\"button\" data-inline=\"true\">Next " . $max_number_of_results_per_request . " results</a></p>"
+?>
+
+
+
+
 				<p style="text-align:center">
 					<a href="http://www.google.com/search?q=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in Google</a>
 					<a href="http://www.ncbi.nlm.nih.gov/pubmed/?term=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in PubMed</a>
