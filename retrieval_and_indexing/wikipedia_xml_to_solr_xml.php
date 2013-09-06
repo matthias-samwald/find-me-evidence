@@ -1,6 +1,6 @@
 <?php
-require_once('class.chunk.php');
-require_once('./wikipedia_parser/wikiParser.class.php');
+require_once('./lib/chunk/class.chunk.php');
+require_once('./lib/wikipedia_parser/wikiParser.class.php');
 
 $mediawiki_converter = new wikiParser();
 

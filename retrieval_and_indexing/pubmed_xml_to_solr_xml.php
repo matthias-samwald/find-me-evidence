@@ -1,5 +1,5 @@
 <?php
-require_once('class.chunk.php');
+require_once('./lib/chunk/class.chunk.php');
 
 $start = microtime(true);
 $processed_entries = 0;
