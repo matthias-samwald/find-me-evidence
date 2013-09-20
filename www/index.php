@@ -151,8 +151,7 @@ if ($user_query != "") {
 
 			</div>
 			<?php
-					
-if ($query_results_are_based_on_automatic_correction == true) {
+					if ($query_results_are_based_on_automatic_correction == true) {
 						print ("<div style='padding-bottom:1em'><p>You original query <em>$user_query</em> did not yield any results. Showing results for <em><b>$corrected_query</b></em> instead.</p></div>\n") ;
 					}
 					?> 
@@ -168,8 +167,7 @@ if ($query_results_are_based_on_automatic_correction == true) {
 							$id = xpath ( $doc, "str[@name='id']" )?>
 						<li><a
 						href="<?php
-							
-if (substr ( $id, 0, 35 ) == "http://www.ncbi.nlm.nih.gov/pubmed/")
+							if (substr ( $id, 0, 35 ) == "http://www.ncbi.nlm.nih.gov/pubmed/")
 								print ("show.php?id=" . urlencode ( $id )) ;
 							else
 								print ($id) ;
@@ -180,8 +178,7 @@ if (substr ( $id, 0, 35 ) == "http://www.ncbi.nlm.nih.gov/pubmed/")
 							<p>
 								<span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?>
 									</span> <span class="publication_date"><?php
-							
-$date_created = substr ( xpath ( $doc, "date[@name='dateCreated']" ), 0, 10 );
+							$date_created = substr ( xpath ( $doc, "date[@name='dateCreated']" ), 0, 10 );
 							if ($date_created != "")
 								print ("&nbsp;|&nbsp;" . $date_created) ?>
 									</span>
@@ -193,12 +190,10 @@ $date_created = substr ( xpath ( $doc, "date[@name='dateCreated']" ), 0, 10 );
 									<?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
 								</p> <?php endif; ?>
 						</a></li>
-					<?php
-						
-}
+					<?php	
+					}
 						$count ++;
-					endforeach
-					;
+					endforeach;
 					?>
 				</ul>
 				<!-- END: List of results -->
