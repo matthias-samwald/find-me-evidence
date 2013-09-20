@@ -1,28 +1,31 @@
 <?php
-error_reporting(E_ERROR);
+error_reporting ( E_ERROR );
 
-include_once('config.php');
-include_once('functions.php');
+include_once ('config.php');
+include_once ('functions.php');
 
-if (isset($_GET["q"]) AND q != "") {
-	$user_query = $_GET["q"];
-		
-	$category = $_GET["category"];
-	if ($category == "") $category = "all"; // set default value if missing
-
-	$offset = $_GET["offset"];
-	if ($offset == "") $offset = 0; // set default value if missing
-
-	$max_number_of_results_per_request = $_GET["quantity"];
-	if ($max_number_of_results_per_request == "") $max_number_of_results_per_request = 30; // set default value if missing
-
-	$xml = query_solr($user_query, $category, $sort, $offset + $max_number_of_results_per_request);
+if (isset ( $_GET ["q"] ) and q != "") {
+	$user_query = $_GET ["q"];
 	
-	if ($xml->result["numFound"] == 0) {
-		$corrected_query = xpath($xml, "//str[@name='collation']", false);
+	$category = $_GET ["category"];
+	if ($category == "")
+		$category = "all"; // set default value if missing
+	
+	$offset = $_GET ["offset"];
+	if ($offset == "")
+		$offset = 0; // set default value if missing
+	
+	$max_number_of_results_per_request = $_GET ["quantity"];
+	if ($max_number_of_results_per_request == "")
+		$max_number_of_results_per_request = 30; // set default value if missing
+	
+	$xml = query_solr ( $user_query, $category, $sort, $offset + $max_number_of_results_per_request );
+	
+	if ($xml->result ["numFound"] == 0) {
+		$corrected_query = xpath ( $xml, "//str[@name='collation']", false );
 		if ($corrected_query != "") {
 			print "<!-- Collation: $corrected_query -->";
-			$xml = query_solr($corrected_query, $category, $offset + $max_number_of_results_per_request); // re-run query with suggested collation
+			$xml = query_solr ( $corrected_query, $category, $offset + $max_number_of_results_per_request ); // re-run query with suggested collation
 			$query_results_are_based_on_automatic_correction = true;
 		}
 	}
@@ -30,7 +33,7 @@ if (isset($_GET["q"]) AND q != "") {
 
 $page_title = "FindMeEvidence";
 if ($user_query != "") {
-	$page_title .= ": Search results for " . htmlspecialchars(urldecode($user_query)); 
+	$page_title .= ": Search results for " . htmlspecialchars ( urldecode ( $user_query ) );
 }
 
 ?>
@@ -100,8 +103,10 @@ if ($user_query != "") {
 	<div data-role="page" id="main" data-theme="d">
 		<div data-role="header">
 			<h3>FindMeEvidence</h3>
-			<a href="https://code.google.com/p/bricoleur-fast-medical-search/w/list" data-icon="info" data-iconpos="notext"
-				data-rel="dialog" data-transition="fade">Help</a>
+			<a
+				href="https://code.google.com/p/bricoleur-fast-medical-search/w/list"
+				data-icon="info" data-iconpos="notext" data-rel="dialog"
+				data-transition="fade">Help</a>
 		</div>
 		<div data-role="content">
 			<div style="padding-top: 20px; padding-bottom: 20px">
@@ -112,7 +117,8 @@ if ($user_query != "") {
 					data-ajax="false">
 					<!--<label for="search-input">Search input:</label>-->
 					<input type="search" name="q" id="q" data-theme="e"
-						autocomplete="off" onkeyup="delay(function(){updateAutocomplete();}, 300 );"
+						autocomplete="off"
+						onkeyup="delay(function(){updateAutocomplete();}, 300 );"
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
 					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 					<fieldset data-role="controlgroup" data-type="horizontal"
@@ -120,59 +126,66 @@ if ($user_query != "") {
 						<select name="category" id="category"
 							onchange='$("#search_form").submit();'>
 
-							<?php 
-								if($_GET["category"] == "all") {
-									print ('<option value="all" selected="selected">Filter results (' . $xml->result["numFound"] . ')</option>');
-								}
-								else {
-									print ('<option value="all">Show all</option>');
-								}
-																
-								foreach($categories as $category=>$category_for_solr) {
-									print("<option value=\"$category\"");
-									if($_GET["category"] == $category) {
-										print('selected="selected"');
-									}
-									print(">");
-									print($category . " (" . get_facet_count($xml, $category) . ")</option>");
-								}
-							?>
-						</select>
-
-						<input type="hidden" name="quantity" value="30" onchange='$("#search_form").submit();'>
+							<?php
+					if ($_GET ["category"] == "all") {
+						print ('<option value="all" selected="selected">Filter results (' . $xml->result ["numFound"] . ')</option>') ;
+					} else {
+						print ('<option value="all">Show all</option>') ;
+					}
+					
+					foreach ( $categories as $category => $category_for_solr ) {
+						print ("<option value=\"$category\"") ;
+						if ($_GET ["category"] == $category) {
+							print ('selected="selected"') ;
+						}
+						print (">") ;
+						print ($category . " (" . get_facet_count ( $xml, $category ) . ")</option>") ;
+					}
+					?>
+						</select> <input type="hidden" name="quantity" value="30"
+							onchange='$("#search_form").submit();'>
 
 					</fieldset>
 				</form>
 				<!-- END: Search bar with existing results -->
-				
+
 			</div>
-			<?php if ($query_results_are_based_on_automatic_correction == true) {
-						print("<div style='padding-bottom:1em'><p>You original query <em>$user_query</em> did not yield any results. Showing results for <em><b>$corrected_query</b></em> instead.</p></div>\n"); 
-				   }?> 
+			<?php
+					
+if ($query_results_are_based_on_automatic_correction == true) {
+						print ("<div style='padding-bottom:1em'><p>You original query <em>$user_query</em> did not yield any results. Showing results for <em><b>$corrected_query</b></em> instead.</p></div>\n") ;
+					}
+					?> 
 			<div>
-			
+
 				<!-- BEGIN: List of results -->
 				<ul data-role="listview" data-inset="false">
 					
-					<?php 
-						$count = 0;
-						foreach($xml->result->doc as $doc):   // Iterate through documents in result set 
-						if ($count >= $offset)
-						{
-				        		$id = xpath($doc, "str[@name='id']")
-					?>
+					<?php
+					$count = 0;
+					foreach ( $xml->result->doc as $doc ) : // Iterate through documents in result set
+						if ($count >= $offset) {
+							$id = xpath ( $doc, "str[@name='id']" )?>
 						<li><a
-							href="<?php if(substr($id, 0, 35) == "http://www.ncbi.nlm.nih.gov/pubmed/") print ("show.php?id=" . urlencode($id));
-			        				   else print($id); ?>">
-								<h3>
+						href="<?php
+							
+if (substr ( $id, 0, 35 ) == "http://www.ncbi.nlm.nih.gov/pubmed/")
+								print ("show.php?id=" . urlencode ( $id )) ;
+							else
+								print ($id) ;
+							?>">
+							<h3>
 									<?php print xpath($doc, "arr[@name='title']/str"); ?>
 								</h3>
-								<p>
-									<span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?>
-									</span> <span class="publication_date"><?php $date_created = substr(xpath($doc, "date[@name='dateCreated']"), 0, 10); 
-			              									if ($date_created != "") print("&nbsp;|&nbsp;" . $date_created) ?>
+							<p>
+								<span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?>
+									</span> <span class="publication_date"><?php
+							
+$date_created = substr ( xpath ( $doc, "date[@name='dateCreated']" ), 0, 10 );
+							if ($date_created != "")
+								print ("&nbsp;|&nbsp;" . $date_created) ?>
 									</span>
-								</p> <?php if(xpath($doc, "str[@name='key_assertion']")): ?>
+							</p> <?php if(xpath($doc, "str[@name='key_assertion']")): ?>
 								<p class="conclusion">
 									<?php print xpath($doc, "str[@name='key_assertion']")?>
 								</p> <?php elseif($snippets = xpath($doc, "//lst[@name='highlighting']/lst[@name='${id}']/arr[@name='body']/str", true)): ?>
@@ -180,52 +193,65 @@ if ($user_query != "") {
 									<?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
 								</p> <?php endif; ?>
 						</a></li>
-					<?php }
-					$count++;
-					endforeach; ?>
+					<?php
+						
+}
+						$count ++;
+					endforeach
+					;
+					?>
 				</ul>
 				<!-- END: List of results -->
 				
 
-				<?php 
+				<?php
 					// If no results were found
-					if ($xml->result["numFound"] == 0) print("<p>No results found.</p>"); // if a query was entered and no results were found 
-
+					if ($xml->result ["numFound"] == 0)
+						print ("<p>No results found.</p>") ; // if a query was entered and no results were found
+							                                                                      
 					// If pagination of results is is necessary
-					if ($xml->result["numFound"] > $offset + $max_number_of_results_per_request) {
+					if ($xml->result ["numFound"] > $offset + $max_number_of_results_per_request) {
 						print "<p style=\"text-align:center\"><a href=\"index.php?q=" . $user_query . "&offset=" . ($offset + 30) . "\" data-role=\"button\" data-inline=\"true\">Next " . $max_number_of_results_per_request . " results</a></p>";
 					}
-				?>
+					?>
 				
-				<p style="text-align:center">
-					<a href="http://www.google.com/search?q=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in Google</a>
-					<a href="http://www.ncbi.nlm.nih.gov/pubmed/?term=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in PubMed</a>
-					<a href="http://www.tripdatabase.com/search?criteria=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in Trip</a>
+				<p style="text-align: center">
+					<a
+						href="http://www.google.com/search?q=<?php print htmlspecialchars($user_query)?>"
+						data-role="button" data-inline="true" target="blank">Try this
+						search in Google</a> <a
+						href="http://www.ncbi.nlm.nih.gov/pubmed/?term=<?php print htmlspecialchars($user_query)?>"
+						data-role="button" data-inline="true" target="blank">Try this
+						search in PubMed</a> <a
+						href="http://www.tripdatabase.com/search?criteria=<?php print htmlspecialchars($user_query)?>"
+						data-role="button" data-inline="true" target="blank">Try this
+						search in Trip</a>
 				</p>
 			</div>
 
 			<?php else: // if no query was entered, show default startup search bar ?>
 			
 				<!-- BEGIN: Default startup search bar -->
-				<form action="index.php" method="get" id="search_form"
-					data-ajax="false">
-					<!--<label for="search-input">Search input:</label>-->
-					<input type="search" name="q" id="q" data-theme="e"
-						autocomplete="off" onkeyup="delay(function(){updateAutocomplete();}, 300 );"
-						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
-					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
-				</form>
-				<p>Welcome to the FindMeEvidence prototype, a medical search engine
-					for rapidly reviewing current, openly available medical evidence.
-					Please enter a search query.</p>
-				<!-- END: Default startup search bar -->
-				</div>
+			<form action="index.php" method="get" id="search_form"
+				data-ajax="false">
+				<!--<label for="search-input">Search input:</label>-->
+				<input type="search" name="q" id="q" data-theme="e"
+					autocomplete="off"
+					onkeyup="delay(function(){updateAutocomplete();}, 300 );"
+					value="<?php print htmlspecialchars(urldecode($user_query))?>" />
+				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
+			</form>
+			<p>Welcome to the FindMeEvidence prototype, a medical search engine
+				for rapidly reviewing current, openly available medical evidence.
+				Please enter a search query.</p>
+			<!-- END: Default startup search bar -->
+		</div>
 			<?php endif; ?>
 		</div>
-		<div data-role="footer">
-			<h4>This prototype is intended for evaluation use only and should not
-				be used to guide medical treatment.</h4>
-	
+	<div data-role="footer">
+		<h4>This prototype is intended for evaluation use only and should not
+			be used to guide medical treatment.</h4>
+
 	</div>
 </body>
 </html>

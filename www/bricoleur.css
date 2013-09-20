@@ -1,6 +1,5 @@
 @charset "utf-8";
 /* CSS Document */
-
 .data_source_name {
 	font-style: italic;
 }
@@ -13,19 +12,21 @@
 	font-weight: bold;
 }
 
-div.ui-btn-text { 
-	white-space:normal; 
+div.ui-btn-text {
+	white-space: normal;
 }
 
-.ui-li-desc { 
-	white-space:normal; 
+.ui-li-desc {
+	white-space: normal;
 }
 
-.ui-li-heading { 
-	white-space:normal; 
+.ui-li-heading {
+	white-space: normal;
 }
 
-.ui-btn-up-d a.ui-link-inherit:visited { color: #00688B; }
+.ui-btn-up-d a.ui-link-inherit:visited {
+	color: #00688B;
+}
 
 @media only screen and (min-width: 1000px) {
 	.ui-page {
@@ -33,3 +34,4 @@ div.ui-btn-text {
 		margin: 0 auto !important;
 		position: relative !important;
 	}
+}
