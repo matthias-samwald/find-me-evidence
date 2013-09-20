@@ -46,8 +46,14 @@ while (false !== ($file = readdir($handle))){
 			// Get raw text (convert to HTML, then strip HTML tags)
 			$article_text_without_wiki_markup = strip_tags($mediawiki_converter->parse($wikipedia_code));
 			
-			// Strip left-over wiki syntax that was failed to be eliminated in prior steps: {{...}}
-			$article_text_without_wiki_markup = preg_replace("/\{\{([^\}]+)\}\}/", "", $article_text_without_wiki_markup);
+			// Strip left-over wiki syntax that was failed to be eliminated in prior steps: {{...}} (recursively, becauser there can be nested brackets)
+			$article_text_without_wiki_markup = preg_replace("/\{([^\{\}]++|(?R))*+\}/", "", $article_text_without_wiki_markup);
+			
+			// Extract the first paragraph (to be used as the 'key assertion')
+			preg_match("/^\s*(.+)[\r\n]/", $article_text_without_wiki_markup, $matches);
+			$key_assertion = $matches[1];
+			
+			print $key_assertion;
 			
 			// Replace abbreviations with expanded forms
 			// Currently disabled because it does not work with (long) Wikipedia article code
@@ -66,8 +72,8 @@ while (false !== ($file = readdir($handle))){
 			
 			$output_file = fopen("wikipedia_solr_xml_output/wikipedia_" . $url_id. ".xml", "w");
 			fputs($output_file, "<add><doc>\n");
-
 			fputs($output_file, "<field name='title'>" . htmlspecialchars($article_title) . "</field>\n");
+			fputs($output_file, "<field name='key_assertion'>" . htmlspecialchars($key_assertion) . "</field>\n");
 			fputs($output_file, "<field name='body'>" . htmlspecialchars($article_text_without_wiki_markup) . "</field>\n");
 			fputs($output_file, "<field name='data_source_name'>Wikipedia</field>\n");
 			fputs($output_file, "<field name='dateCreated'>" . $date_created . "</field>\n");
