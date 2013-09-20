@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR);
 
 include_once('config.php');
 include_once('functions.php');
@@ -9,24 +10,19 @@ if (isset($_GET["q"]) AND q != "") {
 	$category = $_GET["category"];
 	if ($category == "") $category = "all"; // set default value if missing
 
-	if ($category == "PubMed by date")
-		$sort = "by_date"; 
-	else
-		$sort = "by_relevance"; 
-
-	$startpos = $_GET["startpos"];
-	if ($startpos == "") $startpos = 0; // set default value if missing
+	$offset = $_GET["offset"];
+	if ($offset == "") $offset = 0; // set default value if missing
 
 	$max_number_of_results_per_request = $_GET["quantity"];
 	if ($max_number_of_results_per_request == "") $max_number_of_results_per_request = 30; // set default value if missing
 
-	$xml = query_solr($user_query, $category, $sort, $startpos + $max_number_of_results_per_request);
+	$xml = query_solr($user_query, $category, $sort, $offset + $max_number_of_results_per_request);
 	
 	if ($xml->result["numFound"] == 0) {
 		$corrected_query = xpath($xml, "//str[@name='collation']", false);
 		if ($corrected_query != "") {
 			print "<!-- Collation: $corrected_query -->";
-			$xml = query_solr($corrected_query, $category, $sort, $startpos + $max_number_of_results_per_request); // re-run query with suggested collation
+			$xml = query_solr($corrected_query, $category, $offset + $max_number_of_results_per_request); // re-run query with suggested collation
 			$query_results_are_based_on_automatic_correction = true;
 		}
 	}
@@ -46,9 +42,6 @@ if ($user_query != "") {
 <title><?php print $page_title ?></title>
 <link href="js/jquery.mobile-1.3.0.min.css" rel="stylesheet"
 	type="text/css" />
-<style>
-.ui-btn-up-d a.ui-link-inherit:visited { color: red; }
-</style>
 <script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
 <script src="js/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
 <script>
@@ -126,23 +119,23 @@ if ($user_query != "") {
 						data-mini="true">
 						<select name="category" id="category"
 							onchange='$("#search_form").submit();'>
-							<option value="all"
-							<?php if($_GET["category"] == "all") print(' selected="selected"') ?>>
-								Show everything <?php if($_GET["category"] == "all") print('(' . $xml->result["numFound"] . ')')?>
-							</option>
-							<?php foreach($categories as $category) {
-								print("<option value=\"$category\"");
-								if($_GET["category"] == $category) {
-									print('selected="selected"');
+
+							<?php 
+								if($_GET["category"] == "all") {
+									print ('<option value="all" selected="selected">Filter results (' . $xml->result["numFound"] . ')</option>');
 								}
-								print(">");
-								$facet = $category;
-								if ($category == "PubMed by date")
-									$facet = "PubMed";
-								else if ($category == "PubMed by relevance")
-									$facet = "PubMed";
-								print($category . " (" . get_facet_count($xml, $facet) . ")</option>");
-							}
+								else {
+									print ('<option value="all">Show all</option>');
+								}
+																
+								foreach($categories as $category=>$category_for_solr) {
+									print("<option value=\"$category\"");
+									if($_GET["category"] == $category) {
+										print('selected="selected"');
+									}
+									print(">");
+									print($category . " (" . get_facet_count($xml, $category) . ")</option>");
+								}
 							?>
 						</select>
 
@@ -160,9 +153,11 @@ if ($user_query != "") {
 			
 				<!-- BEGIN: List of results -->
 				<ul data-role="listview" data-inset="false">
-					$count = 0;
-					<?php foreach($xml->result->doc as $doc):   // Iterate through documents in result set 
-						if ($count >= $startpos)
+					
+					<?php 
+						$count = 0;
+						foreach($xml->result->doc as $doc):   // Iterate through documents in result set 
+						if ($count >= $offset)
 						{
 				        		$id = xpath($doc, "str[@name='id']")
 					?>
@@ -192,16 +187,16 @@ if ($user_query != "") {
 				<!-- END: List of results -->
 				
 
-				<?php if ($xml->result["numFound"] == 0) print("<p>No results found.</p>") // if a query was entered and no results were found?>
+				<?php 
+					// If no results were found
+					if ($xml->result["numFound"] == 0) print("<p>No results found.</p>"); // if a query was entered and no results were found 
 
-<?php
-if ($xml->result["numFound"] > $startpos + $max_number_of_results_per_request)
-print "<p style=\"text-align:center\"><a href=\"index.php?q=" . $user_query . "&startpos=" . ($startpos + 30) . " data-role=\"button\" data-inline=\"true\">Next " . $max_number_of_results_per_request . " results</a></p>"
-?>
-
-
-
-
+					// If pagination of results is is necessary
+					if ($xml->result["numFound"] > $offset + $max_number_of_results_per_request) {
+						print "<p style=\"text-align:center\"><a href=\"index.php?q=" . $user_query . "&offset=" . ($offset + 30) . "\" data-role=\"button\" data-inline=\"true\">Next " . $max_number_of_results_per_request . " results</a></p>";
+					}
+				?>
+				
 				<p style="text-align:center">
 					<a href="http://www.google.com/search?q=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in Google</a>
 					<a href="http://www.ncbi.nlm.nih.gov/pubmed/?term=<?php print htmlspecialchars($user_query)?>" data-role="button" data-inline="true" target="blank">Try this search in PubMed</a>

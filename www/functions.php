@@ -2,12 +2,17 @@
 
 include_once('config.php');
 
-function query_solr($q, $category, $sort, $rows, $offset = 0) {
+function query_solr($q, $category, $rows, $offset = 0) {
+	global $categories;
 	// TODO: Switch to http_build_query for constructing URL parameters
+	
+	if ($category == "PubMed by date") $sort = "by_date";
+	else $sort = "by_relevance";
+	
 	
 	$request_url = SOLR_URL . "/select?q=" . urlencode($q);
 	if ($category != "all") {
-		$request_url .= "&fq=" . urlencode("{!tag=tagA}category:\"$category\""); // select facet
+		$request_url .= "&fq=" . urlencode("{!tag=tagA}category:\"$categories[$category]\""); // select facet
 	}
 	$request_url .=
 	"&bq=" . urlencode("data_source_name:\"Cochrane Database Syst Rev PubMed\"") .
@@ -40,6 +45,7 @@ function query_solr($q, $category, $sort, $rows, $offset = 0) {
 		$request_url .= "&sort=dateCreated+desc";
 	}
 
+	//print "<!--- " . $request_url . " -->";
 	$response = file_get_contents($request_url);
 	$xml = simplexml_load_string($response);
 	return $xml;
@@ -62,7 +68,8 @@ function xpath($xml, $xpath_expression, $return_entire_array = false) {
 	}
 }
 
-function get_facet_count($xml, $facet_name) {
-	return xpath($xml, "//lst[@name='facet_counts']/lst[@name='facet_fields']/lst[@name='category']/int[@name='$facet_name']");
+function get_facet_count($xml, $category) {
+	global $categories;
+	return xpath($xml, "//lst[@name='facet_counts']/lst[@name='facet_fields']/lst[@name='category']/int[@name='$categories[$category]']");
 }
 ?>
