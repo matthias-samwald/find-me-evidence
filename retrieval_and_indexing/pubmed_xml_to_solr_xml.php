@@ -1,5 +1,6 @@
 <?php
 require_once('./lib/chunk/class.chunk.php');
+require_once('./lib/wiky_wikipedia_parser/wiky.inc.php');
 
 $start = microtime(true);
 $processed_entries = 0;
