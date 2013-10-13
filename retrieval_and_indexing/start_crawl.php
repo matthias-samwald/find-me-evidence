@@ -78,16 +78,18 @@ class MyCrawler extends PHPCrawler {
 		// Print if the content of the document was recieved or not
 		if ($DocInfo->received == true) {
 			echo "Content received: " . $DocInfo->bytes_received . " bytes" . $lb;
-			echo "Content type: " . $DocInfo->content_type;
+			echo "Content type: " . $DocInfo->content_type . $lb;
 				
 			// Get title of HTML page
-			if (preg_match ( '/<title>(.+)<\/title>/', $DocInfo->content, $matches ) && isset ( $matches [1] )) {
-				$title = $matches [1];
+			if (preg_match ( '/<title>([^<]+?)<\/title>/', $DocInfo->content, $matches ) && isset ( $matches [1] )) {
+				$title = trim($matches [1]);
 			} else {
 				$title = "Untitled document";
 			}
 				
 			$output =  "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><add><doc>\n";
+			
+			print $title;
 							
 			$output .= "<field name='title'>" . htmlspecialchars ( $title ) . "</field>\n";
 			$output .= "<field name='body'>" . htmlspecialchars ( html2text($DocInfo->content) ) . "</field>\n";
