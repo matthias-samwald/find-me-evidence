@@ -1,4 +1,6 @@
 <?php
+error_reporting ( E_ERROR );
+
 require_once("lib/PHPCrawl/PHPCrawler.class.php");
 require_once("lib/html2text/html2text.php"); // TODO: perhaps solr.HTMLStripCharFilterFactory in Solr would also work?
 require_once('./lib/http_post/http_post.php');
@@ -176,8 +178,8 @@ function crawl($site_name, $seed_url, $category, $dataset_priority, $link_follow
 	// Store and send cookie-data like a browser does
 	$crawler->enableCookieHandling ( true );
 	
-	// Set traffic limit in bytes // TODO: set much higher limit than 1MB for production system!
-	$crawler->setTrafficLimit ( 1000 * 1024 ); 
+	// Set traffic limit in bytes // TODO: set much higher limit than 1MB (1000 * 1024) for production system!
+	$crawler->setTrafficLimit ( 10000 * 1000 * 1024 ); 
 	
 	$crawler->setStreamTimeout(5);
 	                                        
