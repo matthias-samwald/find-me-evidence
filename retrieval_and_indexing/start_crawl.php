@@ -109,7 +109,7 @@ class MyCrawler extends PHPCrawler {
 		flush ();
 
 		// Wait between requests to decrease load on the crawled server
-		sleep(0.2);
+		sleep(1);
 	}
 }
 
