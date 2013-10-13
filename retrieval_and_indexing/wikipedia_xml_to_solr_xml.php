@@ -1,14 +1,18 @@
 <?php
 require_once('./lib/chunk/class.chunk.php');
-require_once('./lib/wikipedia_parser/wikiParser.class.php');
+require_once('./lib/wiky_wikipedia_parser/wiky.inc.php');
+require_once('./lib/http_post/http_post.php');
 
-$mediawiki_converter = new wikiParser();
+include('./config.php');
+
+
+$mediawiki_converter = new wiky();
 
 $start = microtime(true);
 $processed_entries = 0;
 $successfully_processed_entries = 0;
 
-// Iterate through XML files in the directory..
+// Iterate through XML files in the directory
 $handle = opendir('wikipedia');
 while (false !== ($file = readdir($handle))){
 	$extension = strtolower(substr(strrchr($file, '.'), 1));
@@ -19,7 +23,7 @@ while (false !== ($file = readdir($handle))){
 		while ($xml_string = $file->read()) {
 			$processed_entries++;
 			// print mb_detect_encoding($xml);
-			
+
 			try {
 				$article = new SimpleXMLElement($xml_string);
 			}
@@ -31,7 +35,7 @@ while (false !== ($file = readdir($handle))){
 			// Fetch article title
 			$article_title = $article->title;
 			$url_id = urlencode(str_replace(" ", "_" , $article_title));
-			
+
 			// Check if this is actually a redirect
 			$redirect = $article->redirect['title'];
 			if ($redirect != "")  {
@@ -42,19 +46,18 @@ while (false !== ($file = readdir($handle))){
 			// Fetch Wikipedia article code
 			$wikipedia_code = $article->revision->text;
 			if ($wikipedia_code == "") continue;
-			
+
+
 			// Get raw text (convert to HTML, then strip HTML tags)
-			$article_text_without_wiki_markup = strip_tags($mediawiki_converter->parse($wikipedia_code));
-			
-			// Strip left-over wiki syntax that was failed to be eliminated in prior steps: {{...}} (recursively, becauser there can be nested brackets)
-			$article_text_without_wiki_markup = preg_replace("/\{([^\{\}]++|(?R))*+\}/", "", $article_text_without_wiki_markup);
-			
+			//$article_text_without_wiki_markup = strip_tags($mediawiki_converter->parse($wikipedia_code));
+			$article_text_without_wiki_markup = trim(strip_tags($mediawiki_converter->parse($wikipedia_code)));
+
 			// Extract the first paragraph (to be used as the 'key assertion')
 			preg_match("/^\s*(.+)[\r\n]/", $article_text_without_wiki_markup, $matches);
 			$key_assertion = $matches[1];
-			
-			print $key_assertion;
-			
+
+			print($successfully_processed_entries . ": " . $key_assertion);
+
 			// Replace abbreviations with expanded forms
 			// Currently disabled because it does not work with (long) Wikipedia article code
 			/*
@@ -66,30 +69,31 @@ while (false !== ($file = readdir($handle))){
 				$wikipedia_code = str_replace(" " . $abbreviation_mapping[0], " " . $abbreviation_mapping[1], $article_text_without_wiki_markup);
 			}
 			*/
-			
-			// Fetch timestamp (represent it as "date created")
-			$date_created = 	$article->revision->timestamp;
-			
-			$output_file = fopen("wikipedia_solr_xml_output/wikipedia_" . $url_id. ".xml", "w");
-			fputs($output_file, "<add><doc>\n");
-			fputs($output_file, "<field name='title'>" . htmlspecialchars($article_title) . "</field>\n");
-			fputs($output_file, "<field name='key_assertion'>" . htmlspecialchars($key_assertion) . "</field>\n");
-			fputs($output_file, "<field name='body'>" . htmlspecialchars($article_text_without_wiki_markup) . "</field>\n");
-			fputs($output_file, "<field name='data_source_name'>Wikipedia</field>\n");
-			fputs($output_file, "<field name='dateCreated'>" . $date_created . "</field>\n");
-			fputs($output_file, "<field name='id'>http://en.wikipedia.org/wiki/" . $url_id . "</field>\n");
-			fputs($output_file, "<field name='mimeType'>text/plain</field>\n");
 
-			fputs($output_file, "</doc></add>");
-			fclose($output_file);
+			// Fetch timestamp (represent it as "date created")
+
+			// $output_file = "wikipedia_solr_xml_output/wikipedia_" . $url_id. ".xml";
+
+			$output =  "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><add><doc>\n";
+			$output .= "<field name='title'>" . htmlspecialchars($article_title) . "</field>\n";
+			$output .= "<field name='key_assertion'>" . htmlspecialchars($key_assertion) . "</field>\n";
+			$output .= "<field name='body'>" . htmlspecialchars($article_text_without_wiki_markup) . "</field>\n";
+			$output .= "<field name='data_source_name'>Wikipedia</field>\n";
+			$output .= "<field name='dateCreated'>" . $article->revision->timestamp . "</field>\n"; // TODO: perhaps replace with last edit of wikipedia page
+			$output .= "<field name='id'>http://en.wikipedia.org/wiki/" . $url_id . "</field>\n";
+			$output .= "<field name='mimeType'>text/plain</field>\n";
+			$output .= "<field name='category'>Wikipedia</field>\n";
+
+			$output .= "</doc></add></update>";
+
+			print do_post_request(SOLR_URL . '/update', $output);
 
 			$successfully_processed_entries++;
-			print(" " . $successfully_processed_entries . "\n");
-			// if ($successfully_processed_entries == 10) break;
 		}
-
 	}
 }
+
+print do_post_request(SOLR_URL . '/update', "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><commit/><optimize/></update>");
 
 print "\n Processed $successfully_processed_entries out of $processed_entries records successfully. ";
 $end = (microtime(true) - $start) ;

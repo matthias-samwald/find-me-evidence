@@ -4,7 +4,7 @@ error_reporting ( E_ERROR );
 include_once ('config.php');
 include_once ('functions.php');
 
-if (isset ( $_GET ["q"] ) and q != "") {
+if (isset ( $_GET ["q"] ) and $_GET ["q"] != "") {
 	$user_query = $_GET ["q"];
 	
 	$category = $_GET ["category"];
@@ -15,17 +15,13 @@ if (isset ( $_GET ["q"] ) and q != "") {
 	if ($offset == "")
 		$offset = 0; // set default value if missing
 	
-	$max_number_of_results_per_request = $_GET ["quantity"];
-	if ($max_number_of_results_per_request == "")
-		$max_number_of_results_per_request = 30; // set default value if missing
-	
-	$xml = query_solr ( $user_query, $category, $sort, $offset + $max_number_of_results_per_request );
+	$xml = query_solr ( $user_query, $category, $offset + $max_rows );
 	
 	if ($xml->result ["numFound"] == 0) {
 		$corrected_query = xpath ( $xml, "//str[@name='collation']", false );
 		if ($corrected_query != "") {
 			print "<!-- Collation: $corrected_query -->";
-			$xml = query_solr ( $corrected_query, $category, $offset + $max_number_of_results_per_request ); // re-run query with suggested collation
+			$xml = query_solr ( $corrected_query, $category, $offset + $max_rows ); // re-run query with suggested collation
 			$query_results_are_based_on_automatic_correction = true;
 		}
 	}
@@ -142,9 +138,7 @@ if ($user_query != "") {
 						print ($category . " (" . get_facet_count ( $xml, $category ) . ")</option>") ;
 					}
 					?>
-						</select> <input type="hidden" name="quantity" value="30"
-							onchange='$("#search_form").submit();'>
-
+						</select>
 					</fieldset>
 				</form>
 				<!-- END: Search bar with existing results -->
