@@ -5,7 +5,7 @@
 
 $url = "localhost:8888/solr/collection1/update";
 
-update_solr_index($url, '<delete><query>(title:"ATTRACT | HOME") OR (title:wikipedia.org/wiki/ATC_code_*)</query></delete>');
+update_solr_index($url, '<delete><query>(title:"ATTRACT | HOME") OR (title:wikipedia.org/wiki/ATC_code_*) OR (id:web*) </query></delete>');
 update_solr_index($url, '<commit/>');
 update_solr_index($url, '<optimize/>');
 
