@@ -14,9 +14,11 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	if ($category != "all") {
 		$request_url .= "&fq=" . urlencode ( "{!tag=tagA}category:\"$categories[$category]\"" ); // select facet
 	}
-	$request_url .= "&bq=" . urlencode ( "data_source_name:\"Cochrane Database Syst Rev PubMed\"" ) . "&defType=edismax" . 	// select query parser
-	                     // "&bf=ord(dataset_priority)^0.5" .
-	                     // "&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
+	$request_url .= 
+	"&bq=" . urlencode ( 'data_source_name:"PubMed: Cochrane Database Syst Rev"' ) . 
+	"&defType=edismax" . 	// select query parser
+	// "&bf=ord(dataset_priority)^0.5" .
+	"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
 	"&qf=title^5%20key_assertion^2%20text_all" . 	// fields to be queries (can include boosts)
 	"&pf=title%20key_assertion%20body" . 	// enable automated phrase-matching (boosting fields and setting slop per-field would also be possible here)
 	"&ps=2" . 	// default slop for automated phrase-matching
