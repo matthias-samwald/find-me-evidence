@@ -21,6 +21,7 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	"&pf=title%20key_assertion%20body" . 	// enable automated phrase-matching (boosting fields and setting slop per-field would also be possible here)
 	"&ps=2" . 	// default slop for automated phrase-matching
 	"&fl=id,title,data_source_name,dateCreated,key_assertion" . 	// only these fields will be listed in the response
+	"&start=" . $offset . 	// offset for paginated results
 	"&rows=" . $rows . 	// select number of results returned
 	"&wt=xml" .	// select result format
 	"&facet=true" . 	// switch faceting on

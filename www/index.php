@@ -7,21 +7,21 @@ include_once ('functions.php');
 if (isset ( $_GET ["q"] ) and $_GET ["q"] != "") {
 	$user_query = $_GET ["q"];
 	
-	$category = $_GET ["category"];
-	if ($category == "")
-		$category = "all"; // set default value if missing
+	$selected_category = $_GET ["category"];
+	if ($selected_category == "")
+		$selected_category = "all"; // set default value if missing
 	
 	$offset = $_GET ["offset"];
 	if ($offset == "")
 		$offset = 0; // set default value if missing
 	
-	$xml = query_solr ( $user_query, $category, $offset + $max_rows );
+	$xml = query_solr ( $user_query, $selected_category, $max_rows, $offset );
 	
 	if ($xml->result ["numFound"] == 0) {
 		$corrected_query = xpath ( $xml, "//str[@name='collation']", false );
 		if ($corrected_query != "") {
 			print "<!-- Collation: $corrected_query -->";
-			$xml = query_solr ( $corrected_query, $category, $offset + $max_rows ); // re-run query with suggested collation
+			$xml = query_solr ( $corrected_query, $selected_category, $max_rows, $offset ); // re-run query with suggested collation
 			$query_results_are_based_on_automatic_correction = true;
 		}
 	}
@@ -131,7 +131,7 @@ if ($user_query != "") {
 					
 					foreach ( $categories as $category => $category_for_solr ) {
 						print ("<option value=\"$category\"") ;
-						if ($_GET ["category"] == $category) {
+						if ($selected_category == $category) {
 							print ('selected="selected"') ;
 						}
 						print (">") ;
@@ -157,8 +157,7 @@ if ($user_query != "") {
 					<?php
 					$count = 0;
 					foreach ( $xml->result->doc as $doc ) : // Iterate through documents in result set
-						if ($count >= $offset) {
-							$id = xpath ( $doc, "str[@name='id']" )?>
+						$id = xpath ( $doc, "str[@name='id']" ); ?>
 						<li><a
 						href="<?php
 							if (substr ( $id, 0, 35 ) == "http://www.ncbi.nlm.nih.gov/pubmed/")
@@ -185,8 +184,6 @@ if ($user_query != "") {
 								</p> <?php endif; ?>
 						</a></li>
 					<?php	
-					}
-						$count ++;
 					endforeach;
 					?>
 				</ul>
@@ -198,23 +195,22 @@ if ($user_query != "") {
 					if ($xml->result ["numFound"] == 0)
 						print ("<p>No results found.</p>") ; // if a query was entered and no results were found
 							                                                                      
-					// If pagination of results is is necessary
-					if ($xml->result ["numFound"] > $offset + $max_number_of_results_per_request) {
-						print "<p style=\"text-align:center\"><a href=\"index.php?q=" . $user_query . "&offset=" . ($offset + 30) . "\" data-role=\"button\" data-inline=\"true\">Next " . $max_number_of_results_per_request . " results</a></p>";
-					}
 					?>
 				
 				<p style="text-align: center">
+					<?php 
+						// If pagination of results is is necessary
+						if ($xml->result ["numFound"] > $offset + $max_number_of_results_per_request) {
+							print "<a href=\"index.php?q=" . $user_query . "&category=" . $category . "&offset=" . ($offset + $max_rows) . "\" data-role=\"button\" data-inline=\"true\">Show more results</a>";
+						}
+					?>
 					<a
 						href="http://www.google.com/search?q=<?php print htmlspecialchars($user_query)?>"
 						data-role="button" data-inline="true" target="blank">Try this
 						search in Google</a> <a
 						href="http://www.ncbi.nlm.nih.gov/pubmed/?term=<?php print htmlspecialchars($user_query)?>"
 						data-role="button" data-inline="true" target="blank">Try this
-						search in PubMed</a> <a
-						href="http://www.tripdatabase.com/search?criteria=<?php print htmlspecialchars($user_query)?>"
-						data-role="button" data-inline="true" target="blank">Try this
-						search in Trip</a>
+						search in PubMed</a> 
 				</p>
 			</div>
 
