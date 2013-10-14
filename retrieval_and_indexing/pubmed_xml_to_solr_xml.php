@@ -64,7 +64,7 @@ while ( false !== ($file = readdir ( $handle )) ) {
 			// Add key assertion with expanded abbreviations if a "conclusion" snippet was found.
 			if ($abstract_conclusion_section_text != "") {
 				// Replace abbreviations with expanded forms
-				$abbreviation_expander_output = trim ( shell_exec ( '"C:\\Program Files\\Java\\jre7\\bin\\java" ExtractAbbrev "' . addslashes ( $abstract_text ) . '"' ) );
+				$abbreviation_expander_output = trim ( shell_exec ( 'java ExtractAbbrev "' . addslashes ( $abstract_text ) . '"' ) );
 				$abbreviation_expander_output_lines = explode ( "\n", $abbreviation_expander_output );
 				foreach ( $abbreviation_expander_output_lines as $line ) {
 					if (trim ( $line ) == "")
