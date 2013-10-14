@@ -49,7 +49,7 @@ function pubmed_fetch($query){
 
   $retmax = 10000; // Maximum number of entries returned per request
   $maxretry = 10; // Maximum number of retries for failed queries
-  $sleeptime = 10; // Time to sleep between requests (seconds)
+  $sleeptime = 30; // Time to sleep between requests (seconds)
 
   for ($retstart = 0; $retstart < $count; $retstart += $retmax) {
 
