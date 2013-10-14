@@ -88,9 +88,7 @@ class MyCrawler extends PHPCrawler {
 			}
 				
 			$output =  "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><add><doc>\n";
-			
-			print $title;
-							
+										
 			$output .= "<field name='title'>" . htmlspecialchars ( $title ) . "</field>\n";
 			$output .= "<field name='body'>" . htmlspecialchars ( html2text($DocInfo->content) ) . "</field>\n";
 			$output .= "<field name='data_source_name'>" . htmlspecialchars(get_domain($DocInfo->url)) . "</field>\n";
@@ -120,7 +118,7 @@ class MyCrawler extends PHPCrawler {
  */
 
 //crawl("samwald.info", "http://samwald.info", "test category", 3);
-//crawl("Merck Manual (English)", "http://www.merckmanuals.com/professional/", "Evidence-based summary", 9);
+//crawl("Merck Manual (English)", "http://www.merckmanuals.com/professional/", "Evidence-based summary", 10);
 crawl("ATTRACT (Professional medical Q&A)", "http://www.attract.wales.nhs.uk/", "Evidence-based summary", 8);
 crawl("BestBETs (Evidence-based summaries)", "http://bestbets.org/", "Evidence-based summary", 8);
 crawl("Diagnosia English", "http://www.diagnosia.com/en/drugs", "Drug information", 8);

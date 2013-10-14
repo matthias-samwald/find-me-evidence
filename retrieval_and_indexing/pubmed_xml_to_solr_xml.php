@@ -82,6 +82,7 @@ while ( false !== ($file = readdir ( $handle )) ) {
 			$output .= "<field name='id'>http://www.ncbi.nlm.nih.gov/pubmed/" . $pmid . "</field>\n";
 			$output .= "<field name='mimeType'>text/plain</field>\n";
 			$output .= "<field name='category'>Pubmed</field>\n";
+			$output .= "<field name='dataset_priority'>8</field>\n";
 
 			$output .= "</doc></add></update>";
 

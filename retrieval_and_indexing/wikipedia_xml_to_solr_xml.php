@@ -83,6 +83,7 @@ while (false !== ($file = readdir($handle))){
 			$output .= "<field name='id'>http://en.wikipedia.org/wiki/" . $url_id . "</field>\n";
 			$output .= "<field name='mimeType'>text/plain</field>\n";
 			$output .= "<field name='category'>Wikipedia</field>\n";
+			$output .= "<field name='dataset_priority'>8</field>\n";
 
 			$output .= "</doc></add></update>";
 
