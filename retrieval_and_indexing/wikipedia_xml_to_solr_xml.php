@@ -56,7 +56,7 @@ while (false !== ($file = readdir($handle))){
 			preg_match("/^\s*(.+)[\r\n]/", $article_text_without_wiki_markup, $matches);
 			$key_assertion = $matches[1];
 
-			print($successfully_processed_entries . ": " . $key_assertion);
+			print($successfully_processed_entries);
 
 			// Replace abbreviations with expanded forms
 			// Currently disabled because it does not work with (long) Wikipedia article code
@@ -87,7 +87,7 @@ while (false !== ($file = readdir($handle))){
 
 			$output .= "</doc></add></update>";
 
-			print do_post_request(SOLR_URL . '/update', $output);
+			do_post_request(SOLR_URL . '/update', $output);
 
 			$successfully_processed_entries++;
 		}

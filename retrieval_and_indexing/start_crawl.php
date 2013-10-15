@@ -7,7 +7,7 @@ require_once('./lib/http_post/http_post.php');
 
 include('./config.php');
 
-set_time_limit ( 60 * 60 * 24 ); // Execution times out only after 24 hours, crawling might take a while!
+set_time_limit ( 60 * 60 * 24 * 3); // Execution times out only after 3 days, crawling might take a while!
 
 
 /*
@@ -117,8 +117,7 @@ class MyCrawler extends PHPCrawler {
  * Do the crawling
  */
 
-//crawl("samwald.info", "http://samwald.info", "test category", 3);
-//crawl("Merck Manual (English)", "http://www.merckmanuals.com/professional/", "Evidence-based summary", 10);
+crawl("Merck Manual", "http://www.merckmanuals.com/professional/", "Evidence-based summary", 10);
 crawl("ATTRACT (Professional medical Q&A)", "http://www.attract.wales.nhs.uk/", "Evidence-based summary", 8);
 crawl("BestBETs (Evidence-based summaries)", "http://bestbets.org/", "Evidence-based summary", 8);
 crawl("Diagnosia English", "http://www.diagnosia.com/en/drugs", "Drug information", 8);
