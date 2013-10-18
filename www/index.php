@@ -201,7 +201,7 @@ if ($user_query != "") {
 					<?php 
 						// If pagination of results is is necessary
 						if ($xml->result ["numFound"] > $offset + $max_number_of_results_per_request) {
-							print "<a href=\"index.php?q=" . $user_query . "&category=" . $category . "&offset=" . ($offset + $max_rows) . "\" data-role=\"button\" data-inline=\"true\">Show more results</a>";
+							print "<a href=\"index.php?q=" . $user_query . "&category=" . $selected_category . "&offset=" . ($offset + $max_rows) . "\" data-role=\"button\" data-inline=\"true\">Show more results</a>";
 						}
 					?>
 					<a
