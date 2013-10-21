@@ -1,0 +1,11 @@
+@CHARSET "ISO-8859-1";
+
+fieldset 
+{
+	border: 1px solid #ABABAB !important;
+	padding: 10px !important;
+}
+
+.form-selection-block {
+	padding: 3px;
+}

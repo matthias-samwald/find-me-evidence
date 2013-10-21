@@ -28,13 +28,16 @@ div.ui-btn-text {
 	color: #00688B;
 }
 
+
 @media only screen and (min-width: 1000px) {
-	.ui-page {
+	.ui-content {
 		width: 1000px !important;
 		margin: 0 auto !important;
 		position: relative !important;
 	}
 }
+ 
+
 
 em {
 	font-weight: bold;

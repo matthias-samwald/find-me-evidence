@@ -36,13 +36,19 @@ if ($user_query != "") {
 <!DOCTYPE html>
 <html>
 <head>
+
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title><?php print $page_title ?></title>
-<link href="js/jquery.mobile-1.3.0.min.css" rel="stylesheet"
-	type="text/css" />
-<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
-<script src="js/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="css/themes/default/jquery.mobile-1.3.2.min.css">
+<link rel="stylesheet" href="_assets/css/jqm-demos.css">
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+<script src="js/jquery.js"></script>
+<script src="_assets/js/index.js"></script>
+<script src="js/jquery.mobile-1.3.2.min.js"></script>
+
+
 <script>
 
 	// Delay function, used for having a short delay after user typed something before initiating request to autocomplete service
@@ -97,6 +103,8 @@ if ($user_query != "") {
 </head>
 <body>
 	<div data-role="page" id="main" data-theme="d">
+		
+		<!--  
 		<div data-role="header">
 			<h3>FindMeEvidence</h3>
 			<a
@@ -104,8 +112,14 @@ if ($user_query != "") {
 				data-icon="info" data-iconpos="notext" data-rel="dialog"
 				data-transition="fade">Help</a>
 		</div>
+		-->
+		
+		<div data-role="header" class="jqm-header" style="text-align: center; padding: 3px">
+			<img src="images/findmeevidence-logo.png" alt="FindMeEvidence" />
+		</div>
+		
 		<div data-role="content">
-			<div style="padding-top: 20px; padding-bottom: 20px">
+			<div style="padding-top: 10px; padding-bottom: 0px">
 				<?php if ($user_query != "") : // if a query was entered ?>
 				
 				<!-- BEGIN: Search bar with existing results -->
@@ -113,12 +127,12 @@ if ($user_query != "") {
 					data-ajax="false">
 					<!--<label for="search-input">Search input:</label>-->
 					<input type="search" name="q" id="q" data-theme="e"
-						autocomplete="off"
+						autocomplete="off" placeholder="Enter query..."
 						onkeyup="delay(function(){updateAutocomplete();}, 300 );"
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
 					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 					<fieldset data-role="controlgroup" data-type="horizontal"
-						data-mini="true">
+						data-mini="true" style="border:none">
 						<select name="category" id="category"
 							onchange='$("#search_form").submit();'>
 
@@ -152,7 +166,7 @@ if ($user_query != "") {
 			<div>
 
 				<!-- BEGIN: List of results -->
-				<ul data-role="listview" data-inset="false">
+				<ul data-role="listview" data-inset="true">
 					
 					<?php
 					$count = 0;
@@ -221,7 +235,7 @@ if ($user_query != "") {
 				data-ajax="false">
 				<!--<label for="search-input">Search input:</label>-->
 				<input type="search" name="q" id="q" data-theme="e"
-					autocomplete="off"
+					autocomplete="off" placeholder="Enter query..."
 					onkeyup="delay(function(){updateAutocomplete();}, 300 );"
 					value="<?php print htmlspecialchars(urldecode($user_query))?>" />
 				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
@@ -234,8 +248,7 @@ if ($user_query != "") {
 			<?php endif; ?>
 		</div>
 	<div data-role="footer">
-		<h4>This prototype is intended for evaluation use only and should not
-			be used to guide medical treatment.</h4>
+		<h4>The FindMeEvidence service comes without any warranty. Visit <a href="https://code.google.com/p/bricoleur-fast-medical-search/">project website</a> for more information.</h4>
 
 	</div>
 </body>
