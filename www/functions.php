@@ -10,6 +10,8 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	else
 		$sort = "by_relevance";
 	
+	$q = str_replace(":", " ", $q); // Remove double-colons in query (could be interpreted as field names)
+	
 	$request_url = SOLR_URL . "/select?q=" . urlencode ( $q );
 	if ($category != "all") {
 		$request_url .= "&fq=" . urlencode ( "{!tag=tagA}category:\"$categories[$category]\"" ); // select facet
