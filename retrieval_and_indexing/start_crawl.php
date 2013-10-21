@@ -85,10 +85,7 @@ class MyCrawler extends PHPCrawler {
 			$output .= "<field name='dataset_priority'>" . $this->dataset_priority . "</field>\n";
 			$output .= "</doc></add></update>";
 			
-			do_post_request(SOLR_URL . '/update', $output);
-				
-			print extract_useful_page_content($DocInfo->content, $DocInfo->url);
-			
+			do_post_request(SOLR_URL . '/update', $output);			
 			
 		} else
 			echo "Content not received" . $lb;
@@ -105,14 +102,6 @@ class MyCrawler extends PHPCrawler {
 /*
  * Do the crawling
  */
-
-
-$url = "C:\\Users\\polygonfenster\\Downloads\\merck_test.htm";
-$file_contents = file_get_contents($url);
-print "processing...";
-print extract_useful_page_content($file_contents, "http://www.merckmanuals.com/professional/endocrine_and_metabolic_disorders/lipid_disorders/dyslipidemia.html");
-
-die;
 
 crawl("Medscape", "http://emedicine.medscape.com/home", "Evidence-based summary", 10);
 crawl("Merck Manual", "http://www.merckmanuals.com/professional/", "Evidence-based summary", 10);
