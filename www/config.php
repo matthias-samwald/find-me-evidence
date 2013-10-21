@@ -2,7 +2,7 @@
 
 define('SOLR_URL', "http://localhost:8080/solr-4.4.0/collection1");
 
-$max_rows = 20;
+$max_rows = 15;
 
 // List of categories, containg a mapping of "Category for display"=>"Category for filtering in Solr"
 $categories = Array (

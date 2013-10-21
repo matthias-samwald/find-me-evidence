@@ -46,8 +46,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
 			</p>
 		</div>
 		<div data-role="footer">
-			<h4>This prototype is intended for evaluation use only and should not
-				be used to guide medical treatment.</h4>
+			<h4>The FindMeEvidence service comes without any warranty. Visit <a href="https://code.google.com/p/bricoleur-fast-medical-search/">project website</a> for more information.</h4>
 		</div>
 	</div>
 </body>

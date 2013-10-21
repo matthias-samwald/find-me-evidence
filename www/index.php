@@ -142,7 +142,7 @@ if ($user_query != "") {
 					foreach ( $categories as $category => $category_for_solr ) {
 						print ("<option value=\"$category\"") ;
 						if ($selected_category == $category) {
-							print ('selected="selected"') ;
+							print (' selected="selected"') ;
 						}
 						print (">") ;
 						print ($category . " (" . get_facet_count ( $xml, $category ) . ")</option>") ;
@@ -180,11 +180,15 @@ if ($user_query != "") {
 								</h3>
 							<p>
 								<span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?>
-									</span> <span class="publication_date"><?php
-							$date_created = substr ( xpath ( $doc, "date[@name='dateCreated']" ), 0, 10 );
-							if ($date_created != "")
-								print ("&nbsp;|&nbsp;" . $date_created) ?>
-									</span>
+									</span> 
+									<?php
+										// Show dateCreated for PubMed entriesS
+										if (  substr(xpath($doc, "str[@name='data_source_name']"), 0, 6) == "PubMed"  ) {
+											$date_created = substr ( xpath ( $doc, "date[@name='dateCreated']" ), 0, 10 );
+											if ($date_created != "")
+												print ("<span class=\"publication_date\"> &nbsp;|&nbsp;" . $date_created . "</span>");
+											}
+									?>
 							</p> <?php if(xpath($doc, "str[@name='key_assertion']")): ?>
 								<p class="conclusion">
 									<?php print xpath($doc, "str[@name='key_assertion']")?>
@@ -210,7 +214,7 @@ if ($user_query != "") {
 				<p style="text-align: center">
 					<?php 
 						// If pagination of results is is necessary
-						if ($xml->result ["numFound"] > $offset + $max_number_of_results_per_request) {
+						if ($xml->result ["numFound"] > ($offset + $max_rows)) {
 							print "<a href=\"index.php?q=" . $user_query . "&category=" . $selected_category . "&offset=" . ($offset + $max_rows) . "\" data-role=\"button\" data-inline=\"true\">Show more results</a>";
 						}
 					?>
@@ -245,7 +249,6 @@ if ($user_query != "") {
 		</div>
 	<div data-role="footer">
 		<h4>The FindMeEvidence service comes without any warranty. Visit <a href="https://code.google.com/p/bricoleur-fast-medical-search/">project website</a> for more information.</h4>
-
 	</div>
 </body>
 </html>
