@@ -67,7 +67,7 @@ class wiky {
 			
 			// Content in curly braces
 			"/\(\{\{IPA.{0,80}\}\}\)/", 
-			"/\{([^\{\}]++|(?R))*+\}[;,]*?/",
+			"/\{([^\{\}]++|(?R))*+\}[;,]*?/",				// Recursive regex, because the damn things can be nested
 			
 			// ({{IPAc-en|xx}} or {{IPAc-en|xx}})
 					
