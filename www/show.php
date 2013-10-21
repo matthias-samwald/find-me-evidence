@@ -26,12 +26,8 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
 </head>
 <body>
 	<div data-role="page" id="main" data-theme="d">
-		<div data-role="header">
-			<h3>Bricoleur prototype</h3>
-			<a
-				href="https://code.google.com/p/bricoleur-fast-medical-search/w/list"
-				data-icon="info" data-iconpos="notext" data-rel="dialog"
-				data-transition="fade">Help</a>
+		<div data-role="header" class="jqm-header" style="text-align: center; padding: 3px">
+			<img src="images/findmeevidence-logo.png" alt="FindMeEvidence" />
 		</div>
 		<div data-role="content">
 			<h1><?php print $title ?></h1>
