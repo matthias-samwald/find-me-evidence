@@ -8,17 +8,21 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
 
 ?>
 
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FindMeEvidence: <?php print $title ?></title>
-<link href="js/jquery.mobile-1.3.0.min.css" rel="stylesheet"
-	type="text/css" />
-<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
-<script src="js/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="css/themes/default/jquery.mobile-1.3.2.min.css">
+<link rel="stylesheet" href="_assets/css/jqm-demos.css">
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
 <link href="bricoleur.css" rel="stylesheet" type="text/css">
+<script src="js/jquery.js"></script>
+<script src="_assets/js/index.js"></script>
+<script src="js/jquery.mobile-1.3.2.min.js"></script>
+<title>FindMeEvidence: <?php print $title ?></title>
 </head>
 <body>
 	<div data-role="page" id="main" data-theme="d">
