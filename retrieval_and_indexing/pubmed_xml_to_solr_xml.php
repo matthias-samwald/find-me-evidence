@@ -85,6 +85,8 @@ while ( false !== ($file = readdir ( $handle )) ) {
 			$output .= "<field name='dataset_priority'>8</field>\n";
 
 			$output .= "</doc></add></update>";
+			
+			do_post_request(SOLR_URL . '/update', $output);
 
 			$successfully_processed_entries ++;
 			print $successfully_processed_entries . "\n";
