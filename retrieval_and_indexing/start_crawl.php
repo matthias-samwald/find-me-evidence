@@ -91,7 +91,15 @@ class MyCrawler extends PHPCrawler {
 			echo "Content not received" . $lb;
 			
 		echo $lb;
-
+		
+		
+		print "\n\n\n---------- Full version ----------\n\n\n";
+		print extract_useful_page_content($DocInfo->content, $DocInfo->url);
+		print "\n\n\n---------- Extracted version ----------\n\n\n";
+		print $DocInfo->content;
+		print "\n\n\n--------------------\n\n\n";
+		
+		
 		flush ();
 
 		// Wait between requests to decrease load on the crawled server
@@ -107,11 +115,12 @@ crawl("Medscape", "http://emedicine.medscape.com/home", "Evidence-based summary"
 crawl("Merck Manual", "http://www.merckmanuals.com/professional/", "Evidence-based summary", 10);
 crawl("ATTRACT (Professional medical Q&A)", "http://www.attract.wales.nhs.uk/", "Evidence-based summary", 8);
 crawl("BestBETs (Evidence-based summaries)", "http://bestbets.org/", "Evidence-based summary", 8);
-crawl("Diagnosia English", "http://www.diagnosia.com/en/drugs", "Drug information", 8);
-crawl("Guideline.gov", "http://guideline.gov/", "Guideline", 7);
+//crawl("Diagnosia English", "http://www.diagnosia.com/en/drugs", "Drug information", 8);
+crawl("Guideline.gov", "http://www.guideline.gov/browse/index.aspx?alpha=All", "Evidence-based summary", 7);    
+// crawl("Guideline.gov", "http://guideline.gov/", "Guideline", 7);    // possible alternative: all sites linked from http://www.guideline.gov/browse/index.aspx?alpha=All
 crawl("NHS Clinical Knowledge Summaries (UK)", "http://www.cks.nhs.uk/", "Evidence-based summary", 7);
-crawl("NICE Clinical Guidelines", "http://guidance.nice.org.uk/", "Evidence-based summary", 7, 1);
-crawl("doc2doc", "http://doc2doc.bmj.com/", "Professional discussions", 7);
+// crawl("NICE Clinical Guidelines", "http://guidance.nice.org.uk/", "Evidence-based summary", 7, 1);
+// crawl("doc2doc", "http://doc2doc.bmj.com/", "Professional discussions", 7);
 
 print do_post_request(SOLR_URL . '/update', "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><commit/><optimize/></update>");
 
