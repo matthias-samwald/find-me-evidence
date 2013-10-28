@@ -133,7 +133,7 @@ if ($user_query != "") {
 							onchange='$("#search_form").submit();'>
 
 							<?php
-					if ($_GET ["category"] == "all") {
+					if (($_GET ["category"] == "all") OR (isset($_GET ["category"]) == false)) {
 						print ('<option value="all" selected="selected">Filter results (' . $xml->result ["numFound"] . ')</option>') ;
 					} else {
 						print ('<option value="all">Show all</option>') ;

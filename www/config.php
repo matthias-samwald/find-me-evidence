@@ -10,7 +10,7 @@ $categories = Array (
 		"PubMed by date" => "Pubmed",
 		"PubMed by relevance" => "Pubmed",
 		"Drug information" => "Drug information",
-		"Professional discussions" => "Professional discussions",
+		//"Professional discussions" => "Professional discussions",
 		"Wikipedia" => "Wikipedia" 
 );
 ?>
