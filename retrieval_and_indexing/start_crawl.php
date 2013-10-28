@@ -77,7 +77,7 @@ class MyCrawler extends PHPCrawler {
 										
 			$output .= "<field name='title'>" . htmlspecialchars ( $title ) . "</field>\n";
 			$output .= "<field name='body'>" . htmlspecialchars ( html2text(extract_useful_page_content($DocInfo->content, $DocInfo->url))) . "</field>\n";
-			$output .= "<field name='data_source_name'>" . htmlspecialchars(get_domain($DocInfo->url)) . "</field>\n";
+			$output .= "<field name='data_source_name'>" . $this->site_name . "</field>\n";
 			$output .= "<field name='dateCreated'>" . date("Y-m-d\TG:i:s\Z") . "</field>\n";
 			$output .= "<field name='id'>" . htmlspecialchars($DocInfo->url) . "</field>\n";
 			$output .= "<field name='mimeType'>text/plain</field>\n";
@@ -94,9 +94,9 @@ class MyCrawler extends PHPCrawler {
 		
 		
 		print "\n\n\n---------- Full version ----------\n\n\n";
-		print extract_useful_page_content($DocInfo->content, $DocInfo->url);
-		print "\n\n\n---------- Extracted version ----------\n\n\n";
 		print $DocInfo->content;
+		print "\n\n\n---------- Extracted version ----------\n\n\n";
+		print extract_useful_page_content($DocInfo->content, $DocInfo->url);
 		print "\n\n\n--------------------\n\n\n";
 		
 		
@@ -112,15 +112,19 @@ class MyCrawler extends PHPCrawler {
  */
 
 crawl("Medscape", "http://emedicine.medscape.com/home", "Evidence-based summary", 10);
-crawl("Merck Manual", "http://www.merckmanuals.com/professional/", "Evidence-based summary", 10);
+crawl_via_links_on_page("Merck Manual", "http://www.merckmanuals.com/professional/sitemap.xml", "/<loc>([^<]+)<\/loc>/", "Evidence-based summary", 10, 3);
 crawl("ATTRACT (Professional medical Q&A)", "http://www.attract.wales.nhs.uk/", "Evidence-based summary", 8);
 crawl("BestBETs (Evidence-based summaries)", "http://bestbets.org/", "Evidence-based summary", 8);
-//crawl("Diagnosia English", "http://www.diagnosia.com/en/drugs", "Drug information", 8);
-crawl("Guideline.gov", "http://www.guideline.gov/browse/index.aspx?alpha=All", "Evidence-based summary", 7);    
+crawl_via_links_on_page("NHS Clinical Knowledge Summaries (UK)", "http://cks.nice.org.uk/sitemap.xml", "/<loc>([^<]+)<\/loc>/",  "Evidence-based summary", 7, 3);
+crawl_via_links_on_page("Guideline.gov", "http://www.guideline.gov/browse/index.aspx?alpha=All", '/href="([^"]+)"/', "Evidence-based summary", 8, 16);
+
+
 // crawl("Guideline.gov", "http://guideline.gov/", "Guideline", 7);    // possible alternative: all sites linked from http://www.guideline.gov/browse/index.aspx?alpha=All
-crawl("NHS Clinical Knowledge Summaries (UK)", "http://www.cks.nhs.uk/", "Evidence-based summary", 7);
+// crawl("Merck Manual", "http://www.merckmanuals.com/professional/", "Evidence-based summary", 10); // Sitemap: http://www.merckmanuals.com/professional/sitemap.xml
 // crawl("NICE Clinical Guidelines", "http://guidance.nice.org.uk/", "Evidence-based summary", 7, 1);
-// crawl("doc2doc", "http://doc2doc.bmj.com/", "Professional discussions", 7);
+// crawl("doc2doc", "http://doc2doc.bmj.com/", "Professional discussions", 7);  
+// crawl("Diagnosia English", "http://www.diagnosia.com/en/drugs", "Drug information", 8);
+
 
 print do_post_request(SOLR_URL . '/update', "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><commit/><optimize/></update>");
 
@@ -155,12 +159,17 @@ function extract_useful_page_content($content, $url) {
 	$domain = get_domain($url);
 
 	if ($domain == "medscape.com") {
-		if (preg_match("/<!--Overview-->([\W\w]+)<!--\/Overview-->/" , $content, $matches) == 1) 
+		if (preg_match("/<!--Overview-->([\W\w]+)<!--\/Overview-->/", $content, $matches) == 1) 
 			return $matches[1];
 		else return $content;
 	}
 	elseif ($domain == "merckmanuals.com") {
-		if (preg_match("/<!--startindex-->([\W\w]+)<!--stopindex-->/" , $content, $matches) == 1) 
+		if (preg_match("/<!--startindex-->([\W\w]+)<!--stopindex-->/", $content, $matches) == 1) 
+			return $matches[1];
+		else return $content;
+	}
+	elseif ($domain == "guideline.gov") {
+		if (preg_match("/<a id='Section420'></a>([\W\w]+)<a id='Section434'>/", $content, $matches) == 1) 
 			return $matches[1];
 		else return $content;
 	}
@@ -212,5 +221,46 @@ function crawl($site_name, $seed_url, $category, $dataset_priority, $link_follow
 	echo "Documents received: " . $report->files_received . $lb;
 	echo "Bytes received: " . $report->bytes_received . " bytes" . $lb;
 	echo "Process runtime: " . $report->process_runtime . " sec" . $lb;
+}
+
+function crawl_via_links_on_page($site_name, $site_url, $regex_for_identifying_urls, $category, $dataset_priority, $interval_between_requests) {
+	
+	print "STARTING CRAWL OF " . $site_name . "\n";
+	
+	$sitemap = file_get_contents($site_url);
+	preg_match_all ($regex_for_identifying_urls, $sitemap, $url_matches, PREG_PATTERN_ORDER);  // e.g., "/<loc>[^<]+<\/loc>/" for Sitemaps
+	$urls = $url_matches[1];
+	
+	foreach ($urls as $url) {
+		print "Downloading $url \n";
+		$html = "";
+		$html = file_get_contents($url);
+		if ($html == "") continue;
+		
+		// Get title of HTML page
+		if (preg_match ( '/<title>([^<]+?)<\/title>/', $html, $matches ) && isset ( $matches [1] )) {
+			$title = trim($matches [1]);
+		} else {
+			$title = "Untitled document";
+		}
+		
+		$output =  "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><add><doc>\n";
+		
+		$output .= "<field name='title'>" . htmlspecialchars ( $title ) . "</field>\n";
+		$output .= "<field name='body'>" . htmlspecialchars ( html2text(extract_useful_page_content($html, $url))) . "</field>\n";
+		$output .= "<field name='data_source_name'>" . $site_name . "</field>\n";
+		$output .= "<field name='dateCreated'>" . date("Y-m-d\TG:i:s\Z") . "</field>\n";
+		$output .= "<field name='id'>" . htmlspecialchars($url) . "</field>\n";
+		$output .= "<field name='mimeType'>text/plain</field>\n";
+		$output .= "<field name='category'>" . $category . "</field>\n";
+		$output .= "<field name='dataset_priority'>" . $dataset_priority . "</field>\n";
+		$output .= "</doc></add></update>";
+		
+		print $output . "\n";
+			
+		print do_post_request(SOLR_URL . '/update', $output);
+		
+		sleep($interval_between_requests);
+	}
 }
 ?>
