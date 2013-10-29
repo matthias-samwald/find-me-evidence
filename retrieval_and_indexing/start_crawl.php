@@ -112,13 +112,14 @@ class MyCrawler extends PHPCrawler {
  */
 
 crawl("Medscape", "http://emedicine.medscape.com/home", "Evidence-based summary", 10);
+crawl_via_links_on_page("Medscape monographs", "http://reference.medscape.com/sitemap_ref_monographs.xml", "/<loc>([^<]+)<\/loc>/", "Drug information", 10, 3);
 crawl_via_links_on_page("Merck Manual", "http://www.merckmanuals.com/professional/sitemap.xml", "/<loc>([^<]+)<\/loc>/", "Evidence-based summary", 10, 3);
 crawl("ATTRACT (Professional medical Q&A)", "http://www.attract.wales.nhs.uk/", "Evidence-based summary", 8);
 crawl("BestBETs (Evidence-based summaries)", "http://bestbets.org/", "Evidence-based summary", 8);
 crawl_via_links_on_page("NHS Clinical Knowledge Summaries (UK)", "http://cks.nice.org.uk/sitemap.xml", "/<loc>([^<]+)<\/loc>/",  "Evidence-based summary", 7, 3);
 crawl_via_links_on_page("Guideline.gov", "http://www.guideline.gov/browse/index.aspx?alpha=All", '/href="([^"]+)"/', "Evidence-based summary", 8, 16);
 
-
+// Deprecated:
 // crawl("Guideline.gov", "http://guideline.gov/", "Guideline", 7);    // possible alternative: all sites linked from http://www.guideline.gov/browse/index.aspx?alpha=All
 // crawl("Merck Manual", "http://www.merckmanuals.com/professional/", "Evidence-based summary", 10); // Sitemap: http://www.merckmanuals.com/professional/sitemap.xml
 // crawl("NICE Clinical Guidelines", "http://guidance.nice.org.uk/", "Evidence-based summary", 7, 1);
@@ -168,6 +169,7 @@ function extract_useful_page_content($content, $url) {
 			return $matches[1];
 		else return $content;
 	}
+	// TODO: guideline.gov page section selector does not seem to work properly
 	elseif ($domain == "guideline.gov") {
 		if (preg_match("/<a id='Section420'></a>([\W\w]+)<a id='Section434'>/", $content, $matches) == 1) 
 			return $matches[1];
