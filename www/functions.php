@@ -45,7 +45,7 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	"&spellcheck.maxCollationTries=8"; // how many collations to try before giving up making a suggestion
 
 	// Debug (enable/disable by uncommenting/commenting)
-	$request_url .= "&debug=true";
+	// $request_url .= "&debug=true";
 	
 	
 	if ($sort == "by_date") {
