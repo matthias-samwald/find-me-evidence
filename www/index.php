@@ -240,9 +240,26 @@ if ($user_query != "") {
 					value="<?php print htmlspecialchars(urldecode($user_query))?>" />
 				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 			</form>
-			<p>Welcome to the FindMeEvidence prototype, a medical search engine
-				for rapidly reviewing current, openly available medical evidence.
-				Please enter a search query.</p>
+			<script type="text/javascript">
+				$("#main").on("pageshow" , function() {
+					$('#q').focus();
+					});
+			</script>
+			<p>Welcome to FindMeEvidence, an efficient search engine
+				for rapidly reviewing current, openly available medical evidence.</p>
+			
+			<p style="color: grey; padding-top: 25px">This service is currently based on information from the following sources:
+				<ul style="color: grey">
+					<li>Clinically relevant journals from PubMed</li>
+					<li>Medscape.com</li>
+					<li>Merck Manuals</li>
+					<li>Guidelines.gov</li>
+					<li>NHS Clinical Knowledge Summaries</li>
+					<li>ATTRACT (an evidence-based medical question answering service)</li>
+					<li>BestBETs (another evidence-based medical question answering service)</li>
+					<li>Medical and pharmacological Wikipedia articles</li>
+				</ul>
+			</p>
 			<!-- END: Default startup search bar -->
 		</div>
 			<?php endif; ?>

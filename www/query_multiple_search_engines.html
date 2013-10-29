@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Query multiple medical search engines</title>
+<script type="text/javascript">
+function performSearch() {
+    var searchTerm = encodeURIComponent(document.getElementById('searchField').value);
+    window.open('http://www.google.com/search?q=' + searchTerm, 'new_window_01');
+    window.open('http://www.tripdatabase.com/search?criteria=' + searchTerm, 'new_window_02');
+    window.open('http://www.google.com/cse/publicurl?cx=011753309119097594347:4nw2lwtbdom&q=' + searchTerm, 'new_window_03');
+    window.open('http://findmeevidence.org/index.php?q=' + searchTerm + '&dataset=all&sort=by_relevance', 'new_window_04');
+    window.open('http://www.hon.ch/HONcode/Search/search.html?cref=http%3A%2F%2Fwww.hon.ch%2FHONcode%2FSearch%2FHONcodeHunt%2Fcontextlink.xml&q=' + searchTerm + '&sa=Search&hl=en&cof=FORID%3A11', 'new_window_05');
+    window.open('http://www.hon.ch/HONcode/Search/Themes/for_health_professionals.html?cref=http%3A%2F%2Fwww.hon.ch%2FCSE%2FHONCODE%2Fcontextlink_for_health_professionals.xml&q=' + searchTerm + '&sa=Search&hl=en&cof=FORID%3A11', 'new_window_06');
+    window.open('http://khresmoi.honservices.org/hon-search/?q=' + searchTerm + '&start=0&fq=docType:html&group.field=domain&overrideQ=&searchLanguage=en', 'new_window_07');
+    window.open('http://www.ncbi.nlm.nih.gov/pubmed/?term='  + searchTerm, 'new_window_09');
+    window.open('http://www.ncbi.nlm.nih.gov/pubmed/clinical?term='  + searchTerm, 'new_window_10');
+    // add more tabs here
+    window.open('http://www.bing.com/search?q=' + searchTerm, 'new_window_99');
+
+}
+</script>
+</head>
+
+<body>
+	<h1>Query multiple (medical) search engines</h1>
+	<p>This tool can be used to compare search results and their
+		quality. Search results will be displayed in several new tabs. Make
+		sure that your browser / ad blocker allows this. I suggest that you
+		open this page in a new browser window before starting a new search,
+		so that you can close all tabs at once by closing the window.</p>
+	<p>
+	<form onsubmit="performSearch(); return false;">
+		<input id="searchField" type="text" /> <input type="submit"
+			value="Search" />
+	</form>
+	</p>
+	<p>The following search engines are currently queried:
+	<ul>
+		<li>google.com</li>
+		<li>tripdatabase.com</li>
+		<li>Medical Search Enginge, Google CSE Baseline (A Google Custom
+			Search Engine developed by Matthias Samwald)</li>
+		<li>FindMeEvidence</li>
+		<li>HON search (general)</li>
+		<li>HON search (for medical professionals)</li>
+		<li>HON Khresmoi prototype (production version)</li>
+		<li>PubMed</li>
+		<li>PubMed Clinical Queries</li>
+		<li>Bing</li>
+	</ul>
+	</p>
+	<p>Need ideas for queries? Try some <a href="http://www.bmj.com/highwire/filestream/443994/field_highwire_adjunct_files/0">queries from the famous 'Googling for Diagnosis' paper</a>
+	(<a href="http://www.bmj.com/content/333/7579/1143">Tang <i>et al.</i> 2006</a>) or the Khresmoi list of <a href="http://wiki.khresmoi.eu/images/6/6d/Copy_of_50queries_medical_professional_final-really-50.xls">50 example queries for physicians</a> (Excel file, requires login).</p>
+	<p>
+		This HTML file is in the public domain (<a
+			href="http://creativecommons.org/publicdomain/zero/1.0/">CC 0</a>).
+		Contact samwald (at) gmx.at for feedback / recommendations.
+	</p>
+</body>
+</html>
