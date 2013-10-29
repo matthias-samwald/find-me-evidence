@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Query multiple medical search engines</title>
+<script type="text/javascript">
+function performSearch() {
+    var searchTerm = encodeURIComponent(document.getElementById('searchField').value);
+    window.open('http://www.tripdatabase.com/search?criteria=' + searchTerm, 'new_window_02');
+    window.open('http://findmeevidence.org/index.php?q=' + searchTerm + '&dataset=all&sort=by_relevance', 'new_window_04');
+
+}
+</script>
+</head>
+
+<body>
+	<h1>Query multiple (medical) search engines</h1>
+	<p>This tool can be used to compare search results of FindMeEvidence and TRIP database</p>
+	<p>
+	<form onsubmit="performSearch(); return false;">
+		<input id="searchField" type="text" /> <input type="submit"
+			value="Search" />
+	</form>
+	</p>
+
+	<p>Need ideas for queries? Try some <a href="http://www.bmj.com/highwire/filestream/443994/field_highwire_adjunct_files/0">queries from the famous 'Googling for Diagnosis' paper</a>
+	(<a href="http://www.bmj.com/content/333/7579/1143">Tang <i>et al.</i> 2006</a>) or the Khresmoi list of <a href="http://wiki.khresmoi.eu/images/6/6d/Copy_of_50queries_medical_professional_final-really-50.xls">50 example queries for physicians</a> (Excel file, requires login).</p>
+	<p>
+		This HTML file is in the public domain (<a
+			href="http://creativecommons.org/publicdomain/zero/1.0/">CC 0</a>).
+		Contact samwald (at) gmx.at for feedback / recommendations.
+	</p>
+</body>
+</html>
