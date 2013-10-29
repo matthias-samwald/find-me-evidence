@@ -1196,9 +1196,10 @@
       <int name="minQueryLength">4</int>
       <!-- maximum threshold of documents a query term can appear to be considered for correction -->
       <float name="maxQueryFrequency">0.01</float>
-      <!-- uncomment this to require suggestions to occur in 1% of the documents
-      	<float name="thresholdTokenFrequency">.01</float>
-      -->
+      <!-- minimal percentage of documents in which suggestion have to appear in order for it to be considered proper (.01 value means 1%) -->
+      <float name="thresholdTokenFrequency">.0001</float>
+      <!-- automatically (re)build indices based on fields in Solr index when an optimize command is done -->
+      <str name="buildOnOptimize">true</str>
     </lst>
     
     <!-- a spellchecker that can break or combine words.  See "/spell" handler below for usage -->
