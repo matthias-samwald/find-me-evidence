@@ -657,6 +657,7 @@ AND
 "Int J Clin Pract"[Journal] OR 
 "Int J Nurs Stud"[Journal] OR 
 "Int J Obes (Lond)"[Journal] OR 
+"Int J Clin Pharmacol Ther"[Journal] OR 
 "J Adv Nurs"[Journal] OR 
 "J Allergy Clin Immunol"[Journal] OR 
 "J Am Coll Cardiol"[Journal] OR 
