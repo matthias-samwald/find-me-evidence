@@ -12,16 +12,16 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	
 	$q = str_replace(":", " ", $q); // Remove double-colons in query (could be interpreted as field names)
 	
-	$request_url = SOLR_URL . "/select?q=" . urlencode ( $q );
+	$request_url = SOLR_URL . "/select?q=" . urlencode ( $q ) ;
 	if ($category != "all") {
 		$request_url .= "&fq=" . urlencode ( "{!tag=tagA}category:\"$categories[$category]\"" ); // select facet
 	}
 	$request_url .= 
-	"&bq=" . urlencode ( 'data_source_name:"PubMed: Cochrane Database Syst Rev"' ) . 
+	"&bq=" . urlencode ( 'data_source_name:"PubMed: Cochrane Database Syst Rev"^2' ) . 
 	"&defType=edismax" . 	// select query parser
 	"&q.op=AND" . 	// default query operator
 	//"&bf=ord(dataset_priority)^4" .
-	"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
+	//"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
 	"&qf=title^3%20key_assertion^2%20text_all" . 	// fields to be queried (can include boosts)
 	"&pf=title^3%20key_assertion%20body" . 	// enable automated phrase-matching (boosting fields and setting slop per-field would also be possible here)
 	"&ps=2" . 	// default slop for automated phrase-matching
