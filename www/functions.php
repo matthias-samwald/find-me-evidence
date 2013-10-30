@@ -16,12 +16,17 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	if ($category != "all") {
 		$request_url .= "&fq=" . urlencode ( "{!tag=tagA}category:\"$categories[$category]\"" ); // select facet
 	}
-	$request_url .= 
-	"&bq=" . urlencode ( 'data_source_name:"PubMed: Cochrane Database Syst Rev"^2' ) . 
+	
+	if ($category == "PubMed by relevance")
+		$request_url .= "&bq=" . urlencode ( 'data_source_name:"PubMed: Cochrane Database Syst Rev"^40' ); // if showing PubMed sorted by relevance, we really want Cochrane reviews at the top!
+	else 
+		$request_url .= "&bq=" . urlencode ( 'data_source_name:"PubMed: Cochrane Database Syst Rev"^2' );
+	
+	$request_url .=
 	"&defType=edismax" . 	// select query parser
 	"&q.op=AND" . 	// default query operator
 	//"&bf=ord(dataset_priority)^4" .
-	//"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
+	"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
 	"&qf=title^3%20key_assertion^2%20text_all" . 	// fields to be queried (can include boosts)
 	"&pf=title^3%20key_assertion%20body" . 	// enable automated phrase-matching (boosting fields and setting slop per-field would also be possible here)
 	"&ps=2" . 	// default slop for automated phrase-matching
