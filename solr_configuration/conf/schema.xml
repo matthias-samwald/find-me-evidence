@@ -125,6 +125,8 @@
     <field indexed="true" multiValued="false" name="dataset_priority" omitNorms="false" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="int"/>
     <field indexed="true" multiValued="false" name="country" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="false" termVectors="false" type="string"/>
     <field indexed="true" multiValued="false" name="key_assertion" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="text_en"/>
+    
+    <field indexed="true" multiValued="false" name="german" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="text_de_translation"/>
 
     <!-- Needed for the spell checking feature. -->    
     <field indexed="true" multiValued="true" name="spell" omitNorms="false" omitPositions="true" omitTermFreqAndPositions="true" stored="false" termVectors="false" type="textSpell"/>
@@ -435,6 +437,11 @@
 	-->
         <filter class="solr.PorterStemFilterFactory"/>
       </analyzer>
+    </fieldType>
+    
+    <fieldType name="text_de_translation" class="solr.TextField" positionIncrementGap="100">
+    	<tokenizer class="solr.StandardTokenizerFactory"/>
+    	<filter class="solr.LowerCaseFilterFactory"/>
     </fieldType>
 
     <!-- A text field with defaults appropriate for English, plus

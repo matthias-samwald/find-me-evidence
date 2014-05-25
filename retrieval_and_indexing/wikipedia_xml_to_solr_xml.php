@@ -35,6 +35,11 @@ while (false !== ($file = readdir($handle))){
 			// Fetch article title
 			$article_title = $article->title;
 			$url_id = urlencode(str_replace(" ", "_" , $article_title));
+                        
+                        // Translate article title
+                        $translation = file_get_contents("https://translate.yandex.net/api/v1.5/tr.json/translate?key=".YANDEX_KEY."&lang=en-de&text=".  urlencode($article_title));
+                        $translation = json_decode($translation, true);
+                        $translation = $translation["text"][0];
 
 			// Check if this is actually a redirect
 			$redirect = $article->redirect['title'];
@@ -84,6 +89,7 @@ while (false !== ($file = readdir($handle))){
 			$output .= "<field name='mimeType'>text/plain</field>\n";
 			$output .= "<field name='category'>Wikipedia</field>\n";
 			$output .= "<field name='dataset_priority'>8</field>\n";
+                        $output .= "<field name='german'>".utf8_decode($translation)."</field>\n";
 
 			$output .= "</doc></add></update>";
 
