@@ -28,7 +28,7 @@ function filter_urls($url) {
  * for a given project.
  */
 function get_toolserver_response($offset, $project) {
-	$response = file_get_contents("http://toolserver.org/~enwp10/bin/list2.fcgi?run=yes&projecta=" . $project . 
+	$response = file_get_contents("http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project . 
 			"&namespace=&pagename=&quality=&importance=&score=&limit=1000&offset=" . $offset . 
 			"&sorta=Importance&sortb=Quality");
 	preg_match_all("/\"http\:\/\/en\.wikipedia\.org\/w\/index\.php\?title\=([^\"]+)/", $response, $matches);
