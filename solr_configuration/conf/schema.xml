@@ -440,8 +440,13 @@
     </fieldType>
     
     <fieldType name="text_de_translation" class="solr.TextField" positionIncrementGap="100">
-    	<tokenizer class="solr.StandardTokenizerFactory"/>
-    	<filter class="solr.LowerCaseFilterFactory"/>
+    	<analyzer>
+    		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
+    		<filter class="solr.LowerCaseFilterFactory"/>
+    		<filter class="solr.PatternReplaceFilterFactory"
+    			pattern="\(.*\)"
+    			replacement=""/>
+    	</analyzer>
     </fieldType>
 
     <!-- A text field with defaults appropriate for English, plus
