@@ -4,35 +4,33 @@
 $article_list_file_contents = file_get_contents("./wikipedia/relevant_articles.txt");
 $article_labels = explode("\n", $article_list_file_contents);
 
-// Code below to be replaced by approach based on single POST request to http://en.wikipedia.org/wiki/Special:Export/
+$count = count($article_labels);
+print "$count articles found\n";
 
+$retmax = 1000; // Maximum number of entries returned per request
 
+for ($retstart = 0; $retstart < $count; $retstart += $retmax) {
+    $pages = "";
+    if ($retstart + $retmax < $count) {
+        for ($number = $retstart; $number < $retstart + $retmax; $number++) {
+            $pages.= $article_labels[$number] . "%0D%0A";
+        }
+    //last part
+    } else {
+        for ($number = $retstart; $number < $count; $number++) {
+            $pages.= $article_labels[$number] . "%0D%0A";
+        }
+    }
+    
+    rtrim($pages, '%0D%0A');
 
-/*
-// Iterate through article labels, fetch wiki code via Wikipedia API (via URLs such as http://en.wikipedia.org/wiki/Special:Export/Diabetes_insipidus)
-foreach($article_labels as $label) {
-	$response_xml = file_get_contents("http://en.wikipedia.org/wiki/Special:Export/" . $label);
-	file_put_contents("./wikipedia/" . $label . ".xml" . $response_xml);
-	sleep(1.5);
+    $url = 'http://en.wikipedia.org/w/index.php?title=Special:Export&action=submit';
+
+    $options = array('http' => array('method' => 'POST', 'content' => 'pages=' . $pages . '&curonly=1'));
+    $context = stream_context_create($options);
+    $result = file_get_contents($url, false, $context);
+
+    file_put_contents("./wikipedia/".$retstart.".xml", $result);
+    
+    echo $retstart."\n";
 }
-
-
-$url = 'http://server.com/path';
-$data = array('key1' => 'value1', 'key2' => 'value2');
-
-// use key 'http' even if you send the request to https://...
-$options = array('http' => array('method'  => 'POST','content' => http_build_query($data)));
-$context  = stream_context_create($options);
-$result = file_get_contents($url, false, $context);
-
-*/
-
-	// Get plain text / HTML rendering
-	
-	// Expand local abbreviations
-
-	// Create Solr XML for article
-
-
-
-?>
