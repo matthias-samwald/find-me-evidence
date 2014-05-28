@@ -13,16 +13,14 @@ for ($retstart = 0; $retstart < $count; $retstart += $retmax) {
     $pages = "";
     if ($retstart + $retmax < $count) {
         for ($number = $retstart; $number < $retstart + $retmax; $number++) {
-            $pages.= $article_labels[$number] . "%0D%0A";
+            $pages.= urlencode($article_labels[$number]) . "%0D%0A";
         }
     //last part
     } else {
         for ($number = $retstart; $number < $count; $number++) {
-            $pages.= $article_labels[$number] . "%0D%0A";
+            $pages.= urlencode($article_labels[$number]) . "%0D%0A";
         }
     }
-    
-    rtrim($pages, '%0D%0A');
 
     $url = 'http://en.wikipedia.org/w/index.php?title=Special:Export&action=submit';
 
