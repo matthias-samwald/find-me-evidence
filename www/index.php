@@ -71,7 +71,12 @@ if ($user_query != "") {
         var $ul = $('#autocomplete'),
             $input = $('#q'),
             value = $input.val(),
-            html = "";
+            html = "",
+            $language = "";
+    
+        $("input:checkbox[name=language]:checked").each(function(){
+            $language = $(this).val();
+        });
         
         if ( value && value.length > 3 ) {
             //$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
@@ -81,7 +86,7 @@ if ($user_query != "") {
 				dataType: "json",
 				crossDomain: false,
                 data: {
-                    q: $input.val()
+                    q: $input.val(), l: $language
                 }
             })
             .then( function ( response ) {
@@ -126,7 +131,7 @@ if ($user_query != "") {
 					<input type="search" name="q" id="q" data-theme="e"
 						autocomplete="off" placeholder="Enter query..."
 						onkeyup="delay(function(){updateAutocomplete();}, 300 );"
-						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
+						value="<?php print htmlspecialchars(urldecode($user_query))?>" /> 
 					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 					<fieldset data-role="controlgroup" data-type="horizontal"
 						data-mini="true" style="border:none">
@@ -239,6 +244,11 @@ if ($user_query != "") {
 					autocomplete="off" placeholder="Enter query..."
 					onkeyup="delay(function(){updateAutocomplete();}, 300 );"
 					value="<?php print htmlspecialchars(urldecode($user_query))?>" />
+                                
+                                </br>
+                                <input type="checkbox" name="language" id="langger" value="ger" />
+                                <label for="langger">translate german to english</label>
+                                
 				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 			</form>
 			<script type="text/javascript">
