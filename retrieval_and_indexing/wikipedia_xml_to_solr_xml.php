@@ -12,6 +12,19 @@ $start = microtime(true);
 $processed_entries = 0;
 $successfully_processed_entries = 0;
 
+// Load dictionary
+$dictionary = array();
+if (($handle = fopen('./wikipedia/translated_relevant_articles.txt', 'r')) !== FALSE) {
+    while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
+        if (!$header) {
+            $header = $row;
+        } else {
+            $dictionary[$row[0]] = $row[1];
+        }
+    }
+    fclose($handle);
+}
+
 // Iterate through XML files in the directory
 $handle = opendir('wikipedia');
 while (false !== ($file = readdir($handle))){
@@ -37,10 +50,12 @@ while (false !== ($file = readdir($handle))){
 			$url_id = urlencode(str_replace(" ", "_" , $article_title));
                         
                         // Translate article title
-                        $translation = file_get_contents("https://translate.yandex.net/api/v1.5/tr.json/translate?key=".YANDEX_KEY."&lang=en-de&text=".  urlencode($article_title));
-                        $translation = json_decode($translation, true);
-                        $translation = $translation["text"][0];
-
+//                        $translation = file_get_contents("https://translate.yandex.net/api/v1.5/tr.json/translate?key=".YANDEX_KEY."&lang=en-de&text=".  urlencode($article_title));
+//                        $translation = json_decode($translation, true);
+//                        $translation = $translation["text"][0];
+                        
+                        $translation = utf8_decode($dictionary[(string)$article_title]);
+                                                
 			// Check if this is actually a redirect
 			$redirect = $article->redirect['title'];
 			if ($redirect != "")  {
@@ -61,7 +76,7 @@ while (false !== ($file = readdir($handle))){
 			preg_match("/^\s*(.+)[\r\n]/", $article_text_without_wiki_markup, $matches);
 			$key_assertion = $matches[1];
 
-			print($successfully_processed_entries);
+			print($successfully_processed_entries."\n");
 
 			// Replace abbreviations with expanded forms
 			// Currently disabled because it does not work with (long) Wikipedia article code
@@ -105,5 +120,3 @@ print do_post_request(SOLR_URL . '/update', "<?xml version=\"1.0\" encoding=\"UT
 print "\n Processed $successfully_processed_entries out of $processed_entries records successfully. ";
 $end = (microtime(true) - $start) ;
 print "Completed in {$end} seconds.";
-
-?>
