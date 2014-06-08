@@ -452,6 +452,9 @@
     		<filter class="solr.SnowballPorterFilterFactory" language="German2"/>	
     	</analyzer>
     	<analyzer type="query">
+    	    	<charFilter class="solr.PatternReplaceCharFilterFactory"
+    			pattern="-"
+    			replacement=" "/>
     		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
     		<filter class="solr.LowerCaseFilterFactory"/>	
     	</analyzer>

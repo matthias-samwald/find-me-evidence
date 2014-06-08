@@ -131,7 +131,10 @@ if ($user_query != "") {
 					<input type="search" name="q" id="q" data-theme="e"
 						autocomplete="off" placeholder="Enter query..."
 						onkeyup="delay(function(){updateAutocomplete();}, 300 );"
-						value="<?php print htmlspecialchars(urldecode($user_query))?>" /> 
+						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
+                                        <input type="checkbox" name="language" id="langger" value="ger"
+                                               accept=""onclick="updateAutocomplete();"/>
+                                        <label for="langger">translate german to english</label>
 					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 					<fieldset data-role="controlgroup" data-type="horizontal"
 						data-mini="true" style="border:none">
@@ -246,7 +249,8 @@ if ($user_query != "") {
 					value="<?php print htmlspecialchars(urldecode($user_query))?>" />
                                 
                                 </br>
-                                <input type="checkbox" name="language" id="langger" value="ger" />
+                                <input type="checkbox" name="language" id="langger" value="ger"
+                                       onclick="updateAutocomplete();"/>
                                 <label for="langger">translate german to english</label>
                                 
 				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
