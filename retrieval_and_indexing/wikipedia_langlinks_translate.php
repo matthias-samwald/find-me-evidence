@@ -7,6 +7,7 @@ $article_labels = explode("\n", $article_list_file_contents);
 $translations = array();
 
 $count = 0;
+$countTranslations = 0;
 
 foreach ($article_labels as $label) {
     $title = str_replace("_", " ", $label);
@@ -14,12 +15,13 @@ foreach ($article_labels as $label) {
     $xml = simplexml_load_string($langlinks);
     $de = xpath($xml, "/api/query/pages/page/langlinks/ll[@lang='de']/text()");
     
-    array_push($translations, $title . "; " . $de);
-    echo ++$count . ": " . $title . "; " . utf8_decode($de) . "\n";
+    array_push($translations, $title . ";" . $de);
+    if ($de != "") $countTranslations++;
+    echo ++$count . ": " . $title . " -> " . $de . " (" . $countTranslations . ") translations\n";
 }
 
 $output_file_content = implode($translations, "\n");
-file_put_contents("./wikipedia/translated_direct_".$filename, $output_file_content);
+file_put_contents("./wikipedia/translated_langlinks_".$filename, $output_file_content);
 
 function xpath($xml, $xpath_expression, $return_entire_array = false) {
     $result_array = $xml->xpath($xpath_expression);
