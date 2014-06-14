@@ -10,7 +10,9 @@ if ($q != "" and strlen($q) > 2) {
     if ($l == "ger") {
         $request_url = SOLR_URL . "/select?q=";
         $request_url .= "german:" . urlencode($q)
-                . "&wt=xml";
+                . "*&sort=norm(german)+desc&wt=xml";
+                //use the norm value to find the shortest field 
+                //http://wiki.apache.org/solr/FunctionQuery#norm
         $response = file_get_contents($request_url);
         $xml = simplexml_load_string($response);
 

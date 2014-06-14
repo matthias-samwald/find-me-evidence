@@ -15,7 +15,7 @@ $successfully_processed_entries = 0;
 
 // Load dictionary
 $dictionary = array();
-if (($handle = fopen('./wikipedia/II_translated_langlinks_relevant_articles.txt', 'r')) !== FALSE) {
+if (($handle = fopen('./wikipedia/translated_relevant_articles.txt', 'r')) !== FALSE) {
     while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
         $dictionary[$row[0]] = $row[1];
     }
