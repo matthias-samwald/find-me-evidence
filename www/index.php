@@ -69,6 +69,7 @@ if ($user_query != "") {
 	// Update the autocomplete list
 	function updateAutocomplete() {
         var $ul = $('#autocomplete'),
+            $trans = $('#translation');    
             $input = $('#q'),
             value = $input.val(),
             html = "",
@@ -93,7 +94,10 @@ if ($user_query != "") {
             	$ul.html( "" );
             	$ul.listview( "refresh" );
                 $.each( response, function ( i, val ) {
-                	 html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';
+                    if (i === 0) {
+                        $trans.html(val);
+                    } else {
+                        html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';}
                 });
                 $ul.html( html );
                 $ul.listview( "refresh" );
@@ -132,10 +136,11 @@ if ($user_query != "") {
 						autocomplete="off" placeholder="Enter query..."
 						onkeyup="delay(function(){updateAutocomplete();}, 300 );"
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
-                                        <input type="checkbox" name="language" id="langger" value="ger"
-                                               accept=""onclick="updateAutocomplete();"/>
-                                        <label for="langger">translate german to english</label>
-					<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
+                                        
+					<h4 id="translation" class="ui-bar ui-bar-a ui-corner-all"></h4> 
+                                        
+                                        <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
+                                        
 					<fieldset data-role="controlgroup" data-type="horizontal"
 						data-mini="true" style="border:none">
 						<select name="category" id="category"
@@ -159,6 +164,9 @@ if ($user_query != "") {
 					?>
 						</select>
 					</fieldset>
+                                        <input type="checkbox" name="language" id="langger" value="ger"
+                                               accept=""onclick="updateAutocomplete();"/>
+                                        <label for="langger">translate german to english</label>
 				</form>
 				<!-- END: Search bar with existing results -->
 
@@ -249,11 +257,14 @@ if ($user_query != "") {
 					value="<?php print htmlspecialchars(urldecode($user_query))?>" />
                                 
                                 </br>
+                                
+                                <h4 id="translation" class="ui-bar ui-bar-a ui-corner-all"></h4>       
+                                
+				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
+                                
                                 <input type="checkbox" name="language" id="langger" value="ger"
                                        onclick="updateAutocomplete();"/>
                                 <label for="langger">translate german to english</label>
-                                
-				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
 			</form>
 			<script type="text/javascript">
 				$("#main").on("pageshow" , function() {

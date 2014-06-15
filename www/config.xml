@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="myAppender" class="LoggerAppenderFile">
+        <param name="file" value="myLog.log" />
+    </appender>
+    <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
+    <root>
+        <level value="error" />
+        <appender_ref ref="myAppender" />
+        <appender_ref ref="myConsoleAppender" />
+    </root>
+</configuration>
