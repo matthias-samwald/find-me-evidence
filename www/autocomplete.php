@@ -25,7 +25,8 @@ if ($q != "" and strlen($q) > 2) {
         $title = xpath($xml, "/response/result/doc/arr[@name='title']/str/text()");
 
         $logger->info($q . " translated to " . $title);
-        $translation_info = $q . " -> " . $title;
+//        $translation_info = $q . " -> " . $title;
+        $translation_info = strtolower($title);
 
         if ($title != "") {
             $q = strtolower($title);

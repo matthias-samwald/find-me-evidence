@@ -137,7 +137,7 @@ if ($user_query != "") {
 						onkeyup="delay(function(){updateAutocomplete();}, 300 );"
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
                                         
-					<h4 id="translation" class="ui-bar ui-bar-a ui-corner-all"></h4> 
+					<h4 id="translation" class="ui-bar ui-corner-all translation" data-theme="b"></h4> 
                                         
                                         <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
                                         
@@ -258,7 +258,7 @@ if ($user_query != "") {
                                 
                                 </br>
                                 
-                                <h4 id="translation" class="ui-bar ui-bar-a ui-corner-all"></h4>       
+                                <h4 id="translation" class="ui-bar ui-corner-all translation" data-theme="b"></h4>       
                                 
 				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
                                 
