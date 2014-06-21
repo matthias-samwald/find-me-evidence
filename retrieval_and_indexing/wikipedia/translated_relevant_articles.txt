@@ -27095,7 +27095,7 @@ Charles E. Schmidt College of Medicine;Charles E. Schmidt College of Medicine
 Charles Fremont Dight;Charles Fremont Dight
 Charles Gottlieb Raue;Karl Gottlieb Raue
 Charles Lucien de Beurmann;Charles Lucien de Beurmann
-Charles Nemeroff;Charles Amp; Nemeroff
+Charles Nemeroff;Charles Nemeroff
 Charles Pravaz;Charles Pravaz
 Charles Whitfield;Charles Whitfield
 Chauffeur's fracture;Chauffeur-Fraktur
