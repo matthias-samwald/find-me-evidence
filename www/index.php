@@ -165,7 +165,7 @@ if ($user_query != "") {
 						</select>
 					</fieldset>
                                         <input type="checkbox" name="language" id="langger" value="ger"
-                                               accept=""onclick="updateAutocomplete();"/>
+                                               onclick="updateAutocomplete();"/>
                                         <label for="langger">translate german to english</label>
 				</form>
 				<!-- END: Search bar with existing results -->
