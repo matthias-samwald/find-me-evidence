@@ -449,7 +449,7 @@
     		<filter class="solr.PatternReplaceFilterFactory"
     			pattern="\(.*\)"
     			replacement=""/>
-    		<filter class="solr.SnowballPorterFilterFactory" language="German2"/>	
+    		<filter class="solr.EdgeNGramFilterFactory" minGramSize="4" maxGramSize="25" side="front"/>
     	</analyzer>
     	<analyzer type="query">
     	    	<charFilter class="solr.PatternReplaceCharFilterFactory"
