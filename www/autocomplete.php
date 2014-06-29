@@ -23,10 +23,11 @@ if ($q != "" and strlen($q) > 2) {
         $xml = simplexml_load_string($response);
 
         $title = xpath($xml, "/response/result/doc/arr[@name='title']/str/text()");
+        $german = xpath($xml, "/response/result/doc/str[@name='german']/text()");
 
-        $logger->info($q . " translated to " . $title);
+        $logger->info($q . " translated to " . $title . " via " . $german);
 //        $translation_info = $q . " -> " . $title;
-        $translation_info = strtolower($title);
+        $translation_info =  $german . " -> " . strtolower($title);
 
         if ($title != "") {
             $q = strtolower($title);

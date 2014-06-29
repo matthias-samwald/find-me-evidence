@@ -94,9 +94,9 @@ if ($user_query != "") {
             	$ul.html( "" );
             	$ul.listview( "refresh" );
                 $.each( response, function ( i, val ) {
-                    if (i === 0) {
+                    if (i === 0 && val !== "") {
                         $trans.html(val);
-                    } else {
+                    } else if ( i !== 0){
                         html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';}
                 });
                 $ul.html( html );
@@ -134,7 +134,7 @@ if ($user_query != "") {
 					<!--<label for="search-input">Search input:</label>-->
 					<input type="search" name="q" id="q" data-theme="e"
 						autocomplete="off" placeholder="Enter query..."
-						onkeyup="delay(function(){updateAutocomplete();}, 300 );"
+						onkeyup="delay(function(){updateAutocomplete();}, 600 );"
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
                                         
 					<h4 id="translation" class="ui-bar ui-corner-all translation" data-theme="b"></h4> 
@@ -166,7 +166,7 @@ if ($user_query != "") {
 					</fieldset>
                                         <input type="checkbox" name="language" id="langger" value="ger"
                                                onclick="updateAutocomplete();"/>
-                                        <label for="langger">translate german to english</label>
+                                        <label for="langger">suggest german -&gt; english translation</label>
 				</form>
 				<!-- END: Search bar with existing results -->
 
@@ -253,7 +253,7 @@ if ($user_query != "") {
 				<!--<label for="search-input">Search input:</label>-->
 				<input type="search" name="q" id="q" data-theme="e"
 					autocomplete="off" placeholder="Enter query..."
-					onkeyup="delay(function(){updateAutocomplete();}, 300 );"
+					onkeyup="delay(function(){updateAutocomplete();}, 600 );"
 					value="<?php print htmlspecialchars(urldecode($user_query))?>" />
                                 
                                 </br>
@@ -264,7 +264,7 @@ if ($user_query != "") {
                                 
                                 <input type="checkbox" name="language" id="langger" value="ger"
                                        onclick="updateAutocomplete();"/>
-                                <label for="langger">translate german to english</label>
+                                <label for="langger">suggest german -&gt; english translation</label>
 			</form>
 			<script type="text/javascript">
 				$("#main").on("pageshow" , function() {
@@ -291,7 +291,7 @@ if ($user_query != "") {
 			<?php endif; ?>
 		</div>
 	<div data-role="footer">
-		<h4>The FindMeEvidence service comes without any warranty. Visit <a href="https://code.google.com/p/bricoleur-fast-medical-search/">project website</a> for more information.</h4>
+		<h4>The FindMeEvidence service comes without any warranty. Visit <a href="https://github.com/matthias-samwald/find-me-evidence">project website</a> for more information.</h4>
 	</div>
 </body>
 </html>
