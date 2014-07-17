@@ -48,6 +48,13 @@ if ($user_query != "") {
 <script src="_assets/js/index.js"></script>
 <script src="js/jquery.mobile-1.3.2.min.js"></script>
 <script>
+    
+        $(document).ready(function(){
+            $("#translation").click(function(){
+                $("#q").val($(this).text())
+                updateAutocomplete();
+            });
+        });
 
 	// Delay function, used for having a short delay after user typed something before initiating request to autocomplete service
 	var delay = (function(){
@@ -78,6 +85,10 @@ if ($user_query != "") {
         $("input:checkbox[name=language]:checked").each(function(){
             $language = $(this).val();
         });
+        
+        if ($language === "") {
+            $trans.html("");
+        }
         
         if ( value && value.length > 3 ) {
             //$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
@@ -137,9 +148,11 @@ if ($user_query != "") {
 						onkeyup="delay(function(){updateAutocomplete();}, 600 );"
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
                                         
-					<h4 id="translation" class="ui-bar ui-corner-all translation" data-theme="b"></h4> 
+					 
                                         
                                         <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
+                                        
+                                        <h4 id="translation" class="ui-bar ui-corner-all translation" data-theme="b"></h4>
                                         
 					<fieldset data-role="controlgroup" data-type="horizontal"
 						data-mini="true" style="border:none">
@@ -258,9 +271,11 @@ if ($user_query != "") {
                                 
                                 </br>
                                 
-                                <h4 id="translation" class="ui-bar ui-corner-all translation" data-theme="b"></h4>       
+                                      
                                 
 				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
+                                
+                                <h4 id="translation" class="ui-bar ui-corner-all translation" data-theme="b"></h4> 
                                 
                                 <input type="checkbox" name="language" id="langger" value="ger"
                                        onclick="updateAutocomplete();"/>

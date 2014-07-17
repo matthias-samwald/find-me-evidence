@@ -2,11 +2,18 @@
 <configuration xmlns="http://logging.apache.org/log4php/">
     <appender name="myAppender" class="LoggerAppenderFile">
         <param name="file" value="myLog.log" />
+        <layout class="LoggerLayoutPattern">
+            <param name="ConversionPattern" value="%d{Y-m-d H:i:s} [%p] %c: %m (at %F line %L)%n"/>
+        </layout>
     </appender>
-    <appender name="myConsoleAppender" class="LoggerAppenderConsole" />
+    <appender name="myConsoleAppender" class="LoggerAppenderConsole" >
+        <layout class="LoggerLayoutPattern">
+            <param name="ConversionPattern" value="%d{Y-m-d H:i:s} [%p] %c: %m (at %F line %L)%n"/>
+        </layout>
+    </appender>
     <root>
-        <level value="error" />
-        <appender_ref ref="myAppender" />
+        <level value="info" />
+        <!--<appender_ref ref="myAppender" />-->
         <appender_ref ref="myConsoleAppender" />
     </root>
 </configuration>

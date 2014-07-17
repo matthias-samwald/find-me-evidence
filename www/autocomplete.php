@@ -3,6 +3,8 @@
 include_once ('config.php');
 include_once ('functions.php');
 
+date_default_timezone_set('Europe/Vienna');
+
 include('logger/Logger.php');
 Logger::configure('config.xml');
 $logger = Logger::getLogger("main");
@@ -15,8 +17,8 @@ if ($q != "" and strlen($q) > 2) {
 
     if ($l == "ger") {
         $request_url = SOLR_URL . "/select?q=";
-        $request_url .= "german:" . urlencode($q)
-                . "&sort=norm(german)+desc&wt=xml";
+        $request_url .= "" . urlencode($q)
+                . "&sort=norm(german)+desc&wt=xml&df=german";
         //use the norm value to find the shortest field 
         //http://wiki.apache.org/solr/FunctionQuery#norm
         $response = file_get_contents($request_url);
@@ -25,12 +27,13 @@ if ($q != "" and strlen($q) > 2) {
         $title = xpath($xml, "/response/result/doc/arr[@name='title']/str/text()");
         $german = xpath($xml, "/response/result/doc/str[@name='german']/text()");
 
-//        $logger->info($q . " translated to " . $title . " via " . $german);
+        $logger->info($q . " translated to '" . $title . "' via '" . $german . "'");
 //        $translation_info = $q . " -> " . $title;
-        $translation_info =  $german . " -> " . strtolower($title);
+//        $translation_info =  $german . " -> " . strtolower($title);
+        $translation_info = strtolower($title);
 
         if ($title != "") {
-            $q = strtolower($title);
+//            $q = strtolower($title);
         } else {
             $translation_info = $q;
         }
