@@ -49,7 +49,7 @@ function get_toolserver_response($offset, $project) {
 
 $article_labels = Array();
 
-//// Get article labels belonging to 'Pharmacology' Wikipedia project
+// Get article labels belonging to 'Pharmacology' Wikipedia project
 $i = 1 ;
 $article_count = 0;
 do {    
@@ -59,7 +59,7 @@ do {
     $i += 1000;
 } while ($article_count != 0);
 
-//// Get article labels belonging to 'Medicine' Wikipedia project
+// Get article labels belonging to 'Medicine' Wikipedia project
 $i = 1 ;
 $article_count = 0;
 do {    
