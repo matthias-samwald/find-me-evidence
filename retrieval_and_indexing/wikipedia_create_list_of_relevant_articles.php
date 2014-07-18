@@ -39,23 +39,35 @@ function get_toolserver_response($offset, $project) {
 	foreach ($matches as $match) {
 		$matches_returned[] = urldecode(str_replace("%20", "_", $match));
 	}
+        
+//        echo count($matches_returned) . ": http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project . 
+//			"&namespace=&pagename=&quality=&importance=&score=&limit=1000&offset=" . $offset . 
+//			"&sorta=Importance&sortb=Quality \n";
+        
 	return $matches_returned;
 }
 
 $article_labels = Array();
 
-// Get article labels belonging to 'Pharmacology' Wikipedia project
-for ($i = 0; $i < 9000; $i += 1000) {
-	$article_labels = array_merge($article_labels, get_toolserver_response($i, "Pharmacology"));
-	var_dump($article_labels);
-	sleep(2);
-}
+//// Get article labels belonging to 'Pharmacology' Wikipedia project
+$i = 1 ;
+$article_count = 0;
+do {    
+    $articles = get_toolserver_response($i, "Pharmacology");
+    $article_count = count($articles);
+    $article_labels = array_merge($article_labels, $articles);
+    $i += 1000;
+} while ($article_count != 0);
 
-// Get article labels belonging to 'Medicine' Wikipedia project
-for ($i = 0; $i < 31000; $i += 1000) {
-	$article_labels = array_merge($article_labels, get_toolserver_response($i, "Medicine"));
-	sleep(2);
-}
+//// Get article labels belonging to 'Medicine' Wikipedia project
+$i = 1 ;
+$article_count = 0;
+do {    
+    $articles = get_toolserver_response($i, "Medicine");
+    $article_count = count($articles);
+    $article_labels = array_merge($article_labels, $articles);
+    $i += 1000;
+} while ($article_count != 0);
 
 // Remove duplicates
 $article_labels_unique = array_unique($article_labels);
