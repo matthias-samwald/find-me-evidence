@@ -1,4 +1,5 @@
 <?php
+
 /* This script creates a list of Wikipedia articles belonging to the 'Pharmacology' 
  * and 'Medicine' Wikipedia projects. It uses the Wikipedia toolserver.
  * Filtering results according to importance and quality would be possible, 
@@ -12,14 +13,16 @@
  * Matthias Samwald, March 2013, samwald (at) gmx.at
  */
 
+$article_count = 0;
+
 function filter_urls($url) {
-	if((substr($url, 0, 4) == "Talk") 
-			or (strpos($url, "action=history") !== false) 
-			or (strpos($url, "%3A") !== false)
-			or (strpos($url, "List%20of") !== false))
-		return false;
-	else
-		return true;
+    if ((substr($url, 0, 4) == "Talk")
+            or ( strpos($url, "action=history") !== false)
+            or ( strpos($url, "%3A") !== false)
+            or ( strpos($url, "List%20of") !== false))
+        return false;
+    else
+        return true;
 }
 
 /**
@@ -28,46 +31,42 @@ function filter_urls($url) {
  * for a given project.
  */
 function get_toolserver_response($offset, $project) {
-	$response = file_get_contents("http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project . 
-			"&namespace=&pagename=&quality=&importance=&score=&limit=1000&offset=" . $offset . 
-			"&sorta=Importance&sortb=Quality");
-	preg_match_all("/\"http\:\/\/en\.wikipedia\.org\/w\/index\.php\?title\=([^\"]+)/", $response, $matches);
-	$matches = $matches[1];
-	$matches = array_filter($matches, "filter_urls");
-	
-	$matches_returned = Array();
-	foreach ($matches as $match) {
-		$matches_returned[] = urldecode(str_replace("%20", "_", $match));
-	}
-        
-//        echo count($matches_returned) . ": http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project . 
-//			"&namespace=&pagename=&quality=&importance=&score=&limit=1000&offset=" . $offset . 
-//			"&sorta=Importance&sortb=Quality \n";
-        
-	return $matches_returned;
+    $response = file_get_contents("http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project .
+            "&namespace=&pagename=&quality=&importance=&score=&limit=1000&offset=" . $offset .
+            "&sorta=Importance&sortb=Quality");
+    $GLOBALS["article_count"] = preg_match_all("/\"http\:\/\/en\.wikipedia\.org\/w\/index\.php\?title\=([^\"]+)/", $response, $matches);
+    $matches = $matches[1];
+    $matches = array_filter($matches, "filter_urls");
+
+    $matches_returned = Array();
+    foreach ($matches as $match) {
+        $matches_returned[] = urldecode(str_replace("%20", "_", $match));
+    }
+
+    echo count($matches_returned) . ": http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project .
+    "&namespace=&pagename=&quality=&importance=&score=&limit=1000&offset=" . $offset .
+    "&sorta=Importance&sortb=Quality \n";
+
+    return $matches_returned;
 }
 
 $article_labels = Array();
 
 // Get article labels belonging to 'Pharmacology' Wikipedia project
-$i = 1 ;
-$article_count = 0;
-do {    
+$i = 1;
+do {
     $articles = get_toolserver_response($i, "Pharmacology");
-    $article_count = count($articles);
     $article_labels = array_merge($article_labels, $articles);
     $i += 1000;
-} while ($article_count != 0);
+} while ($article_count != 1);
 
 // Get article labels belonging to 'Medicine' Wikipedia project
-$i = 1 ;
-$article_count = 0;
-do {    
+$i = 1;
+do {
     $articles = get_toolserver_response($i, "Medicine");
-    $article_count = count($articles);
     $article_labels = array_merge($article_labels, $articles);
     $i += 1000;
-} while ($article_count != 0);
+} while ($article_count != 1);
 
 // Remove duplicates
 $article_labels_unique = array_unique($article_labels);
@@ -75,18 +74,3 @@ $article_labels_unique = array_unique($article_labels);
 // Write article labels to a textfile
 $output_file_content = implode($article_labels_unique, "\n");
 file_put_contents("./wikipedia/relevant_articles.txt", $output_file_content);
-
-/*
-$responses =. get_toolserver_response(1, "Pharmacology");
-$responses =. get_toolserver_response(1001, "Pharmacology");
-$responses =. get_toolserver_response(2001, "Pharmacology");
-$responses =. get_toolserver_response(3001, "Pharmacology");
-$responses =. get_toolserver_response(4001, "Pharmacology");
-$responses =. get_toolserver_response(5001, "Pharmacology");
-$responses =. get_toolserver_response(6001, "Pharmacology");
-$responses =. get_toolserver_response(7001, "Pharmacology");
-$responses =. get_toolserver_response(8001, "Pharmacology");
-
-*/
-
-?>

@@ -1,47 +1,78 @@
 <?php
+/* This script creates a list of Wikipedia articles belonging to the 'Pharmacology' 
+ * and 'Medicine' Wikipedia projects. It uses the Wikipedia toolserver.
+ * Filtering results according to importance and quality would be possible, 
+ * but is not used at the moment.
+ * The resulting list of Wikipedia articles can be used in targeted medical informations systems.
+ * 
+ * See
+ * http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Medicine/Assessment
+ * http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Pharmacology/Assessment
+ * 
+ * Matthias Samwald, March 2013, samwald (at) gmx.at
+ */
 
 require_once './simple_html_dom.php';
 
 $article_labels = Array();
+$limit = 200;
+$tr_count = 0;
 
-$limit = 300;
+// Get article labels belonging to 'Pharmacology' Wikipedia project
+$i = 1;
+do {
+    $articles = get_toolserver_response($i, "Pharmacology");
+    $article_labels = array_merge($article_labels, $articles);
+    $i += $limit;
+} while ($tr_count != 1);
 
 // Get article labels belonging to 'Medicine' Wikipedia project
-for ($i = 1; $i < 12000; $i += $limit) {
-    $article_labels = array_merge($article_labels, get_toolserver_response($i, "Medicine"));
-    sleep(2);
-}
-
-//// Get article labels belonging to 'Pharmacology' Wikipedia project
-//for ($i = 1; $i < 10000; $i += $limit) {
-//	$article_labels = array_merge($article_labels, get_toolserver_response($i, "Pharmacology"));
-//	sleep(2);
-//}
+$i = 1;
+do {
+    $articles = get_toolserver_response($i, "Medicine");
+    $article_labels = array_merge($article_labels, $articles);
+    $i += $limit;
+} while ($tr_count != 1);
 
 // Remove duplicates
 $article_labels_unique = array_unique($article_labels);
 
+$output_file_content = implode($article_labels_unique, "\n");
+file_put_contents("./wikipedia/relevant_articles_new.txt", $output_file_content);
+
 echo count($article_labels) - count($article_labels_unique) . " dulplicate(s)\n";
 echo count($article_labels_unique) . " total\n";
 
+/**
+ * returns list of articles (array)
+ * @param type $offset results per page
+ * @param type $project project name e.g. Pharmacology
+ * @return string
+ */
 function get_toolserver_response($offset, $project) {
     $url = "http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project .
             "&namespace=&pagename=&quality=&importance=&score=&limit=" . $GLOBALS["limit"] . "&offset=" . $offset .
             "&sorta=Importance&sortb=Quality";
-    echo $url . "\n";
 
     $matches_returned = Array();
 
     $html = file_get_html($url);
 
+    $GLOBALS["tr_count"] = 0;
+
     foreach ($html->find('tr') as $element) {
+        
+        $GLOBALS["tr_count"]++;
+        
         //echo $element . "--------------------------\n";
         preg_match("/\"http\:\/\/en\.wikipedia\.org\/w\/index\.php\?title\=([^\"]+)/", $element, $matches);
-        if (strcmp("", $matches[1]) != 0) {
+        if (filter_articles($matches[1])) {
+
             $match = urldecode(str_replace("%20", "_", $matches[1]));
 //            echo $match . ", ";
-            
-            if (strpos($match, ';') !== false){
+
+
+            if (strpos($match, ';') !== false) {
                 echo $match . "\n";
             }
 
@@ -55,8 +86,22 @@ function get_toolserver_response($offset, $project) {
             $matches_returned[] = $match . ";" . $quality;
         }
     }
-
+    echo count($matches_returned) . ": " . $url . "\n";
     return $matches_returned;
 }
 
-?>
+/**
+ * returns false for article with ':' or 'List_of' in its name, returns false
+ * also for emptry strings, otherwise returns true
+ * @param type $article name of article
+ * @return boolean
+ */
+function filter_articles($article) {
+    if ((strpos($article, "%3A") !== false)
+            or ( strpos($article, "List%20of") !== false)
+            or ( strcmp("", $article) === 0)) {
+        return false;
+    } else {
+        return true;
+    }
+}
