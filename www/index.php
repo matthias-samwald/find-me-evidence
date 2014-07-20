@@ -147,12 +147,19 @@ if ($user_query != "") {
 						autocomplete="off" placeholder="Enter query..."
 						onkeyup="delay(function(){updateAutocomplete();}, 600 );"
 						value="<?php print htmlspecialchars(urldecode($user_query))?>" />
-                                        
-					 
-                                        
+                                       
                                         <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
                                         
-                                        <h4 id="translation" class="ui-bar ui-corner-all translation" data-theme="b"></h4>
+                                        <div class="ui-grid-a">
+                                            <div class="ui-block-a">
+                                                <input type="checkbox" name="language" id="langger" value="ger"
+                                                    accept=""onclick="updateAutocomplete();"/>
+                                                <label for="langger">suggest translation (german to english)</label>
+                                            </div>
+                                            <div class="ui-block-b" >
+                                                <h4 id="translation" class="ui-corner-all translation" data-theme="b" style="text-align:center"></h4>
+                                            </div>
+                                        </div>
                                         
 					<fieldset data-role="controlgroup" data-type="horizontal"
 						data-mini="true" style="border:none">
@@ -177,9 +184,7 @@ if ($user_query != "") {
 					?>
 						</select>
 					</fieldset>
-                                        <input type="checkbox" name="language" id="langger" value="ger"
-                                               onclick="updateAutocomplete();"/>
-                                        <label for="langger">suggest german -&gt; english translation</label>
+                                        
 				</form>
 				<!-- END: Search bar with existing results -->
 
@@ -269,17 +274,18 @@ if ($user_query != "") {
 					onkeyup="delay(function(){updateAutocomplete();}, 600 );"
 					value="<?php print htmlspecialchars(urldecode($user_query))?>" />
                                 
-                                </br>
+				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>                                                           
                                 
-                                      
-                                
-				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>
-                                
-                                <h4 id="translation" class="ui-bar ui-corner-all translation" data-theme="b"></h4> 
-                                
-                                <input type="checkbox" name="language" id="langger" value="ger"
-                                       onclick="updateAutocomplete();"/>
-                                <label for="langger">suggest german -&gt; english translation</label>
+                                <div class="ui-grid-a">
+                                    <div class="ui-block-a">
+                                        <input type="checkbox" name="language" id="langger" value="ger"
+                                            accept=""onclick="updateAutocomplete();"/>
+                                        <label for="langger">suggest translation (german to english)</label>
+                                    </div>
+                                    <div class="ui-block-b" >
+                                        <h4 id="translation" class="ui-corner-all translation" data-theme="b" style="text-align:center"></h4>
+                                    </div>
+                                </div>
 			</form>
 			<script type="text/javascript">
 				$("#main").on("pageshow" , function() {
