@@ -21522,7 +21522,7 @@ EEM syndrome;EEM-Syndrom
 EHealth;E-Health
 ELISPOT;ELISPOT
 EML4-ALK positive lung cancer;EML4-ALK-positive Lungenkrebs
-EMedicine;EMedicine
+EMedicine;"EMedicine
 EPI-001;EPI-001
 EPortuguêse;EPortuguêse
 EQUATOR Network;ÄQUATOR-Netzwerk
@@ -22002,7 +22002,7 @@ Fregoli delusion;Fregoli-Syndrom
 French Defence Health service;Französische Verteidigung Health service
 Frenkel exercises;Frenkel übungen
 Frenulum breve;Frenulum breve
-Freshers' Flu;Neue  Grippe
+Freshers' Flu;Neue " Grippe
 Freud Museum;Freud Museum (London)
 Freund's adjuvant;Freund-Adjuvans
 Frey's procedure;Frey ' s Verfahren
@@ -22777,7 +22777,7 @@ International Association for Child and Adolescent Psychiatry and Allied Profess
 International Association for Physicians in Aesthetic Medicine;Internationale Vereinigung für Ärzte Ästhetische Medizin
 International Association of National Public Health Institutes;International Association of National Public Health Institute
 International Bone and Mineral Society;Internationale Knochen-und Mineral-Gesellschaft
-International Cancer Genome Consortium;International Cancer Genome Consortium
+International Cancer Genome Consortium;"International Cancer Genome Consortium"
 International Classification of Functioning, Disability and Health;International Classification of Functioning, Disability and Health
 International Community of Women Living with HIV/AIDS;Die internationale Gemeinschaft von Frauen mit HIV/AIDS Leben
 International Confederation of Midwives;International Confederation of Midwives
@@ -27417,7 +27417,7 @@ Charles E. Schmidt College of Medicine;Charles E. Schmidt College of Medicine
 Charles Fremont Dight;Charles Fremont Dight
 Charles Gottlieb Raue;Karl Gottlieb Raue
 Charles Lucien de Beurmann;Charles Lucien de Beurmann
-Charles Nemeroff;Charles Amp
+Charles Nemeroff;Charles Amp; Nemeroff
 Charles Pravaz;Charles Pravaz
 Charles Whitfield;Charles Whitfield
 Chauffeur's fracture;Chauffeur-Fraktur
@@ -32185,9 +32185,8 @@ Ureteral neoplasm;Ureter-Neubildung
 Ureteritis;Ureteritis
 Urethral intercourse;Urethralverkehr
 Urethral sounding;Harnröhrenstimulation
-Urethrectomy;
-Urethropexy;
-Urethrorrhagia;
+Urethrectomy;Urethrectomy
+Urethropexy;Urethropexy
 Urgenta Foundation;
 Urinary bladder neck obstruction;
 Urinary index;

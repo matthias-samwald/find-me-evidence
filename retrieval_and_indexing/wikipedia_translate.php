@@ -33,7 +33,7 @@ if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
                     $translation = $translation["text"][0];
                     //yandex translation
                     array_push($translations, $row[0] . ";" . $translation);
-                    echo $count . "# of yandex translations (" . ++$count_translations . ")\n";
+                    echo $count . "# of yandex translations: " . ++$count_translations . "\n";
                 } else {
                     $yandex_limit_reached = true;
                 }
