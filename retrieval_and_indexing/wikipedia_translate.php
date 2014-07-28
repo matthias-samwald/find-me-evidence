@@ -16,16 +16,14 @@ $count_translations = 0;
 $yandex_limit_reached = false;
 
 if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
-    while (($row = fgetcsv($handle, 0, ';')) !== FALSE) {
-
-        ++$count;
+    while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
 
         if ($row[1] == "") {
 
             if ($yandex_limit_reached) {
                 //empty translation
                 array_push($translations, $row[0] . ";");
-                echo $count . " yandex limit reached\n";
+                echo ++$count . " yandex limit reached\n";
             } else {
                 $translation = @file_get_contents("https://translate.yandex.net/api/v1.5/tr.json/translate?key=" . YANDEX_KEY . "&lang=en-de&text=" . urlencode($row[0]));
                 if ($translation) {
@@ -33,20 +31,23 @@ if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
                     $translation = $translation["text"][0];
                     //yandex translation
                     array_push($translations, $row[0] . ";" . $translation);
-                    echo $count . "# of yandex translations: " . ++$count_translations . "\n";
+                    echo ++$count . " # of Yandex translations: " . ++$count_translations . "\n";
                 } else {
                     $yandex_limit_reached = true;
+                    //empty translation
+                    array_push($translations, $row[0] . ";");
+                    echo ++$count . " Yandex limit reached\n";
                 }
             }
         } else {
             //translation already exists
             array_push($translations, $row[0] . ";" . $row[1]);
-            echo $count . " translation already exists\n";
+            echo ++$count . " translation already exists\n";
         }
     }
     fclose($handle);
 }
 
 $output_file_content = implode($translations, "\n");
-////overwrite input file
+//overwrite input file
 file_put_contents("./wikipedia/" . $filename, $output_file_content);
