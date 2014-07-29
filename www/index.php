@@ -107,7 +107,7 @@ if ($user_query != "") {
                 $.each( response, function ( i, val ) {
                     if (i === 0 && val !== "") {
 //                        $trans.html(val);
-                        html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); updateAutocomplete();\'><img src="http://demos.jquerymobile.com/1.2.0/docs/lists/images/gb.png" alt="Great Britain" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
+                        html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); updateAutocomplete();\'><img src="images/gb.png" alt="Great Britain" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
                     } else if ( i !== 0){
                         html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';}
                 });
