@@ -1,4 +1,5 @@
 <?php
+
 /* This script creates a list of Wikipedia articles belonging to the 'Pharmacology' 
  * and 'Medicine' Wikipedia projects. It uses the Wikipedia toolserver.
  * Filtering results according to importance and quality would be possible, 
@@ -38,7 +39,7 @@ do {
 $article_labels_unique = array_unique($article_labels);
 
 $output_file_content = implode($article_labels_unique, "\n");
-file_put_contents("./wikipedia/relevant_articles_new.txt", $output_file_content);
+file_put_contents("./wikipedia/relevant_articles_credibility.txt", $output_file_content);
 
 echo count($article_labels) - count($article_labels_unique) . " dulplicate(s)\n";
 echo count($article_labels_unique) . " total\n";
@@ -61,12 +62,12 @@ function get_toolserver_response($offset, $project) {
     $GLOBALS["tr_count"] = 0;
 
     foreach ($html->find('tr') as $element) {
-        
-        $GLOBALS["tr_count"]++;
-        
+
+        $GLOBALS["tr_count"] ++;
+
         //echo $element . "--------------------------\n";
         preg_match("/\"http\:\/\/en\.wikipedia\.org\/w\/index\.php\?title\=([^\"]+)/", $element, $matches);
-        if (filter_articles($matches[1])) {
+        if (isset($matches[1]) && filter_articles($matches[1])) {
 
             $match = urldecode(str_replace("%20", "_", $matches[1]));
 //            echo $match . ", ";
