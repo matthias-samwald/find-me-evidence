@@ -48,7 +48,7 @@ if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
     fclose($handle);
 }
 
-echo $countTranslations . " already translated\n";
+echo $count_translations . " already translated\n";
 
 $output_file_content = implode($translations, "\n");
 //overwrite input file
