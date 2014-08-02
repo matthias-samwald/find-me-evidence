@@ -29,6 +29,9 @@ while ( false !== ($file = readdir ( $handle )) ) {
 			// Fetch PMID
 			$pmid = $article->MedlineCitation->PMID;
 			// print("Processing entry with PMID " . $pmid . "\n");
+                        
+                        // Fetch DOI
+                        $doi = $article->xpath("/PubmedArticle/PubmedData/ArticleIdList/ArticleId[@IdType='doi']");
 
 			// Fetch article title
 			$article_title = $article->MedlineCitation->Article->ArticleTitle;
@@ -83,6 +86,7 @@ while ( false !== ($file = readdir ( $handle )) ) {
 			$output .= "<field name='mimeType'>text/plain</field>\n";
 			$output .= "<field name='category'>Pubmed</field>\n";
 			$output .= "<field name='dataset_priority'>8</field>\n";
+                        $output .= "<field name='persid'>".$doi[0]."</field>\n";
 
 			$output .= "</doc></add></update>";
 			
