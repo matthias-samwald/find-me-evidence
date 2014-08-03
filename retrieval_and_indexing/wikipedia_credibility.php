@@ -92,15 +92,20 @@ function get_toolserver_response($offset, $project) {
 }
 
 /**
- * returns false for article with ':' or 'List_of' in its name, returns false
- * also for emptry strings, otherwise returns true
+ * returns false for article with ':' or 'List_of' in its name or if it is an 
+ * empty string or if it starts with "ATC_code_" or "ATCvet_code_", returns false, 
+ * otherwise returns true
  * @param type $article name of article
  * @return boolean
  */
 function filter_articles($article) {
+    //contains
     if ((strpos($article, "%3A") !== false)
             or ( strpos($article, "List%20of") !== false)
-            or ( strcmp("", $article) === 0)) {
+            or ( strcmp("", $article) === 0)
+            //startswith
+            or ( strpos($article, "ATC%20code%20") === 0)
+            or ( strpos($article, "ATCvet%20code%20") === 0)) {
         return false;
     } else {
         return true;
