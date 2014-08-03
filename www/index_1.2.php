@@ -221,9 +221,13 @@ if ($user_query != "") {
 										// Show dateCreated for PubMed entriesS
 										if (  substr(xpath($doc, "str[@name='data_source_name']"), 0, 6) == "PubMed"  ) {
 											$date_created = substr ( xpath ( $doc, "date[@name='dateCreated']" ), 0, 10 );
+                                                                                        $authors = xpath($doc, "arr[@name='author']/str", true);
+                                                                                        $authorsString = implode(", ", $authors);
 											if ($date_created != "")
 												print ("<span class=\"publication_date\"> &nbsp;|&nbsp;" . $date_created . "</span>");
-											}
+                                                                                        if ($authorsString != "")
+                                                                                                print("<span> &nbsp;|&nbsp;" . $authorsString . "</span>");
+											}                                                                                        
 									?>
 							</p> <?php if(xpath($doc, "str[@name='key_assertion']")): ?>
 								<p class="conclusion">
