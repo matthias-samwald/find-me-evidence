@@ -128,9 +128,11 @@
     
     <field indexed="true" multiValued="false" name="german" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="text_de_translation"/>
 
-    <field indexed="true" multiValued="false" name="suspicious" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="boolean"/>
+    <field indexed="true" multiValued="false" name="suspicious" omitNorms="true" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="boolean"/>
     
     <field indexed="false" multiValued="false" name="persid" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="string"/>
+    
+    <field indexed="true" multiValued="false" name="citedin_count" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="int"/>
 
     <!-- Needed for the spell checking feature. -->    
     <field indexed="true" multiValued="true" name="spell" omitNorms="false" omitPositions="true" omitTermFreqAndPositions="true" stored="false" termVectors="false" type="textSpell"/>
