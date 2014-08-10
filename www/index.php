@@ -47,7 +47,24 @@ if ($user_query != "") {
 <script src="js/jquery.js"></script>
 <script src="_assets/js/index.js"></script>
 <script src="js/jquery.mobile-1.3.2.min.js"></script>
-<script>
+<script>       
+        //http://techniqzone.blogspot.co.at/2013/05/get-cursor-position-in-textarea-jquery.html
+        (function ($, undefined) {
+        $.fn.getCursorPosition = function() {
+        var el = $(this).get(0);
+        var pos = 0;
+        if('selectionStart' in el) {
+            pos = el.selectionStart;
+        } else if('selection' in document) {
+            el.focus();
+            var Sel = document.selection.createRange();
+            var SelLength = document.selection.createRange().text.length;
+            Sel.moveStart('character', -el.value.length);
+            pos = Sel.text.length - SelLength;
+        }
+        return pos;
+        }
+        })(jQuery);
     
         $(document).ready(function(){
             $("#translation").click(function(){
@@ -55,7 +72,7 @@ if ($user_query != "") {
                 updateAutocomplete();
             });
         });
-
+        
 	// Delay function, used for having a short delay after user typed something before initiating request to autocomplete service
 	var delay = (function(){
 		  var timer = 0;
@@ -98,7 +115,7 @@ if ($user_query != "") {
 				dataType: "json",
 				crossDomain: false,
                 data: {
-                    q: $input.val(), l: $language
+                    q: $input.val(), l: $language, p: $input.getCursorPosition()
                 }
             })
             .then( function ( response ) {
@@ -114,14 +131,15 @@ if ($user_query != "") {
                 $ul.html( html );
                 $ul.listview( "refresh" );
                 $ul.trigger( "updatelayout");
-            });
+            });            
+            $input.focus();
         }	   
 	}
 </script>
 </head>
 <body>
 	<div data-role="page" id="main" data-theme="d">
-		
+            
 		<!--  
 		<div data-role="header">
 			<h3>FindMeEvidence</h3>
