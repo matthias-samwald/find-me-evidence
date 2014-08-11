@@ -34,12 +34,35 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
 			<p>
 				<span class="data_source_name"><?php print xpath($xml, "doc/str[@name='data_source_name']"); ?></span>
 				- <span><?php print substr(xpath($xml, "doc/date[@name='dateCreated']"), 0, 10) ?></span>
+                               <?php
+                               $authors = xpath($xml, "doc/arr[@name='author']/str", true);
+                               $authorsString = implode(", ", $authors);
+                               if ($authorsString != ""){
+                                print(" - <span>" . $authorsString . "</span>");
+                               }
+                               ?>
 			</p>
 			<p style="line-height: 150%"><?php print xpath($xml, "doc/arr[@name='body']/str"); ?></p>
-			<p>
-				<a
-					href="<?php $id = xpath($xml, "doc/str[@name='id']"); print $id; ?>"><?php print $id; ?></a>
-			</p>
+
+                <?php
+                $id = xpath($xml, "doc/str[@name='id']");
+                $persid = xpath($xml, "doc/str[@name='persid']");
+                $category = xpath($xml, "doc/arr[@name='category']/str");
+
+                switch ($category) {
+                    case "Pubmed":
+                        echo '<p><a href="' . $id . '">View in PubMed</a></p>';
+                        if ($persid !== "") {
+                            echo '<p><a href="http://dx.doi.org/' . $persid . '">View Fulltext (via DOI)</a></p>';
+                        }
+                        break;
+
+                    default:
+                        echo '<a href="' . $id . '">' . $id . '</a>';
+                        break;
+                }
+                ?>                     
+
 			<p>
 				<a href="index.php" data-role="button" data-icon="back"
 					data-rel="back">Go back</a>
