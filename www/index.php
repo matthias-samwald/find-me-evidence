@@ -221,14 +221,21 @@ if ($user_query != "") {
 					<?php
 					$count = 0;
 					foreach ( $xml->result->doc as $doc ) : // Iterate through documents in result set
-						$id = xpath ( $doc, "str[@name='id']" ); ?>
-						<li><a
+						$id = xpath ( $doc, "str[@name='id']" );
+                                                $suspicious = (string)xpath ( $doc, "bool[@name='suspicious']" ); ?>
+                                                
+						<li <?php if($suspicious === "true") print ('data-icon="alert"'); ?>><a
 						href="<?php
 							if (substr ( $id, 0, 35 ) == "http://www.ncbi.nlm.nih.gov/pubmed/")
 								print ("show.php?id=" . urlencode ( $id )) ;
 							else
 								print ($id) ;
 							?>">
+                                                        
+                                                        <?php if ($suspicious === "true"): ?>
+                                                        <p class="ui-li-aside"><span style="font-size : small; color : #FF0000;">quality rating not available or low</span></p>
+                                                        <?php endif; ?>
+                                                        
 							<h3>
 									<?php print xpath($doc, "arr[@name='title']/str"); ?>
 								</h3>
@@ -249,7 +256,7 @@ if ($user_query != "") {
 								</p> <?php elseif($snippets = xpath($doc, "//lst[@name='highlighting']/lst[@name='${id}']/arr[@name='body']/str", true)): ?>
 								<p class="text_snippet">
 									<?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
-								</p> <?php endif; ?>
+								</p> <?php endif; ?>                                                                
 						</a></li>
 					<?php	
 					endforeach;

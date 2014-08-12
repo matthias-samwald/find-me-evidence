@@ -24,13 +24,14 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	
 	$request_url .=
 	"&defType=edismax" . 	// select query parser
+        "&mm=100%25" .
 	"&q.op=AND" . 	// default query operator
 	//"&bf=ord(dataset_priority)^4" .
 	"&boost=dataset_priority" . // boost results by dataset priority (only works with edismax query parser)
 	"&qf=title^3%20key_assertion^2%20text_all" . 	// fields to be queried (can include boosts)
 	"&pf=title^3%20key_assertion%20body" . 	// enable automated phrase-matching (boosting fields and setting slop per-field would also be possible here)
 	"&ps=2" . 	// default slop for automated phrase-matching
-	"&fl=id,title,data_source_name,dateCreated,key_assertion,author" . 	// only these fields will be listed in the response
+	"&fl=id,title,data_source_name,dateCreated,key_assertion,author,suspicious" . 	// only these fields will be listed in the response
 	"&start=" . $offset . 	// offset for paginated results
 	"&rows=" . $rows . 	// select number of results returned
 	"&wt=xml" .	// select result format
