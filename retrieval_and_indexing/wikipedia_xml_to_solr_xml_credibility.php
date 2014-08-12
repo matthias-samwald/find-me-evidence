@@ -57,8 +57,7 @@ while (false !== ($file = readdir($handle))) {
             switch ($entry[0]) {
                 case "Stub":
                 case "Start":
-                case "C":
-                case "Redirect":
+                case "Unassessed":
                 case "Disambig":
                     $suspicious = true;
                     break;
