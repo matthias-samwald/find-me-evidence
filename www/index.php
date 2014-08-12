@@ -97,7 +97,8 @@ if ($user_query != "") {
             $input = $('#q'),
             value = $input.val(),
             html = "",
-            $language = "";
+            $language = "",
+            noautocompletion = true;
     
         $("input:checkbox[name=language]:checked").each(function(){
             $language = $(this).val();
@@ -123,11 +124,15 @@ if ($user_query != "") {
             	$ul.listview( "refresh" );
                 $.each( response, function ( i, val ) {
                     if (i === 0 && val !== "") {
-//                        $trans.html(val);
                         html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); updateAutocomplete();\'><img src="images/gb.png" alt="Great Britain" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
-                    } else if ( i !== 0){
-                        html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';}
-                });
+                    } else if ( i !== 0 && val !== ""){                        
+                        html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';
+                        noautocompletion = false;
+                    }
+                });                
+                if (noautocompletion) {
+                    html += '<li>no autocompletion available</li>';
+                }                
                 $ul.html( html );
                 $ul.listview( "refresh" );
                 $ul.trigger( "updatelayout");
