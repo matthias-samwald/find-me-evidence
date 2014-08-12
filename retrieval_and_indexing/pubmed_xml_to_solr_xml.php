@@ -30,6 +30,10 @@ while (false !== ($file = readdir($handle))) {
             // Fetch PMID
             $pmid = $article->MedlineCitation->PMID;
             // print("Processing entry with PMID " . $pmid . "\n");
+            
+            // Get citationcount via eutils
+            $citedin_count = pubmed_count_citedin($pmid);
+            
             // Fetch DOI
             $doi = $article->xpath("/PubmedArticle/PubmedData/ArticleIdList/ArticleId[@IdType='doi']");
 
@@ -93,8 +97,8 @@ while (false !== ($file = readdir($handle))) {
             $output .= "<field name='mimeType'>text/plain</field>\n";
             $output .= "<field name='category'>Pubmed</field>\n";
             $output .= "<field name='dataset_priority'>8</field>\n";
-            $output .= "<field name='persid'>" . $doi[0] . "</field>\n";
-
+            $output .= "<field name='persid'>" . $doi[0] . "</field>\n";            
+            $output .= "<field name='citedin_count'>" . $citedin_count . "</field>\n";
             foreach ($authors as $author) {
                 $output .= "<field name='author'>" . $author . "</field>\n";
             }
@@ -114,4 +118,39 @@ print do_post_request ( SOLR_URL . '/update', "<?xml version=\"1.0\" encoding=\"
 print "Processed $successfully_processed_entries out of $processed_entries records successfully. ";
 $end = (microtime(true) - $start);
 print "Completed in {$end} seconds.";
-?>
+
+function pubmed_count_citedin($id) {
+
+    $url = 'http://eutils.ncbi.nlm.nih.gov/entrez/eutils/elink.fcgi';
+
+    $params = array(
+        'dbfrom' => 'pubmed',
+        'retmode' => 'xml',
+        'id' => $id,
+        'cmd' => 'neighbor',
+        'linkname' => 'pubmed_pubmed_citedin'
+    );
+
+    foreach ($params as $key => $value) {
+        $params_string .= $key . '=' . $value . '&';
+    }
+    rtrim($params_string, '&');
+
+    //open connection
+    $ch = curl_init();
+
+    // Set the url, number of POST vars, POST data
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, count($params));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $params_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    $xml = simplexml_load_string($response);
+
+    $result = $xml->xpath("/eLinkResult/LinkSet/LinkSetDb[LinkName='pubmed_pubmed_citedin' and DbTo='pubmed']/Link/Id");
+
+    curl_close($ch);
+
+    return count($result);
+}
