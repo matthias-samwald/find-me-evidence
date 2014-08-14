@@ -11,8 +11,9 @@ $categories = Array (
 		"Evidence-based summary" => "Evidence-based summary",
 		"PubMed by date" => "Pubmed",
 		"PubMed by relevance" => "Pubmed",
+                "PubMed by date and relevance" => "Pubmed",
 		"Drug information" => "Drug information",
 		//"Professional discussions" => "Professional discussions",
-		"Wikipedia" => "Wikipedia" 
+		"Wikipedia" => "Wikipedia"
 );
 ?>

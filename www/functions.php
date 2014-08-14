@@ -1,7 +1,16 @@
 <?php
 include_once ('config.php');
+include_once ('functions.php');
+
+date_default_timezone_set('Europe/Vienna');
+
+include('logger/Logger.php');
+Logger::configure('config.xml');
+$logger = Logger::getLogger("main");
+
 function query_solr($q, $category, $rows, $offset = 0) {
 	global $categories;
+        global $logger;
 	
 	// TODO: Switch to http_build_query for constructing URL parameters
 	
@@ -21,6 +30,11 @@ function query_solr($q, $category, $rows, $offset = 0) {
 		$request_url .= "&bq=" . urlencode ( 'data_source_name:"PubMed: Cochrane Database Syst Rev"^40' ); // if showing PubMed sorted by relevance, we really want Cochrane reviews at the top!
 	else 
 		$request_url .= "&bq=" . urlencode ( 'data_source_name:"PubMed: Cochrane Database Syst Rev"^2' );
+        
+        if ($category == "PubMed by date and relevance")
+        {
+            $request_url .= "&bf=recip(ms(NOW/HOUR,dateCreated),3.16e-11,1,1)";
+        }
 	
 	$request_url .=
 	"&defType=edismax" . 	// select query parser
@@ -59,6 +73,7 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	}
 	
 	print "<!--- " . $request_url . " -->";
+        $logger->info($request_url);
 	$response = file_get_contents ( $request_url );
 	$xml = simplexml_load_string ( $response );
 	return $xml;
