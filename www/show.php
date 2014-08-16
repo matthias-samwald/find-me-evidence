@@ -48,6 +48,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                 $id = xpath($xml, "doc/str[@name='id']");
                 $persid = xpath($xml, "doc/str[@name='persid']");
                 $category = xpath($xml, "doc/arr[@name='category']/str");
+                $citedin_count = xpath($xml, "doc/int[@name='citedin_count']");;
 
                 switch ($category) {
                     case "Pubmed":
@@ -55,6 +56,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                         if ($persid !== "") {
                             echo '<p><a href="http://dx.doi.org/' . $persid . '">View Fulltext (via DOI)</a></p>';
                         }
+                        echo '<p>'.$citedin_count.' citations from other PMC article</p>';
                         break;
 
                     default:
