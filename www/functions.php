@@ -98,4 +98,48 @@ function get_facet_count($xml, $category) {
 	global $categories;
 	return xpath ( $xml, "//lst[@name='facet_counts']/lst[@name='facet_fields']/lst[@name='category']/int[@name='$categories[$category]']" );
 }
-?>
+
+function getPdfLink($pmid) {
+
+    $idconv_response = @file_get_contents("http://www.pubmedcentral.nih.gov/utils/idconv/v1.0/?ids=" . $pmid);
+    $id = simplexml_load_string($idconv_response);
+
+    $pmc_uid = substr($id->record["pmcid"],3);
+
+    if ($pmc_uid !== "") {
+
+        $oai_response = @file_get_contents("http://www.pubmedcentral.nih.gov/oai/oai.cgi?verb=GetRecord&metadataPrefix=pmc&identifier=oai:pubmedcentral.nih.gov:" . $pmc_uid);
+
+        $front = simplexml_load_string($oai_response)->GetRecord->record->metadata->article;
+
+        if (!is_null($front)) {
+
+            $front->registerXPathNamespace('a', 'http://dtd.nlm.nih.gov/2.0/xsd/archivearticle');
+            $front->registerXPathNamespace('x', 'http://www.w3.org/1999/xlink');
+            $front->registerXPathNamespace('o', 'http://www.openarchives.org/OAI/2.0/');
+
+            $pdf = xpath($front, "/o:OAI-PMH/o:GetRecord/o:record/o:metadata/a:article/a:front/a:article-meta/a:self-uri/@xlink:href");
+
+            if (endsWith($pdf, ".pdf")) {
+                $pdf = "http://www.ncbi.nlm.nih.gov/pmc/articles/PMC" . $pmc_uid . "/pdf/" . $pdf;
+            } else if (startsWith($pdf, "http://www.biomedcentral.com/")) {
+                $pdf = "http://www.biomedcentral.com/content/pdf/" . substr($pdf, 29, 9)
+                        . "-" . substr($pdf, 39, 2) . "-" . substr($pdf, 42, 2) . ".pdf";
+            }
+
+            return $pdf;
+        } else {
+            return "";
+        }
+    } else {
+        return "";
+    }
+}
+
+function endsWith($haystack, $needle) {
+    return $needle === "" || substr($haystack, -strlen($needle)) === $needle;
+}
+
+function startsWith($haystack, $needle) {
+    return $needle === "" || strpos($haystack, $needle) === 0;
+}

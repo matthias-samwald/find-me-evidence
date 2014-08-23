@@ -48,7 +48,8 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                 $id = xpath($xml, "doc/str[@name='id']");
                 $persid = xpath($xml, "doc/str[@name='persid']");
                 $category = xpath($xml, "doc/arr[@name='category']/str");
-                $citedin_count = xpath($xml, "doc/int[@name='citedin_count']");;
+                $citedin_count = xpath($xml, "doc/int[@name='citedin_count']");
+                $pdf_link = getPdfLink(substr($id, 35));
 
                 switch ($category) {
                     case "Pubmed":
@@ -57,6 +58,9 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                             echo '<p><a href="http://dx.doi.org/' . $persid . '">View Fulltext (via DOI)</a></p>';
                         }
                         echo '<p>'.$citedin_count.' citations from other PMC article</p>';
+                        if ($pdf_link !== "") {
+                            echo '<p><img src="images/OA-icon.gif" alt=OA /> <a href="' . $pdf_link . '">PDF</a></p>';
+                        }
                         break;
 
                     default:
