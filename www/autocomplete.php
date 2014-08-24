@@ -5,7 +5,7 @@ include_once ('functions.php');
 
 date_default_timezone_set('Europe/Vienna');
 
-include('logger/Logger.php');
+include_once('logger/Logger.php');
 Logger::configure('config.xml');
 $logger = Logger::getLogger("main");
 
