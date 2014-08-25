@@ -134,6 +134,10 @@
     
     <field indexed="true" multiValued="false" name="citedin_count" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="int"/>
 
+    <field indexed="true" multiValued="false" name="dateRelease" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="date"/>
+
+    <field indexed="false" multiValued="false" name="pmcid" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="string"/>	
+
     <!-- Needed for the spell checking feature. -->    
     <field indexed="true" multiValued="true" name="spell" omitNorms="false" omitPositions="true" omitTermFreqAndPositions="true" stored="false" termVectors="false" type="textSpell"/>
 

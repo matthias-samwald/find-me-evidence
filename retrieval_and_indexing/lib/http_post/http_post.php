@@ -21,5 +21,7 @@ function do_post_request($url, $post_string, $optional_headers = null)
            curl_close($ch);
            return "curl request succesful, response: " . $data;
         }
+        
+        curl_close($ch);
 }
 ?>

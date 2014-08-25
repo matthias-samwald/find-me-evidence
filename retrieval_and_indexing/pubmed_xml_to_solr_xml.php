@@ -36,6 +36,9 @@ while (false !== ($file = readdir($handle))) {
             
             // Fetch DOI
             $doi = $article->xpath("/PubmedArticle/PubmedData/ArticleIdList/ArticleId[@IdType='doi']");
+            
+            //Fetch PMC
+            $pmc = $article->xpath("/PubmedArticle/PubmedData/ArticleIdList/ArticleId[@IdType='pmc']");
 
             // Fetch Authors
             $authorsXML = $article->xpath("/PubmedArticle/MedlineCitation/Article/AuthorList/Author");
@@ -65,13 +68,30 @@ while (false !== ($file = readdir($handle))) {
 
             // Fetch publication date and convert it to Solr format (YYYY-MM-DDThh:mm:ssZ)
             $date_created = $article->MedlineCitation->DateCreated->Year . "-" . str_pad($article->MedlineCitation->DateCreated->Month, 2, '0', STR_PAD_LEFT) . "-" . str_pad($article->MedlineCitation->DateCreated->Day, 2, '0', STR_PAD_LEFT) . "T12:00:00Z";
-
+            
+            // Fetch PMC release date
+            $date_release = $article->PubmedData->History;       
+            $date_release_year = $date_release->xpath("//PubMedPubDate[@PubStatus=\"pmc-release\"]/Year");
+            $date_release_month = $date_release->xpath("//PubMedPubDate[@PubStatus=\"pmc-release\"]/Month");
+            $date_release_day = $date_release->xpath("//PubMedPubDate[@PubStatus=\"pmc-release\"]/Day");
+            
+//            if (count($date_release_year) !== 0){
+//            
+//            $date_release_full = $date_release_year[0] . "-" . str_pad($date_release_month[0], 2, '0', STR_PAD_LEFT) . "-" . str_pad($date_release_day[0], 2, '0', STR_PAD_LEFT) . "T12:00:00Z";
+//            
+//            echo "date: " . $date_release_full . "\n";
+//            }
+                    
             // Extract conclusions section
             $abstract_conclusion_section_text = "";
 
             // print($abstract_text . "\n\n");
             preg_match("/conclusion[s]?[.]?[:]? ([^©^Â]+)/i", $abstract_text, $abstract_conclusion_section_text);
-            $abstract_conclusion_section_text = trim($abstract_conclusion_section_text [1]);
+            if (isset($abstract_conclusion_section_text [1])){
+                $abstract_conclusion_section_text = trim($abstract_conclusion_section_text [1]);
+            } else {
+                $abstract_conclusion_section_text = "";
+            }
 
             $output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><add><doc>\n";
 
@@ -102,13 +122,17 @@ while (false !== ($file = readdir($handle))) {
             foreach ($authors as $author) {
                 $output .= "<field name='author'>" . $author . "</field>\n";
             }
+            if (count($date_release_year) !== 0){
+                $output .= "<field name='dateRelease'>" . $date_release_year[0] . "-" . str_pad($date_release_month[0], 2, '0', STR_PAD_LEFT) . "-" . str_pad($date_release_day[0], 2, '0', STR_PAD_LEFT) . "T12:00:00Z" . "</field>\n";
+            }
+            $output .= "<field name='pmcid'>" . $pmc[0] . "</field>\n";
 
             $output .= "</doc></add></update>";
 
             do_post_request(SOLR_URL . '/update', $output);
 
             $successfully_processed_entries ++;
-            print $successfully_processed_entries . "\n";
+            print $successfully_processed_entries . ": " . $citedin_count . ", " . $article_title . "\n";
         }
     }
 }
@@ -130,6 +154,8 @@ function pubmed_count_citedin($id) {
         'cmd' => 'neighbor',
         'linkname' => 'pubmed_pubmed_citedin'
     );
+    
+    $params_string = "";
 
     foreach ($params as $key => $value) {
         $params_string .= $key . '=' . $value . '&';
