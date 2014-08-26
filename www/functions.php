@@ -47,7 +47,7 @@ function query_solr($q, $category, $rows, $offset = 0) {
         //boost the score of documents in which all of the terms in the q parameter appear in close proximity
                 
 	"&ps=2" . 	// default slop for automated phrase-matching
-	"&fl=id,title,data_source_name,dateCreated,key_assertion,author,suspicious" . 	// only these fields will be listed in the response
+	"&fl=id,title,data_source_name,dateCreated,key_assertion,author,suspicious,dateRelease,pmcid" . 	// only these fields will be listed in the response
 	"&start=" . $offset . 	// offset for paginated results
 	"&rows=" . $rows . 	// select number of results returned
 	"&wt=xml" .	// select result format

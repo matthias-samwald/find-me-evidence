@@ -46,21 +46,41 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
 
                 <?php
                 $id = xpath($xml, "doc/str[@name='id']");
-                $persid = xpath($xml, "doc/str[@name='persid']");
+                $persid = (string)xpath($xml, "doc/str[@name='persid']");
                 $category = xpath($xml, "doc/arr[@name='category']/str");
                 $citedin_count = xpath($xml, "doc/int[@name='citedin_count']");
-                $pdf_link = getPdfLink(substr($id, 35));
+//                $pdf_link = getPdfLink(substr($id, 35));
+                $pmcid = (string)xpath($xml, "doc/str[@name='pmcid']");
+                $date_release = (string)xpath($xml, "doc/date[@name='dateRelease']");
 
                 switch ($category) {
                     case "Pubmed":
-                        echo '<p><a href="' . $id . '">View in PubMed</a></p>';
+                        if ($pmcid === ""){
+                            echo '<p><a href="' . $id . '">View in PubMed</a></p>';
+                        }                        
+                        
+                        $showPubReader = false;                        
+                        if ($pmcid !== ""){                          
+                            if ($date_release !== ""){
+                                $time_now = time();
+                                $timestamp_release = strtotime($date_release);
+                                if ($timestamp_release < $time_now) {
+                                    $showPubReader = true;
+                                }
+                            } else {                        
+                                $showPubReader = true;
+                            }
+                        }                        
+                        if ($showPubReader){
+                            echo '<p><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
+                        }
+                        
                         if ($persid !== "") {
-                            echo '<p><a href="http://dx.doi.org/' . $persid . '">View Fulltext (via DOI)</a></p>';
+                            echo '<p><a href="http://dx.doi.org/' . $persid . '">View (via DOI)</a></p>';
                         }
-                        echo '<p>'.$citedin_count.' citations from other PMC article</p>';
-                        if ($pdf_link !== "") {
-                            echo '<p><img src="images/OA-icon.gif" alt=OA /> <a href="' . $pdf_link . '">PDF</a></p>';
-                        }
+//                        if ($pdf_link !== "") {
+//                            echo '<p><img src="images/OA-icon.gif" alt=OA /> <a href="' . $pdf_link . '">PDF</a></p>';
+//                        }
                         break;
 
                     default:
