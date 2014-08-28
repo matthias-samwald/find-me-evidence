@@ -54,10 +54,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                 $date_release = (string)xpath($xml, "doc/date[@name='dateRelease']");
 
                 switch ($category) {
-                    case "Pubmed":
-                        if ($pmcid === ""){
-                            echo '<p><a href="' . $id . '">View in PubMed</a></p>';
-                        }                        
+                    case "Pubmed":                        
                         
                         $showPubReader = false;                        
                         if ($pmcid !== ""){                          
@@ -70,6 +67,10 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                             } else {                        
                                 $showPubReader = true;
                             }
+                        }
+                        
+                        if ($pmcid === "" || !$showPubReader){
+                            echo '<p><a href="' . $id . '">View in PubMed</a></p>';
                         }                        
                         if ($showPubReader){
                             echo '<p><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
