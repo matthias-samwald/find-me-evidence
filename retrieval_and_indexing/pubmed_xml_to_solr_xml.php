@@ -49,6 +49,9 @@ while (false !== ($file = readdir($handle))) {
 
             // Fetch article title
             $article_title = $article->MedlineCitation->Article->ArticleTitle;
+            
+            // Fetch conclusion
+            $conclusion = $article->xpath("/PubmedArticle/MedlineCitation/Article/Abstract/AbstractText[@NlmCategory='CONCLUSIONS']");
 
             // Fetch abstract text
             $abstract_text = "";
@@ -59,6 +62,27 @@ while (false !== ($file = readdir($handle))) {
                 $abstract_text .= $abstract_text_xml_element;
             }
             $abstract_text = trim($abstract_text);
+
+            if (isset($conclusion[0])) {
+                $abstract_conclusion_section_text = $conclusion[0];
+            } else {                
+                // Extract conclusions section
+                $abstract_conclusion_section_text = "";
+                preg_match("/conclusion[s]?[.]?[:]? ([^©^Â]+)/i", $abstract_text, $abstract_conclusion_section_text);
+                if (isset($abstract_conclusion_section_text [1])) {
+                    $abstract_conclusion_section_text = trim($abstract_conclusion_section_text [1]);
+                } else {
+                    $abstract_conclusion_section_text = "";
+                    $abstracts = $article->xpath("/PubmedArticle/MedlineCitation/Article/Abstract/AbstractText");
+                    preg_match_all("/.*?(?:\.|\?|!|\:)(\s|$)/", $abstracts[0], $sentences);
+                    $number_sentences = count($sentences[0]);
+                    $last_n_sentences = array();
+                    for ($i = max($number_sentences - 4, 0); $i < $number_sentences; $i++) {
+                        $last_n_sentences[] = trim($sentences[0][$i]);
+                    }
+                    $abstract_conclusion_section_text = implode(" ", $last_n_sentences);
+                }
+            }
 
             if ($abstract_text == "")
                 continue;
@@ -80,18 +104,7 @@ while (false !== ($file = readdir($handle))) {
 //            $date_release_full = $date_release_year[0] . "-" . str_pad($date_release_month[0], 2, '0', STR_PAD_LEFT) . "-" . str_pad($date_release_day[0], 2, '0', STR_PAD_LEFT) . "T12:00:00Z";
 //            
 //            echo "date: " . $date_release_full . "\n";
-//            }
-                    
-            // Extract conclusions section
-            $abstract_conclusion_section_text = "";
-
-            // print($abstract_text . "\n\n");
-            preg_match("/conclusion[s]?[.]?[:]? ([^©^Â]+)/i", $abstract_text, $abstract_conclusion_section_text);
-            if (isset($abstract_conclusion_section_text [1])){
-                $abstract_conclusion_section_text = trim($abstract_conclusion_section_text [1]);
-            } else {
-                $abstract_conclusion_section_text = "";
-            }
+//            }                              
 
             $output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><add><doc>\n";
 
@@ -132,7 +145,7 @@ while (false !== ($file = readdir($handle))) {
             do_post_request(SOLR_URL . '/update', $output);
 
             $successfully_processed_entries ++;
-            print $successfully_processed_entries . ": " . $citedin_count . ", " . $article_title . "\n";
+            print $successfully_processed_entries . ": (".$pmid . ") " . $abstract_conclusion_section_text . "\n";
         }
     }
 }
