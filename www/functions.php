@@ -5,7 +5,7 @@ include_once ('functions.php');
 date_default_timezone_set('Europe/Vienna');
 
 include_once('logger/Logger.php');
-Logger::configure('config.xml');
+Logger::configure('logger_config.xml');
 $logger = Logger::getLogger("main");
 
 function query_solr($q, $category, $rows, $offset = 0) {
