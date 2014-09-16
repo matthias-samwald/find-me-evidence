@@ -112,7 +112,7 @@ if ($user_query != "") {
             //$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
        
             $.ajax({
-            	url: "autocomplete.php",
+            	url: "translate.php",
 				dataType: "json",
 				crossDomain: false,
                 data: {
@@ -130,27 +130,38 @@ if ($user_query != "") {
                         noautocompletion = false;
                     }
                 });                
-                if (noautocompletion) {
-                    html += '<li>no autocompletion available</li>';
-                }                
+//                if (noautocompletion) {
+//                    html += '<li>no autocompletion available</li>';
+//                }                
                 $ul.html( html );
                 $ul.listview( "refresh" );
                 $ul.trigger( "updatelayout");
             });
             
-            pubmedAutocomplete();
+            pubmedAutoComplete();
             
             $input.focus();
         }	   
 	}
         
-        function pubmedAutocomplete() {
+        function pubmedAutoComplete() {
             $.getJSON("http://preview.ncbi.nlm.nih.gov/portal/utils/autocomp.fcgi?dict=pm_related_queries_2&callback=?&q="+ encodeURIComponent($("#q").val()), NSuggest_CreateData);
             return false;
         }
             
         function NSuggest_CreateData(q, data) {
-            ;
+            var noautocompletion = true;
+            $.each(data, function(i, text) {                
+                if (i<5){
+                    $('#autocomplete').append('<li onclick=\'$("#q").val("' + escapeHtml(text) + '"); $("#search_form").submit();\'>' + text + '</li>');
+                    noautocompletion = false;
+                }
+            });
+            if (noautocompletion) {
+                $('#autocomplete').append('<li>no autocompletion available</li>');
+            }
+            $('#autocomplete').listview( "refresh" );
+            $('#autocomplete').trigger( "updatelayout");
         }
 </script>
 </head>
