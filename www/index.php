@@ -89,6 +89,15 @@ if ($user_query != "") {
 		      .replace('"', "&quot;")
 		      .replace("'", "&#039;");
 		}
+        
+        function escapeHtmlAndRemove(text) {
+		  return text
+		      .replace("&", "&amp;")
+		      .replace('"', "&quot;")
+		      .replace("'", "&#039;")
+                      .replace("<ins>", "")
+                      .replace("</ins>", "");
+		}
 
 	// Update the autocomplete list
 	function updateAutocomplete() {
@@ -124,7 +133,7 @@ if ($user_query != "") {
             	$ul.listview( "refresh" );
                 $.each( response, function ( i, val ) {
                     if (i === 0 && val !== "") {
-                        html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); updateAutocomplete();\'><img src="images/gb.png" alt="Great Britain" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
+                        html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); updateAutocomplete();\'><img src="images/gb.png" alt="Great Britain" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
                     } else if ( i !== 0 && val !== ""){                        
                         html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';
                         noautocompletion = false;
@@ -150,18 +159,17 @@ if ($user_query != "") {
         }
             
         function NSuggest_CreateData(q, data) {
-            var noautocompletion = true;
-            $.each(data, function(i, text) {                
-                if (i<5){
-                    $('#autocomplete').append('<li onclick=\'$("#q").val("' + escapeHtml(text) + '"); $("#search_form").submit();\'>' + text + '</li>');
-                    noautocompletion = false;
-                }
-            });
-            if (noautocompletion) {
-                $('#autocomplete').append('<li>no autocompletion available</li>');
+            var max = Math.min(5,data.length-1),
+                $ul = $('#autocomplete');
+            
+            for (var i = 0; i < max; ++i) {
+                $ul.append('<li onclick=\'$("#q").val("' + escapeHtml(data[i]) + '"); $("#search_form").submit();\'>' + data[i] + '</li>');
             }
-            $('#autocomplete').listview( "refresh" );
-            $('#autocomplete').trigger( "updatelayout");
+            if (max === 0) {
+                $ul.append('<li>no autocompletion available</li>');
+            }
+            $ul.listview( "refresh" );
+            $ul.trigger( "updatelayout");
         }
 </script>
 </head>

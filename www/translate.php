@@ -30,7 +30,7 @@ if ($q != "" and strlen($q) > 2) {
             $title = xpath($xml, "/response/result/doc/arr[@name='title']/str/text()");
             $german = xpath($xml, "/response/result/doc/str[@name='german']/text()");
 
-            $translation_info = str_replace($extracted_word, strtolower($title), $q);
+            $translation_info = str_replace($extracted_word, "<ins>" . strtolower($title) . "</ins>", $q);
 
             $logger->info("'" . $extracted_word . "' translated to '" . $title
                     . "' via '" . $german . "' (" . $translation_info . ") p:" . $p);
