@@ -31,10 +31,10 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	else 
 		$request_url .= "&bq=" . urlencode ( 'data_source_name:"PubMed: Cochrane Database Syst Rev"^2' );
         
-        if ($category == "PubMed by date and relevance")
-        {
-            $request_url .= "&bf=recip(ms(NOW/HOUR,dateCreated),3.16e-11,1,1)+log(add(citedin_count,1))";
-        }
+//        if ($category == "PubMed by date and relevance")
+//        {
+//            $request_url .= "&bf=recip(ms(NOW/HOUR,dateCreated),3.16e-11,1,1)+log(add(citedin_count,1))";
+//        }
 	
 	$request_url .=
 	"&defType=edismax" . 	// select query parser
