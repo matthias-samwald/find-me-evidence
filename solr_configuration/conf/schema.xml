@@ -132,7 +132,7 @@
     
     <field indexed="false" multiValued="false" name="persid" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="string"/>
     
-    <field indexed="true" multiValued="false" name="citedin_count" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="int"/>
+<!--    <field indexed="true" multiValued="false" name="citedin_count" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="int"/>-->
 
     <field indexed="true" multiValued="false" name="dateRelease" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="date"/>
 
