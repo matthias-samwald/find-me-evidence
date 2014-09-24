@@ -205,16 +205,9 @@ if ($user_query != "") {
                                        
                                         <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
                                         
-                                        <div class="ui-grid-a">
-                                            <div class="ui-block-a">
-                                                <input type="checkbox" name="language" id="langger" value="ger"
-                                                       accept=""onclick="updateAutocomplete();" data-theme="c"/>
-                                                <label for="langger">suggest translation (german to english)</label>
-                                            </div>
-                                            <div class="ui-block-b" >
-                                                <h4 id="translation" style="text-align:center"></h4>
-                                            </div>
-                                        </div>
+                                        <input type="checkbox" name="language" id="langger" value="ger"
+                                            onclick="updateAutocomplete();" data-theme="c"/>
+                                        <label for="langger" data-inline="true" data-mini="true">suggest translation (german to english)</label>
                                         
 					<fieldset data-role="controlgroup" data-type="horizontal"
 						data-mini="true" style="border:none">
@@ -338,16 +331,9 @@ if ($user_query != "") {
                                 
 				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>                                                           
                                 
-                                <div class="ui-grid-a">
-                                    <div class="ui-block-a">
-                                        <input type="checkbox" name="language" id="langger" value="ger"
-                                            onclick="updateAutocomplete();" data-theme="c"/>
-                                        <label for="langger">suggest translation (german to english)</label>
-                                    </div>
-                                    <div class="ui-block-b" >
-                                        <h4 id="translation" style="text-align:center"></h4>
-                                    </div>
-                                </div>
+                                <input type="checkbox" name="language" id="langger" value="ger"
+                                    onclick="updateAutocomplete();" data-theme="c"/>
+                                <label for="langger" data-inline="true" data-mini="true">suggest translation (german to english)</label>
 			</form>
 			<script type="text/javascript">
 				$("#main").on("pageshow" , function() {

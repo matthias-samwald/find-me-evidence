@@ -32,7 +32,7 @@ while (false !== ($file = readdir($handle))) {
             // print("Processing entry with PMID " . $pmid . "\n");
             
             // Get citationcount via eutils
-            $citedin_count = pubmed_count_citedin($pmid);
+//            $citedin_count = pubmed_count_citedin($pmid);
             
             // Fetch DOI
             $doi = $article->xpath("/PubmedArticle/PubmedData/ArticleIdList/ArticleId[@IdType='doi']");
@@ -131,7 +131,7 @@ while (false !== ($file = readdir($handle))) {
             $output .= "<field name='category'>Pubmed</field>\n";
             $output .= "<field name='dataset_priority'>8</field>\n";
             $output .= "<field name='persid'>" . $doi[0] . "</field>\n";            
-            $output .= "<field name='citedin_count'>" . $citedin_count . "</field>\n";
+//            $output .= "<field name='citedin_count'>" . $citedin_count . "</field>\n";
             foreach ($authors as $author) {
                 $output .= "<field name='author'>" . $author . "</field>\n";
             }

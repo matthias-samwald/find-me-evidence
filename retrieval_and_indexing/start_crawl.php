@@ -182,7 +182,8 @@ function crawl($site_name, $seed_url, $category, $dataset_priority, $link_follow
 
 	$crawler = new MyCrawler ();
 	
-	$crawler->set_category($category);
+	$crawler->set_site_name($site_name);
+        $crawler->set_category($category);
 	$crawler->set_dataset_priority($dataset_priority);
 
 	$crawler->setURL($seed_url);
