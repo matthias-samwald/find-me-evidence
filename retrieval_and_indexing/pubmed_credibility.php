@@ -31,11 +31,13 @@ function pubmed_count_citedin($id) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     $response = curl_exec($ch);
-    $xml = simplexml_load_string($response);
-
-    $result = $xml->xpath("/eLinkResult/LinkSet/LinkSetDb[LinkName='pubmed_pubmed_citedin' and DbTo='pubmed']/Link/Id");
-
     curl_close($ch);
-
-    return count($result);
+    
+    if ($response) {
+        $xml = simplexml_load_string($response);
+        $result = $xml->xpath("/eLinkResult/LinkSet/LinkSetDb[LinkName='pubmed_pubmed_citedin' and DbTo='pubmed']/Link/Id");
+        return count($result);
+    } else {
+        return "";
+    }
 }
