@@ -52,6 +52,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
 //                $pdf_link = getPdfLink(substr($id, 35));
                 $pmcid = (string)xpath($xml, "doc/str[@name='pmcid']");
                 $date_release = (string)xpath($xml, "doc/date[@name='dateRelease']");
+                $oa = (string)xpath ( $xml, "doc/bool[@name='oa']" );
 
                 switch ($category) {
                     case "Pubmed":                        
@@ -73,7 +74,11 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                             echo '<p><a href="' . $id . '">View in PubMed</a></p>';
                         }                        
                         if ($showPubReader){
-                            echo '<p><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
+                            if($oa === "true") {
+                                echo '<p><img src="images/OA-icon.gif" alt=OA /> <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
+                            } else {
+                                echo '<p><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
+                            }
                         }
                         
                         if ($persid !== "") {

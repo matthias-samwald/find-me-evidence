@@ -10,6 +10,8 @@ $start = microtime(true);
 $processed_entries = 0;
 $successfully_processed_entries = 0;
 
+$db = new SQLite3('./pubmed/oa_db');
+
 // Iterate through XML files in the directory
 $handle = opendir('./pubmed');
 while (false !== ($file = readdir($handle))) {
@@ -138,7 +140,15 @@ while (false !== ($file = readdir($handle))) {
             if (count($date_release_year) !== 0){
                 $output .= "<field name='dateRelease'>" . $date_release_year[0] . "-" . str_pad($date_release_month[0], 2, '0', STR_PAD_LEFT) . "-" . str_pad($date_release_day[0], 2, '0', STR_PAD_LEFT) . "T12:00:00Z" . "</field>\n";
             }
-            $output .= "<field name='pmcid'>" . $pmc[0] . "</field>\n";
+            
+            if (isset($pmc[0])) {
+                $output .= "<field name='pmcid'>" . $pmc[0] . "</field>\n";
+                $result = $db->querySingle('SELECT id FROM pubmed where id = "' . $pmc[0] . '"');
+                if ($result === trim($pmc[0])) {
+                    echo $article_title . "\n";
+                    $output .= "<field name='oa'>t</field>\n";
+                }
+            }
 
             $output .= "</doc></add></update>";
 
