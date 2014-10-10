@@ -251,7 +251,8 @@ if ($user_query != "") {
 					$count = 0;
 					foreach ( $xml->result->doc as $doc ) : // Iterate through documents in result set
 						$id = xpath ( $doc, "str[@name='id']" );
-                                                $suspicious = (string)xpath ( $doc, "bool[@name='suspicious']" ); ?>
+                                                $suspicious = (string)xpath ( $doc, "bool[@name='suspicious']" );
+                                                $oa = (string)xpath ( $doc, "bool[@name='oa']" ); ?>
                                                 
 						<li <?php if($suspicious === "true") print ('data-icon="alert"'); ?>><a
 						href="<?php
@@ -267,7 +268,10 @@ if ($user_query != "") {
                                                         
 							<h3>
 									<?php print xpath($doc, "arr[@name='title']/str"); ?>
-								</h3>
+                                                                        <?php if ($oa === "true"): ?>
+                                                                            <img src="images/OA-icon.gif" alt=OA />
+                                                                        <?php endif; ?>
+								</h3>                                                        
 							<p>
 								<span class="data_source_name"><?php print xpath($doc, "str[@name='data_source_name']"); ?>
 									</span> 
