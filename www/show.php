@@ -75,7 +75,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                         }                        
                         if ($showPubReader){
                             if($oa === "true") {
-                                echo '<p><img src="images/OA-icon.gif" alt=OA /> <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
+                                echo '<p><a href="#popupOA" data-rel="popup"><img src="images/OA-icon.gif" alt=OA /></a> <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
                             } else {
                                 echo '<p><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
                             }
@@ -93,7 +93,10 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                         echo '<a href="' . $id . '">' . $id . '</a>';
                         break;
                 }
-                ?>                     
+                ?>       
+                        <div data-role="popup" id="popupOA">
+                            <p>Open access &#040;OA&#041; means unrestricted online access to peer-reviewed scholarly research.</p>
+                        </div>
 
 			<p>
 				<a href="index.php" data-role="button" data-icon="back"
