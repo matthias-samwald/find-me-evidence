@@ -4,7 +4,7 @@
  * This script uses the Wikipedia API to translate the title.
  */
 
-$filename = "relevant_articles_credibility.txt";
+$filename = "translated_relevant_articles_credibility.txt";
 $article_list_file_contents = file_get_contents("./wikipedia/" . $filename);
 $article_labels = explode("\n", $article_list_file_contents);
 
@@ -15,16 +15,20 @@ $countTranslations = 0;
 
 if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
     while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
-        $title = str_replace("_", " ", $row[0]);
+        $title = $row[0];
         $langlinks = file_get_contents("http://en.wikipedia.org/w/api.php?action=query&titles=" . urlencode($title) . "&prop=langlinks&format=xml");
-        $xml = simplexml_load_string($langlinks);
-        $de = xpath($xml, "/api/query/pages/page/langlinks/ll[@lang='de']/text()");
+        
+        $es = "";
+        if ($langlinks != FALSE) {
+            $xml = simplexml_load_string($langlinks);
+            $es = xpath($xml, "/api/query/pages/page/langlinks/ll[@lang='es']/text()");
+        }
 
-        array_push($translations, $title . ";" . $row[1] . ";" . $de);
-        if ($de != "") {
+        array_push($translations, $title . ";" . $row[1] . ";". ";" . $row[2] . $es);
+        if ($es != "") {
             $countTranslations++;
         }
-        echo ++$count . ": " . $title . " -> '" . $de . "' (" . $countTranslations . " translations)\n";
+        echo ++$count . ": " . $title . " -> '" . $es . "' (" . $countTranslations . " translations)\n";
     }
     fclose($handle);
 }
@@ -43,7 +47,7 @@ if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
 //}
 
 $output_file_content = implode($translations, "\n");
-file_put_contents("./wikipedia/translated_" . $filename, $output_file_content);
+file_put_contents("./wikipedia/es_" . $filename, $output_file_content);
 
 function xpath($xml, $xpath_expression, $return_entire_array = false) {
     $result_array = $xml->xpath($xpath_expression);
