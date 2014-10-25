@@ -24,7 +24,7 @@ if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
             $es = xpath($xml, "/api/query/pages/page/langlinks/ll[@lang='es']/text()");
         }
 
-        array_push($translations, $title . ";" . $row[1] . ";". ";" . $row[2] . $es);
+        array_push($translations, $title . ";" . $row[1] . ";" . $row[2] . ";" . $es);
         if ($es != "") {
             $countTranslations++;
         }
