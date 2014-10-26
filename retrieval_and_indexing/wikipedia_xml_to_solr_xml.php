@@ -15,9 +15,9 @@ $successfully_processed_entries = 0;
 
 // Load dictionary
 $dictionary = array();
-if (($handle = fopen('./wikipedia/translated_relevant_articles_credibility.txt', 'r')) !== FALSE) {
+if (($handle = fopen('./wikipedia/es_translated_relevant_articles_credibility.txt', 'r')) !== FALSE) {
     while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
-        $entry = array($row[1], $row[2]);
+        $entry = array($row[1], $row[2], $row[3]);
         $dictionary[$row[0]] = $entry;
     }
     fclose($handle);
@@ -48,9 +48,8 @@ while (false !== ($file = readdir($handle))) {
 
             $entry = $dictionary[(string) $article_title];
 
-            $translation = utf8_decode($entry[1]);
-
-
+            $translation_de = utf8_decode($entry[1]);
+            $translation_es = utf8_decode($entry[2]);
 
             $suspicious = false;
 
@@ -62,8 +61,6 @@ while (false !== ($file = readdir($handle))) {
                     $suspicious = true;
                     break;
             }
-
-            echo $translation . ": " . $suspicious . "\n";
 
             // Check if this is actually a redirect
             $redirect = $article->redirect['title'];
@@ -112,7 +109,8 @@ while (false !== ($file = readdir($handle))) {
             $output .= "<field name='category'>Wikipedia</field>\n";
             $output .= "<field name='dataset_priority'>8</field>\n";
             //TODO no trim should be necessary
-            $output .= "<field name='german'>" . utf8_decode(trim($translation)) . "</field>\n";
+            $output .= "<field name='german'>" . utf8_decode(trim($translation_de)) . "</field>\n";
+            $output .= "<field name='spanish'>" . utf8_decode(trim($translation_es)) . "</field>\n";
             if ($suspicious) {
                 $output .= "<field name='suspicious'>t</field>\n";
             } else {

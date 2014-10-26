@@ -17,7 +17,6 @@ if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
     while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
 
         if ($row[3] == "") {
-
             if ($yandex_limit_reached) {
                 //empty translation
                 array_push($translations, $row[0] . ";" . $row[1] . ";" . $row[2] . ";");
@@ -46,7 +45,7 @@ if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
     fclose($handle);
 }
 
-echo $count_translations . " already translated\n";
+echo $count_translations . " translated\n";
 
 $output_file_content = implode($translations, "\n");
 //overwrite input file

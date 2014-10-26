@@ -127,6 +127,7 @@
     <field indexed="true" multiValued="false" name="key_assertion" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="text_en"/>
     
     <field indexed="true" multiValued="false" name="german" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="text_de_translation"/>
+    <field indexed="true" multiValued="false" name="spanish" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="text_de_translation"/>
 
     <field indexed="true" multiValued="false" name="suspicious" omitNorms="true" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="boolean"/>
     

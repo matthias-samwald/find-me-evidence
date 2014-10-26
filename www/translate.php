@@ -39,6 +39,29 @@ if ($q != "" and strlen($q) > 2) {
         }
     }
     
+    if ($l == "esp") {
+        $extracted_word = extractWord($q, $p);
+        $request_url = SOLR_URL . "/select?q=";
+        $request_url .= "" . urlencode($extracted_word)
+                . "&sort=norm(spanish)+desc&wt=xml&df=spanish";
+        //use the norm value to find the shortest field 
+        //http://wiki.apache.org/solr/FunctionQuery#norm
+        $response = @file_get_contents($request_url);
+        if ($response !== FALSE) {
+            $xml = simplexml_load_string($response);
+
+            $title = xpath($xml, "/response/result/doc/arr[@name='title']/str/text()");
+            $spanish = xpath($xml, "/response/result/doc/str[@name='spanish']/text()");
+
+            $translation_info = str_replace($extracted_word, "<ins>" . strtolower($title) . "</ins>", $q);
+
+            $logger->info("'" . $extracted_word . "' translated to '" . $title
+                    . "' via '" . $spanish . "' (" . $translation_info . ") p:" . $p);
+        } else {
+            $logger->info("solr not available");
+        }
+    }
+    
     print json_encode(array($translation_info));
 
 //    $response = file_get_contents("http://preview.ncbi.nlm.nih.gov/portal/utils/autocomp.fcgi?dict=pm_related_queries_2&callback=?&q=" . urlencode($q));

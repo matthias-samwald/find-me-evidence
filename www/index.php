@@ -109,7 +109,7 @@ if ($user_query != "") {
             $language = "",
             noautocompletion = true;
     
-        $("input:checkbox[name=language]:checked").each(function(){
+        $("input:radio[name=language]:checked").each(function(){
             $language = $(this).val();
         });
         
@@ -133,7 +133,12 @@ if ($user_query != "") {
             	$ul.listview( "refresh" );
                 $.each( response, function ( i, val ) {
                     if (i === 0 && val !== "") {
-                        html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); updateAutocomplete();\'><img src="images/gb.png" alt="Great Britain" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
+                        if ($language ==="ger") {
+                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); updateAutocomplete();\'><img src="images/gb.png" alt="english" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
+                        }
+                        else if ($language ==="esp") {
+                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); updateAutocomplete();\'><img src="images/esp.png" alt="spanish" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
+                        }
                     } else if ( i !== 0 && val !== ""){                        
                         html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';
                         noautocompletion = false;
@@ -205,9 +210,14 @@ if ($user_query != "") {
                                        
                                         <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
                                         
-                                        <input type="checkbox" name="language" id="langger" value="ger"
-                                            onclick="updateAutocomplete();" data-theme="c"/>
-                                        <label for="langger" data-inline="true" data-mini="true">suggest translation (german to english)</label>
+                                        <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                            <input type="radio" name="language" id="langger" value="ger"
+                                                   onclick="updateAutocomplete();" data-theme="c"/>
+                                            <label for="langger">suggest german to english</label>
+                                            <input type="radio" name="language" id="langesp" value="esp"
+                                                   onclick="updateAutocomplete();" data-theme="c"/>
+                                            <label for="langesp">suggest spanish to english</label>
+                                        </fieldset>
                                         
 					<fieldset data-role="controlgroup" data-type="horizontal"
 						data-mini="true" style="border:none">
@@ -335,9 +345,15 @@ if ($user_query != "") {
                                 
 				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>                                                           
                                 
-                                <input type="checkbox" name="language" id="langger" value="ger"
-                                    onclick="updateAutocomplete();" data-theme="c"/>
-                                <label for="langger" data-inline="true" data-mini="true">suggest translation (german to english)</label>
+                                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                    <input type="radio" name="language" id="langger" value="ger"
+                                        onclick="updateAutocomplete();" data-theme="c"/>
+                                    <label for="langger">suggest german to english</label>
+                                    <input type="radio" name="language" id="langesp" value="esp"
+                                        onclick="updateAutocomplete();" data-theme="c"/>
+                                    <label for="langesp">suggest spanish to english</label>
+                                </fieldset>
+                                
 			</form>
 			<script type="text/javascript">
 				$("#main").on("pageshow" , function() {
