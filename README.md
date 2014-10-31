@@ -8,11 +8,13 @@ Installation
 
 1.  Download Apache Tomcat and Apache Solr
 
-2.  Copy /example/solr to your SOLR_HOME and replace solrconfig.xml, schema.xml and synonyms.txt
+2.  Copy /example/solr to your SOLR_HOME and replace solrconfig.xml, schema.xml and synonyms.txt from collection1
 
 3.  Copy solr_configuration/solr.xml to CATALINA_HOME/conf/Catalina/localhost (point to your SOLR_HOME and Solr WebApp)
 
 4.  Copy the jars from solr/example/lib/ext into your container's main lib directory
+
+5.  Copy solr_configuration/collection2 to SOLR_HOME/solr and use the Core Admin to add the core
 
 Create Solr Index
 -----------------
@@ -49,6 +51,9 @@ translate the remaining article titles with Yandex
 3.  Run `wikipedia_xml_to_solr_xml.php`:
 wikipedia_xml_to_solr_xml.php iterates through the Wikipedia XML files downloaded by 
 wikipedia_fetch.php, reads Wikipedia entries, and writes extracted content to the Solr index.
+
+4.  Run `wikipedia_translations_to_solr_xml.php`:
+wikipedia_translations_to_solr_xml.php indexes the translations to the dictionary Solr core
 
 ###Creating synonyms from Wikipedia
 

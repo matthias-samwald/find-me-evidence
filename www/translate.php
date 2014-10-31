@@ -15,51 +15,32 @@ $p = $_GET ["p"];
 if ($q != "" and strlen($q) > 2) {
 
     $translation_info = "";
-
-    if ($l == "ger") {
-        $extracted_word = extractWord($q, $p);
-        $request_url = SOLR_URL . "/select?q=";
-        $request_url .= "" . urlencode($extracted_word)
-                . "&sort=norm(german)+desc&wt=xml&df=german";
-        //use the norm value to find the shortest field 
-        //http://wiki.apache.org/solr/FunctionQuery#norm
-        $response = @file_get_contents($request_url);
-        if ($response !== FALSE) {
-            $xml = simplexml_load_string($response);
-
-            $title = xpath($xml, "/response/result/doc/arr[@name='title']/str/text()");
-            $german = xpath($xml, "/response/result/doc/str[@name='german']/text()");
-
-            $translation_info = str_replace($extracted_word, "<ins>" . strtolower($title) . "</ins>", $q);
-
-            $logger->info("'" . $extracted_word . "' translated to '" . $title
-                    . "' via '" . $german . "' (" . $translation_info . ") p:" . $p);
-        } else {
-            $logger->info("solr not available");
-        }
-    }
     
-    if ($l == "esp") {
-        $extracted_word = extractWord($q, $p);
-        $request_url = SOLR_URL . "/select?q=";
-        $request_url .= "" . urlencode($extracted_word)
-                . "&sort=norm(spanish)+desc&wt=xml&df=spanish";
-        //use the norm value to find the shortest field 
-        //http://wiki.apache.org/solr/FunctionQuery#norm
-        $response = @file_get_contents($request_url);
-        if ($response !== FALSE) {
-            $xml = simplexml_load_string($response);
+    if ($l == "ger") {
+        $language = "german";
+    } else if ($l == "esp") {
+        $language = "spanish";
+    }
 
-            $title = xpath($xml, "/response/result/doc/arr[@name='title']/str/text()");
-            $spanish = xpath($xml, "/response/result/doc/str[@name='spanish']/text()");
+    $extracted_word = extractWord($q, $p);
+    $request_url = SOLR_URL_DIC . "/select?q=";
+    $request_url .= "" . urlencode($extracted_word)
+            . "&sort=norm(" . $language . ")+desc&wt=xml&df=" . $language;
+    //use the norm value to find the shortest field 
+    //http://wiki.apache.org/solr/FunctionQuery#norm
+    $response = @file_get_contents($request_url);
+    if ($response !== FALSE) {
+        $xml = simplexml_load_string($response);
 
-            $translation_info = str_replace($extracted_word, "<ins>" . strtolower($title) . "</ins>", $q);
+        $title = xpath($xml, "/response/result/doc/arr[@name='title']/str/text()");
+        $german = xpath($xml, "/response/result/doc/str[@name='" . $language . "']/text()");
 
-            $logger->info("'" . $extracted_word . "' translated to '" . $title
-                    . "' via '" . $spanish . "' (" . $translation_info . ") p:" . $p);
-        } else {
-            $logger->info("solr not available");
-        }
+        $translation_info = str_replace($extracted_word, "<ins>" . strtolower($title) . "</ins>", $q);
+
+        $logger->info("'" . $extracted_word . "' translated to '" . $title
+                . "' via '" . $german . "' (" . $translation_info . ") p:" . $p);
+    } else {
+        $logger->info("solr not available");
     }
     
     print json_encode(array($translation_info));
