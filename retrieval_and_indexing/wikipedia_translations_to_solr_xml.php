@@ -16,15 +16,16 @@ function index($translationfile, $german_column, $spanish_column) {
         while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
 
             $output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><add><doc>\n";
-            $output .= "<field name='id'>" . trim($row[0]) . "</field>\n";
-            $output .= "<field name='title'>" . trim($row[0]) . "</field>\n";
-            $output .= "<field name='german'>" . trim($row[$german_column]) . "</field>\n";
-            $output .= "<field name='spanish'>" . trim($row[$spanish_column]) . "</field>\n";
+            $output .= "<field name='id'>" . htmlspecialchars($row[0]) . "</field>\n";
+            $output .= "<field name='title'>" . htmlspecialchars($row[0]) . "</field>\n";
+            $output .= "<field name='german'>" . htmlspecialchars($row[$german_column]) . "</field>\n";
+            $output .= "<field name='spanish'>" . htmlspecialchars($row[$spanish_column]) . "</field>\n";
             $output .= "</doc></add></update>";
 
-            do_post_request(SOLR_URL_DIC . '/update', $output);
+            echo ++ $GLOBALS["count"]. "\n";
 
-            echo $count++ . "\n";
+            do_post_request(SOLR_URL_DIC . '/update', $output);
+            
         }
         fclose($handle);
     }
