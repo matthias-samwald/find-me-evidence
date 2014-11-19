@@ -8,7 +8,7 @@ $count = 0;
 
 index("es_translated_relevant_articles_credibility.txt", 2, 3);
 
-//index("new_medical_terms.txt", 1, 2);
+index("new_medical_terms.txt", 1, 2);
 
 function index($translationfile, $german_column, $spanish_column) {
 

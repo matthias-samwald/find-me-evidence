@@ -125,9 +125,6 @@
     <field indexed="true" multiValued="false" name="dataset_priority" omitNorms="false" omitPositions="true" omitTermFreqAndPositions="true" stored="true" termVectors="false" type="int"/>
     <field indexed="true" multiValued="false" name="country" omitNorms="true" omitPositions="true" omitTermFreqAndPositions="true" stored="false" termVectors="false" type="string"/>
     <field indexed="true" multiValued="false" name="key_assertion" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="text_en"/>
-    
-    <field indexed="true" multiValued="false" name="german" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="text_de_translation"/>
-    <field indexed="true" multiValued="false" name="spanish" omitNorms="false" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="text_de_translation"/>
 
     <field indexed="true" multiValued="false" name="suspicious" omitNorms="true" omitPositions="false" omitTermFreqAndPositions="false" stored="true" termVectors="false" type="boolean"/>
     
@@ -450,27 +447,6 @@
 	-->
         <filter class="solr.PorterStemFilterFactory"/>
       </analyzer>
-    </fieldType>
-    
-    <fieldType name="text_de_translation" class="solr.TextField" positionIncrementGap="100">
-    	<analyzer type="index">
-    		<charFilter class="solr.PatternReplaceCharFilterFactory"
-    			pattern="-"
-    			replacement=" "/>
-    		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
-    		<filter class="solr.LowerCaseFilterFactory"/>
-    		<filter class="solr.PatternReplaceFilterFactory"
-    			pattern="\(.*\)"
-    			replacement=""/>
-    		<filter class="solr.EdgeNGramFilterFactory" minGramSize="4" maxGramSize="25" side="front"/>
-    	</analyzer>
-    	<analyzer type="query">
-    	    	<charFilter class="solr.PatternReplaceCharFilterFactory"
-    			pattern="-"
-    			replacement=" "/>
-    		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
-    		<filter class="solr.LowerCaseFilterFactory"/>	
-    	</analyzer>
     </fieldType>
 
     <!-- A text field with defaults appropriate for English, plus

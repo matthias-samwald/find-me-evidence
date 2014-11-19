@@ -48,10 +48,6 @@ while (false !== ($file = readdir($handle))) {
 
             $entry = $dictionary[(string) $article_title];
 
-            $translation_de = $entry[1];
-            $translation_es = $entry[2];
-            print $translation_es . "\n";
-
             $suspicious = false;
 
             switch ($entry[0]) {
@@ -109,9 +105,6 @@ while (false !== ($file = readdir($handle))) {
             $output .= "<field name='mimeType'>text/plain</field>\n";
             $output .= "<field name='category'>Wikipedia</field>\n";
             $output .= "<field name='dataset_priority'>8</field>\n";
-            //TODO no trim should be necessary
-//            $output .= "<field name='german'>" . trim($translation_de) . "</field>\n";
-//            $output .= "<field name='spanish'>" . trim($translation_es) . "</field>\n";
             if ($suspicious) {
                 $output .= "<field name='suspicious'>t</field>\n";
             } else {
