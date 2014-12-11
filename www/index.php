@@ -106,14 +106,14 @@ if ($user_query != "") {
             $input = $('#q'),
             value = $input.val(),
             html = "",
-            $language = "",
+            language = "",
             noautocompletion = true;
     
         $("input:radio[name=language]:checked").each(function(){
-            $language = $(this).val();
+            language = $(this).val();
         });
         
-        if ($language === "") {
+        if (language === "") {
             $trans.html("");
         }
         
@@ -125,7 +125,7 @@ if ($user_query != "") {
 				dataType: "json",
 				crossDomain: false,
                 data: {
-                    q: $input.val(), l: $language, p: $input.getCursorPosition()
+                    q: $input.val(), l: language, p: $input.getCursorPosition()
                 }
             })
             .then( function ( response ) {
@@ -133,11 +133,11 @@ if ($user_query != "") {
             	$ul.listview( "refresh" );
                 $.each( response, function ( i, val ) {
                     if (i === 0 && val !== "") {
-                        if ($language ==="ger") {
-                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); updateAutocomplete();\'><img src="images/gb.png" alt="english" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
+                        if (language ==="ger") {
+                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); pubmedAutocomplete(true);\'><img src="images/gb.png" alt="english" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
                         }
-                        else if ($language ==="esp") {
-                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); updateAutocomplete();\'><img src="images/esp.png" alt="spanish" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
+                        else if (language ==="esp") {
+                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); pubmedAutocomplete(true);\'><img src="images/esp.png" alt="spanish" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
                         }
                     } else if ( i !== 0 && val !== ""){                        
                         html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';
@@ -152,13 +152,22 @@ if ($user_query != "") {
                 $ul.trigger( "updatelayout");
             });
             
-            pubmedAutoComplete();
+            pubmedAutocomplete();
             
             $input.focus();
         }	   
 	}
         
-        function pubmedAutoComplete() {
+        /**
+        * calls PubMed Autocomplete
+
+         * @param {type} deleteList delete list
+         * @returns {Boolean}         */
+        function pubmedAutocomplete(deleteList) {
+            deleteList = deleteList || false;
+            if(deleteList) {
+                $('#autocomplete').html("");
+            }    
             $.getJSON("http://preview.ncbi.nlm.nih.gov/portal/utils/autocomp.fcgi?dict=pm_related_queries_2&callback=?&q="+ encodeURIComponent($("#q").val()), NSuggest_CreateData);
             return false;
         }
