@@ -48,14 +48,15 @@ while (false !== ($file = readdir($handle))) {
 
             $entry = $dictionary[(string) $article_title];
 
-            $suspicious = false;
+            $suspicious = true;
 
             switch ($entry[0]) {
-                case "Stub":
+                case "FA":
+                case "GA":
+                case "B":
+                case "C":
                 case "Start":
-                case "Unassessed":
-                case "Disambig":
-                    $suspicious = true;
+                    $suspicious = false;
                     break;
             }
 
