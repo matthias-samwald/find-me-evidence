@@ -7,8 +7,13 @@
 */  
 
 // Load list of article labels into an array
-$article_list_file_contents = file_get_contents("./wikipedia/relevant_articles.txt");
-$article_ids = explode( "\n", $article_list_file_contents);
+$article_ids = array();
+if (($handle = fopen('./wikipedia/relevant_articles_credibility.txt', 'r')) !== FALSE) {
+    while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
+        $article_ids[] = $row[0];
+    }
+    fclose($handle);
+}
 
 $output_file = "./synonyms/synonyms_from_wikipedia.txt";
 file_put_contents($output_file, ""); // Flush file
@@ -46,7 +51,7 @@ foreach ($article_ids as $article_id) {
 	}
 	LIMIT 100
 	";
-	
+        
 	$response = file_get_contents("http://dbpedia.org/sparql?query=" . urlencode($query) . "&format=" . urlencode("text/csv"));
 	$synonyms = explode("\n", trim($response));
 	array_shift($synonyms); // Remove first element (the column title)
