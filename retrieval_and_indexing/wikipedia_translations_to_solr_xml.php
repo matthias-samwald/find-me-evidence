@@ -6,7 +6,7 @@ include('./config.php');
 
 $count = 0;
 
-index("es_translated_relevant_articles_credibility.txt", 2, 3);
+index("es_de_translated_relevant_articles_credibility.txt", 2, 3);
 
 index("new_medical_terms.txt", 1, 2);
 

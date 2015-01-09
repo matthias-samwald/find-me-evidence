@@ -3108,7 +3108,6 @@ Borrelia burgdorferi Group;Borrelia burgdorferi-Gruppe;Borrelia burgdorferi Grup
 Borrelia Infections;Borrelien-Infektionen;Borrelia Infecciones
 Bosnia-Herzegovina;Bosnien-Herzegowina;Bosnia-Herzegovina
 Boston;Boston;Boston
-Boswellia;Boswellia;Boswellia
 Botany;Botanik;Botánica
 Bothrops;Bothrops;Bothrops
 Botrytis;Botrytis;Botrytis

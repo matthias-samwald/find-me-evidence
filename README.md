@@ -39,14 +39,21 @@ pubmed_fetch.php, reads PubMed entries, and writes extracted content to the Solr
 1.  optional
     *  Run `wikipedia_create_list_of_relevant_articles.php`
 
-    * Run `wikipedia_langlinks_translate.php` to use the Wikipedia langlink as the
+    * Run `wikipedia_langlinks_translate_de.php` to use the Wikipedia langlink as the german
 translation of the article
 
-    *  Run `wikipedia_translate.php <max_number_of_yandex_translation>` to 
-translate the remaining article titles with Yandex 
+    *  Run `wikipedia_translate_de.php <max_number_of_yandex_translation>` to 
+translate the remaining article titles with Yandex to german 
 ([Powered by Yandex.Translate](http://translate.yandex.com/))
 
-2.  Run `wikipedia_fetch.php`
+    * Run `wikipedia_langlinks_translate_es.php` to use the Wikipedia langlink as the spanish
+translation of the article
+
+    *  Run `wikipedia_translate_es.php <max_number_of_yandex_translation>` to 
+translate the remaining article titles with Yandex to spanish 
+([Powered by Yandex.Translate](http://translate.yandex.com/))
+
+2.  Run `wikipedia_fetch.php` to download articles from Wikipedia
 
 3.  Run `wikipedia_xml_to_solr_xml.php`:
 wikipedia_xml_to_solr_xml.php iterates through the Wikipedia XML files downloaded by 

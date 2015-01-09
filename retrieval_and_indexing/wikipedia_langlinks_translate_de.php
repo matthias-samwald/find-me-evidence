@@ -43,7 +43,7 @@ if (($handle = fopen('./wikipedia/' . $filename, 'r')) !== FALSE) {
 //}
 
 $output_file_content = implode($translations, "\n");
-file_put_contents("./wikipedia/translated_" . $filename, $output_file_content);
+file_put_contents("./wikipedia/de_translated_" . $filename, $output_file_content);
 
 function xpath($xml, $xpath_expression, $return_entire_array = false) {
     $result_array = $xml->xpath($xpath_expression);

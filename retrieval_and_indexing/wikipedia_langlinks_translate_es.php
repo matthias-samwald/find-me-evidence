@@ -4,7 +4,7 @@
  * This script uses the Wikipedia API to translate the title.
  */
 
-$filename = "translated_relevant_articles_credibility.txt";
+$filename = "de_translated_relevant_articles_credibility.txt";
 $article_list_file_contents = file_get_contents("./wikipedia/" . $filename);
 $article_labels = explode("\n", $article_list_file_contents);
 

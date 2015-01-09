@@ -13,64 +13,101 @@
  * Matthias Samwald, March 2013, samwald (at) gmx.at
  */
 
-$article_count = 0;
-
-function filter_urls($url) {
-    if ((substr($url, 0, 4) == "Talk")
-            or ( strpos($url, "action=history") !== false)
-            or ( strpos($url, "%3A") !== false)
-            or ( strpos($url, "List%20of") !== false))
-        return false;
-    else
-        return true;
-}
-
-/**
- * Get response from Wikipedia toolserver. 
- * It lists up to 1000 articles (starting from a given offset) 
- * for a given project.
- */
-function get_toolserver_response($offset, $project) {
-    $response = file_get_contents("http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project .
-            "&namespace=&pagename=&quality=&importance=&score=&limit=1000&offset=" . $offset .
-            "&sorta=Importance&sortb=Quality");
-    $GLOBALS["article_count"] = preg_match_all("/\"http\:\/\/en\.wikipedia\.org\/w\/index\.php\?title\=([^\"]+)/", $response, $matches);
-    $matches = $matches[1];
-    $matches = array_filter($matches, "filter_urls");
-
-    $matches_returned = Array();
-    foreach ($matches as $match) {
-        $matches_returned[] = urldecode(str_replace("%20", "_", $match));
-    }
-
-    echo count($matches_returned) . ": http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project .
-    "&namespace=&pagename=&quality=&importance=&score=&limit=1000&offset=" . $offset .
-    "&sorta=Importance&sortb=Quality \n";
-
-    return $matches_returned;
-}
+require_once './simple_html_dom.php';
 
 $article_labels = Array();
+$limit = 200;
+$tr_count = 0;
 
 // Get article labels belonging to 'Pharmacology' Wikipedia project
 $i = 1;
 do {
     $articles = get_toolserver_response($i, "Pharmacology");
     $article_labels = array_merge($article_labels, $articles);
-    $i += 1000;
-} while ($article_count != 1);
+    $i += $limit;
+} while ($tr_count != 1);
 
 // Get article labels belonging to 'Medicine' Wikipedia project
 $i = 1;
 do {
     $articles = get_toolserver_response($i, "Medicine");
     $article_labels = array_merge($article_labels, $articles);
-    $i += 1000;
-} while ($article_count != 1);
+    $i += $limit;
+} while ($tr_count != 1);
 
 // Remove duplicates
 $article_labels_unique = array_unique($article_labels);
 
-// Write article labels to a textfile
 $output_file_content = implode($article_labels_unique, "\n");
-file_put_contents("./wikipedia/relevant_articles.txt", $output_file_content);
+file_put_contents("./wikipedia/relevant_articles_credibility.txt", $output_file_content);
+
+echo count($article_labels) - count($article_labels_unique) . " dulplicate(s)\n";
+echo count($article_labels_unique) . " total\n";
+
+/**
+ * returns list of articles (array)
+ * @param type $offset results per page
+ * @param type $project project name e.g. Pharmacology
+ * @return string
+ */
+function get_toolserver_response($offset, $project) {
+    $url = "http://tools.wmflabs.org/enwp10/cgi-bin/list2.fcgi?run=yes&projecta=" . $project .
+            "&namespace=&pagename=&quality=&importance=&score=&limit=" . $GLOBALS["limit"] . "&offset=" . $offset .
+            "&sorta=Importance&sortb=Quality";
+
+    $matches_returned = Array();
+
+    $html = file_get_html($url);
+
+    $GLOBALS["tr_count"] = 0;
+
+    foreach ($html->find('tr') as $element) {
+
+        $GLOBALS["tr_count"] ++;
+
+        //echo $element . "--------------------------\n";
+        preg_match("/\"http\:\/\/en\.wikipedia\.org\/w\/index\.php\?title\=([^\"]+)/", $element, $matches);
+        if (isset($matches[1]) && filter_articles($matches[1])) {
+
+            $match = urldecode(str_replace("%20", "_", $matches[1]));
+//            echo $match . ", ";
+
+
+            if (strpos($match, ';') !== false) {
+                echo $match . "\n";
+            }
+
+            $quality = $element->find('b', 1)->plaintext;
+
+            //.$element."\n";
+//            echo "Importance: " . $element->find('b', 0)->plaintext . ", ";
+//            echo $quality . "\n";
+//            echo "Review Release: " . $element->find('b', 2)->plaintext . "\n";
+
+            $matches_returned[] = $match . ";" . $quality;
+        }
+    }
+    echo count($matches_returned) . ": " . $url . "\n";
+    return $matches_returned;
+}
+
+/**
+ * returns false for article with ':' or 'List_of' in its name or if it is an 
+ * empty string or if it starts with "ATC_code_" or "ATCvet_code_", returns false, 
+ * otherwise returns true
+ * @param type $article name of article
+ * @return boolean
+ */
+function filter_articles($article) {
+    //contains
+    if ((strpos($article, "%3A") !== false)
+            or ( strpos($article, "List%20of") !== false)
+            or ( strcmp("", $article) === 0)
+            //startswith
+            or ( strpos($article, "ATC%20code%20") === 0)
+            or ( strpos($article, "ATCvet%20code%20") === 0)) {
+        return false;
+    } else {
+        return true;
+    }
+}
