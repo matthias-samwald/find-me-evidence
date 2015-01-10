@@ -62,7 +62,7 @@ wikipedia_fetch.php, reads Wikipedia entries, and writes extracted content to th
 4.  Run `wikipedia_translations_to_solr_xml.php`:
 wikipedia_translations_to_solr_xml.php indexes the translations to the dictionary Solr core
 
-###Crawl websites and index
+###Crawling and indexing websites
 
 1. Run `start_crawl.php`
 
