@@ -1,4 +1,4 @@
-find-me-evidence
+FindMeEvidence
 ================
 
 An open-source medical search engine
@@ -42,14 +42,14 @@ pubmed_fetch.php, reads PubMed entries, and writes extracted content to the Solr
     * Run `wikipedia_langlinks_translate_de.php` to use the Wikipedia langlink as the german
 translation of the article
 
-    *  Run `wikipedia_translate_de.php <max_number_of_yandex_translation>` to 
+    *  Run `wikipedia_translate_de.php` to 
 translate the remaining article titles with Yandex to german 
 ([Powered by Yandex.Translate](http://translate.yandex.com/))
 
     * Run `wikipedia_langlinks_translate_es.php` to use the Wikipedia langlink as the spanish
 translation of the article
 
-    *  Run `wikipedia_translate_es.php <max_number_of_yandex_translation>` to 
+    *  Run `wikipedia_translate_es.php` to 
 translate the remaining article titles with Yandex to spanish 
 ([Powered by Yandex.Translate](http://translate.yandex.com/))
 
@@ -62,6 +62,10 @@ wikipedia_fetch.php, reads Wikipedia entries, and writes extracted content to th
 4.  Run `wikipedia_translations_to_solr_xml.php`:
 wikipedia_translations_to_solr_xml.php indexes the translations to the dictionary Solr core
 
+###Crawl websites and index
+
+1. Run `start_crawl.php`
+
 ###Creating synonyms from Wikipedia
 
 1.  Run `create_synonyms_from_wikipedia.php`:
@@ -69,7 +73,7 @@ This creates a synonym mapping (for improving quality of search results) based o
 page redirects in Wikipedia. To do this, it calls the DBpedia server (an open
 database where content from Wikipedia can be queried). The script writes synonyms to a file
 in the ./synonyms subfolder. This file must be placed into the Solr directory of the Solr 
-collection containing the index., e.g., as [SOLR_HOME]/collection1/conf/synonyms.txt
+collection containing the index., e.g., as `[SOLR_HOME]/collection1/conf/synonyms.txt`.
 
 ###Cleaning the index
 

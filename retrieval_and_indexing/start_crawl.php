@@ -116,7 +116,6 @@ crawl_via_links_on_page("Medscape monographs", "http://reference.medscape.com/si
 crawl_via_links_on_page("Merck Manual", "http://www.merckmanuals.com/professional/sitemap.xml", "/<loc>([^<]+)<\/loc>/", "Evidence-based summary", 10, 3);
 crawl("ATTRACT (Professional medical Q&A)", "http://www.attract.wales.nhs.uk/", "Evidence-based summary", 8);
 crawl("BestBETs (Evidence-based summaries)", "http://bestbets.org/", "Evidence-based summary", 8);
-crawl_via_links_on_page("NHS Clinical Knowledge Summaries (UK)", "http://cks.nice.org.uk/sitemap.xml", "/<loc>([^<]+)<\/loc>/",  "Evidence-based summary", 7, 3);
 crawl_via_links_on_page("Guideline.gov", "http://www.guideline.gov/browse/index.aspx?alpha=All", '/href="([^"]+)"/', "Evidence-based summary", 8, 16);
 
 // Deprecated:
@@ -125,6 +124,7 @@ crawl_via_links_on_page("Guideline.gov", "http://www.guideline.gov/browse/index.
 // crawl("NICE Clinical Guidelines", "http://guidance.nice.org.uk/", "Evidence-based summary", 7, 1);
 // crawl("doc2doc", "http://doc2doc.bmj.com/", "Professional discussions", 7);  
 // crawl("Diagnosia English", "http://www.diagnosia.com/en/drugs", "Drug information", 8);
+// crawl_via_links_on_page("NHS Clinical Knowledge Summaries (UK)", "http://cks.nice.org.uk/sitemap.xml", "/<loc>([^<]+)<\/loc>/",  "Evidence-based summary", 7, 3);
 
 
 print do_post_request(SOLR_URL . '/update', "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><commit/><optimize/></update>");

@@ -378,7 +378,6 @@ if ($user_query != "") {
 					<li>Medscape.com</li>
 					<li>Merck Manuals</li>
 					<li>Guidelines.gov</li>
-					<li>NHS Clinical Knowledge Summaries</li>
 					<li>ATTRACT (an evidence-based medical question answering service)</li>
 					<li>BestBETs (another evidence-based medical question answering service)</li>
 					<li>Medical and pharmacological Wikipedia articles</li>
