@@ -145,7 +145,7 @@ while (false !== ($file = readdir($handle))) {
                 $output .= "<field name='pmcid'>" . $pmc[0] . "</field>\n";
                 $result = $db->querySingle('SELECT id FROM pubmed where id = "' . $pmc[0] . '"');
                 if ($result === trim($pmc[0])) {
-                    echo $article_title . "\n";
+//                    echo $article_title . "\n";
                     $output .= "<field name='oa'>t</field>\n";
                 }
             }
