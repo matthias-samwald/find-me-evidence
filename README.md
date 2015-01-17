@@ -40,7 +40,7 @@ pubmed_fetch.php, reads PubMed entries, and writes extracted content to the Solr
 
 ###Fetching and indexing Wikipedia
 
-1.  optional
+1.  optional (get a free [API key](https://translate.yandex.com/developers/) and store it in the property file `config.php`)
     *  Run `wikipedia_create_list_of_relevant_articles.php`
 
     *  Run `wikipedia_langlinks_translate_de.php` to use the Wikipedia langlink as the german
@@ -50,12 +50,16 @@ translation of the article
 translate the remaining article titles with Yandex to german 
 ([Powered by Yandex.Translate](http://translate.yandex.com/))
 
+    *  Run `wikipedia_translate_de.php` again if translation was reached
+
     * Run `wikipedia_langlinks_translate_es.php` to use the Wikipedia langlink as the spanish
 translation of the article
 
     *  Run `wikipedia_translate_es.php` to 
 translate the remaining article titles with Yandex to spanish 
 ([Powered by Yandex.Translate](http://translate.yandex.com/))
+
+    *  Run `wikipedia_translate_es.php` again if translation was reached
 
 2.  Run `wikipedia_fetch.php` to download articles from Wikipedia
 
