@@ -25,12 +25,16 @@ with a command such as "php start_crawl.php").
 
 ###Fetching and indexing PubMed
 
-1.  Run `pubmed_fetch.php`:
+1.  optional
+    *  Run `pubmed_oa_fetch.php` to fetch OA article IDs from the PMC OA Web Service
+    *  Run `pubmed_oa_insert_into_db.php` to insert all IDs in a SQLite3 DB
+
+2.  Run `pubmed_fetch.php`:
 pubmed_fetch.php downloads all PubMed entries that are the result of a specific PubMed 
 query. You can edit the script to change the PubMed query used. The default query aims
 to cover all content in PubMed that is of relevance for medical decision making.
 
-2.  Run `pubmed_xml_to_solr_xml.php`:
+3.  Run `pubmed_xml_to_solr_xml.php`:
 pubmed_xml_to_solr_xml.php iterates through the PubMed XML files downloaded by 
 pubmed_fetch.php, reads PubMed entries, and writes extracted content to the Solr index.
 
@@ -39,7 +43,7 @@ pubmed_fetch.php, reads PubMed entries, and writes extracted content to the Solr
 1.  optional
     *  Run `wikipedia_create_list_of_relevant_articles.php`
 
-    * Run `wikipedia_langlinks_translate_de.php` to use the Wikipedia langlink as the german
+    *  Run `wikipedia_langlinks_translate_de.php` to use the Wikipedia langlink as the german
 translation of the article
 
     *  Run `wikipedia_translate_de.php` to 
