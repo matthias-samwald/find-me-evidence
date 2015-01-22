@@ -27,6 +27,7 @@ with a command such as "php start_crawl.php").
 
 1.  optional
     *  Run `pubmed_oa_fetch.php` to fetch OA article IDs from the PMC OA Web Service
+    *  Run `pubmed_oa_remove_duplicates.php` to remove duplicate IDs
     *  Run `pubmed_oa_insert_into_db.php` to insert all IDs in a SQLite3 DB
 
 2.  Run `pubmed_fetch.php`:
