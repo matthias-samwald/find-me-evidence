@@ -4,7 +4,7 @@ $db = new SQLite3('./pubmed/oa_db');
 
 $db->exec('DROP TABLE pubmed');
 
-$db->exec('CREATE TABLE pubmed (id varchar(25))');
+$db->exec('CREATE TABLE pubmed (id varchar(25) primary key)');
 
 $file = fopen("./pubmed/oa_articles.txt", "r");
 
