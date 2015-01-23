@@ -8725,7 +8725,6 @@ Aneuploidy;B
 Aneurysm;B
 Anterior_cruciate_ligament_reconstruction;B
 Antibiotic_resistance;B
-Antibiotics;B
 Anxiety;B
 Appendicitis;B
 Arthroscopy;B
@@ -8763,7 +8762,6 @@ Breast_cancer_screening;B
 Bronchitis;B
 Bruise;B
 Bulimia_nervosa;B
-Carbamazepine;B
 Carcinogenesis;B
 Cardiac_arrest;B
 Cardiopulmonary_bypass;B
@@ -8819,7 +8817,6 @@ Emergency_contraception;B
 Epidemic_typhus;B
 Esophageal_cancer;B
 Estrogen;B
-Etanercept;B
 Euthanasia;B
 Experimental_cancer_treatment;B
 Fatigue_(medical);B
@@ -9015,7 +9012,6 @@ Actinic_keratosis;C
 Addiction;C
 Adenocarcinoma_of_the_lung;C
 Adenoidectomy;C
-Adverse_drug_reaction;C
 Airway_management;C
 Alcohol_and_cancer;C
 Allergen_immunotherapy;C
@@ -9105,7 +9101,6 @@ Epidemic;C
 Epidemiology_of_HIV/AIDS;C
 Epileptic_seizure;C
 Erectile_dysfunction;C
-Ethosuximide;C
 Evidence-based_medicine;C
 Fetal_circulation;C
 Gallstone;C
@@ -9168,7 +9163,6 @@ Mastectomy;C
 Maternal_physiological_changes_in_pregnancy;C
 Measles;C
 Mechanical_ventilation;C
-Medical_prescription;C
 Mental_health;C
 Merkel_cell_carcinoma;C
 Midwife;C
@@ -9183,7 +9177,6 @@ Obstetric_fistula;C
 Onchocerciasis;C
 Oncology;C
 Ophthalmology;C
-Opioid_dependence;C
 Oral_cancer;C
 Oral_rehydration_therapy;C
 Ovarian_cyst;C
@@ -9193,14 +9186,10 @@ Pancreatitis;C
 Panic_attack;C
 Pathogen;C
 Pediatrics;C
-Pentobarbital;C
 Pericarditis;C
 Phases_of_clinical_research;C
-Phenobarbital;C
-Phenytoin;C
 Physical_examination;C
 Pleural_effusion;C
-Polypharmacy;C
 Post-nasal_drip;C
 Postpartum_depression;C
 Posttraumatic_stress_disorder;C
@@ -9209,7 +9198,6 @@ Prehypertension;C
 Premature_rupture_of_membranes;C
 Prenatal_development;C
 Presbyopia;C
-Prescription_drug;C
 Preterm_birth;C
 Preventive_healthcare;C
 Primary_biliary_cirrhosis;C
@@ -9225,7 +9213,6 @@ Reproductive_system;C
 Retinopathy;C
 Rhinitis;C
 Rhinorrhea;C
-Rituximab;C
 Scarlet_fever;C
 Screening_(medicine);C
 Seborrheic_keratosis;C
@@ -9321,7 +9308,6 @@ Complications_of_pregnancy;Start
 Congenital_heart_defect;Start
 Continuous_passive_motion;Start
 Coroner;Start
-Cough_medicine;Start
 Cutaneous_condition;Start
 Cuticle_(hair);Start
 Cyanosis;Start
@@ -9551,7 +9537,6 @@ Henoch–Schönlein_purpura;GA
 Heparin-induced_thrombocytopenia;GA
 Hepatic_encephalopathy;GA
 Hereditary_hemorrhagic_telangiectasia;GA
-History_of_malaria;GA
 History_of_poison;GA
 Hypopituitarism;GA
 Idiopathic_intracranial_hypertension;GA
@@ -9586,7 +9571,6 @@ Wilson's_disease;GA
 2009_flu_pandemic_in_the_United_States;B
 5-alpha-reductase_deficiency;B
 ABC_(medicine);B
-ACE_inhibitor;B
 ASA_physical_status_classification_system;B
 Abdominal_aortic_aneurysm;B
 Abdominal_pregnancy;B
@@ -9679,20 +9663,17 @@ Bell's_palsy;B
 Bennett's_fracture;B
 Benzodiazepine_misuse;B
 Benzodiazepine_overdose;B
-Bevacizumab;B
 Bilirubin;B
 Biological_aspects_of_fluorine;B
 Biological_psychiatry;B
 Biomedical_engineering;B
 Biomedical_scientist;B
-Biopharmaceutics;B
 Biotin;B
 Bipolar_disorder_in_children;B
 Birth_weight;B
 Bisphenol_A;B
 Black_Death;B
 Blastocystosis;B
-Blind_experiment;B
 Body_mass_index;B
 Bowel_obstruction;B
 Brachial_plexus_injury;B
@@ -9822,7 +9803,6 @@ Ego-dystonic_sexual_orientation;B
 Electroconvulsive_therapy;B
 Electrocorticography;B
 Electroneuronography;B
-Electronic_cigarette;B
 Electrosurgery;B
 Embolism;B
 Embryo_transfer;B
@@ -9830,7 +9810,6 @@ Emergency_department;B
 Emergency_medical_services;B
 Emergency_psychiatry;B
 Emotional_lateralization;B
-Endocannabinoid_system;B
 Endometrial_cancer;B
 Endometrial_intraepithelial_neoplasia;B
 Endomicroscopy;B
@@ -9986,7 +9965,6 @@ Intratubular_germ_cell_neoplasia;B
 Intravenous_therapy;B
 Introduction_to_genetics;B
 Involuntary_commitment;B
-Iprindole;B
 Iron_deficiency;B
 Ischemic_colitis;B
 Islet_cell_transplantation;B
@@ -10019,7 +9997,6 @@ Lipid_hypothesis;B
 Lipoma;B
 Lipoprotein;B
 Lipoprotein(a);B
-Live_attenuated_influenza_vaccine;B
 Liver_transplantation;B
 Local_anesthetic;B
 Long_QT_syndrome;B
@@ -10129,7 +10106,6 @@ Ocular_prosthesis;B
 Oncogenomics;B
 Onychomycosis;B
 Optical_coherence_tomography;B
-Oral_contraceptive_formulations;B
 Ornithine_transcarbamylase_deficiency;B
 Orthopedic_cast;B
 Orthostatic_hypotension;B
@@ -10285,7 +10261,6 @@ Stuttering;B
 Subdural_hematoma;B
 Substance_abuse;B
 Suicide_intervention;B
-Sulfonamide_(medicine);B
 Superior_mesenteric_artery_syndrome;B
 Swimmer's_itch;B
 Swine_influenza;B
@@ -10297,7 +10272,6 @@ TNM_staging_system;B
 T_cell;B
 Telephone_triage;B
 Testicular_cancer;B
-Testosterone;B
 The_Natural_History_of_Alcoholism_Revisited;B
 Thoracentesis;B
 Thrombocytopenia;B
@@ -10464,7 +10438,6 @@ Aretaeus_of_Cappadocia;C
 Arnold–Chiari_malformation;C
 Arousal;C
 Arrhythmogenic_right_ventricular_dysplasia;C
-Artemisinin;C
 Arteriovenous_malformation;C
 Arteriovenous_oxygen_difference;C
 Articular_cartilage_damage;C
@@ -10582,7 +10555,6 @@ Carcinogen;C
 Carcinoid;C
 Cardiac_MRI_perfusion;C
 Cardiac_fibrosis;C
-Cardiac_glycoside;C
 Cardiac_stress_test;C
 Cardiac_tamponade;C
 Cardiology;C
@@ -10741,10 +10713,8 @@ Diagnosis_of_schizophrenia;C
 Diaphoresis;C
 Diarrhea_in_developing_regions;C
 Diastasis_symphysis_pubis;C
-Diatrizoic_acid;C
 Diet_and_attention_deficit_hyperactivity_disorder;C
 Diet_and_obesity;C
-Diethylstilbestrol;C
 Diffuse_large_B-cell_lymphoma;C
 Diffusing_capacity;C
 Digenea;C
@@ -10773,9 +10743,7 @@ Dopamine_hypothesis_of_schizophrenia;C
 Doping_in_sport;C
 Dorsal_nexus;C
 Doula;C
-Doxepin;C
 Dressing_(medical);C
-Drug-induced_lupus_erythematosus;C
 Drug_withdrawal;C
 Dry_drowning;C
 Dubin–Johnson_syndrome;C
@@ -10843,7 +10811,6 @@ Exanthema_subitum;C
 Excoriation_disorder;C
 Executive_system;C
 Exhaled_nitric_oxide;C
-Extended_cycle_combined_hormonal_contraceptive;C
 External_urine_collection_devices;C
 Extraocular_muscles;C
 Eyeglass_prescription;C
@@ -11017,7 +10984,6 @@ Human_skull;C
 Hunter_syndrome;C
 Hybrid_cardiac_surgery;C
 Hydrocephalus;C
-Hydromorphone;C
 Hygiene_hypothesis;C
 Hyperglycemia;C
 Hyperhidrosis;C
@@ -11101,7 +11067,6 @@ Ketonuria;C
 Ketosis;C
 Knockout_mouse;C
 Koro_(medicine);C
-Lacosamide;C
 Lacunar_stroke;C
 Lamar_Soutter;C
 Lambda_Beta_Society;C
@@ -11117,7 +11082,6 @@ Latent_autoimmune_diabetes_of_adults;C
 Latent_tuberculosis;C
 Lateralization_of_brain_function;C
 Latrodectism;C
-Laudanum;C
 Le_Fort_fracture_of_skull;C
 Left_atrial_appendage_occlusion;C
 Lichen_sclerosus;C
@@ -11127,12 +11091,10 @@ Lip;C
 Lip_lift;C
 Lissencephaly;C
 Listeriosis;C
-Lithium_(medication);C
 Loa_loa_filariasis;C
 Loin_pain_hematuria_syndrome;C
 London_Ambulance_Service;C
 Long-term_effects_of_cannabis;C
-Lovastatin;C
 Low-threshold_treatment_programs;C
 Lower_gastrointestinal_bleeding;C
 Loxoscelism;C
@@ -11248,7 +11210,6 @@ Nail_biting;C
 Named_patient_programs;C
 Nanomedicine;C
 Narcolepsy;C
-Narcotic;C
 Nasal_EPAP;C
 Nasal_cavity;C
 Nasal_fracture;C
@@ -11349,7 +11310,6 @@ Pacifier;C
 Paget's_disease_of_bone;C
 Paget's_disease_of_the_breast;C
 Pain_stimulus;C
-Paliperidone;C
 Palmoplantar_keratoderma;C
 Pancreatic_abscess;C
 Panniculitis;C
@@ -11394,9 +11354,7 @@ Perspiration;C
 Phakic_intraocular_lens;C
 Phantom_limb;C
 Phantosmia;C
-Pharmaceutical_marketing;C
 Pharmacometabolomics;C
-Phenylbutazone;C
 Pheochromocytoma;C
 Phosphene;C
 Photokeratitis;C
@@ -11451,7 +11409,6 @@ Postural_orthostatic_tachycardia_syndrome;C
 Pox_party;C
 Pre-conception_counseling;C
 Precocious_puberty;C
-Prednisolone;C
 Premature_ejaculation;C
 Premature_ovarian_failure;C
 Prenatal_perception;C
@@ -11559,7 +11516,6 @@ ST_depression;C
 Sack–Barabas_syndrome;C
 Sacroiliac_joint_dysfunction;C
 Salicylate_testing;C
-Saline_(medicine);C
 Saliva_testing;C
 Sanatorium;C
 Sarcoidosis;C
@@ -11587,7 +11543,6 @@ Sensorineural_hearing_loss;C
 Sensory_substitution;C
 Septic_arthritis;C
 Serosorting;C
-Serotonin–norepinephrine_reuptake_inhibitor;C
 Serous_cystic_neoplasms;C
 Serous_membrane;C
 Severe_combined_immunodeficiency;C
@@ -11967,7 +11922,6 @@ Anterior_spinal_artery_syndrome;Start
 Anterior_triangle_of_the_neck;Start
 Anti-thymocyte_globulin;Start
 Antibiotic-associated_diarrhea;Start
-Anticarcinogen;Start
 Anticipatory_grief;Start
 Antigen;Start
 Antihemorrhagic;Start
@@ -12135,7 +12089,6 @@ Bipolar_spectrum;Start
 Birth_attendant;Start
 Birth_trauma_(physical);Start
 Birthing_center;Start
-Bisoctrizole;Start
 Black_eye;Start
 Black_pox;Start
 Bladder_sphincter_dyssynergia;Start
@@ -12216,7 +12169,6 @@ Breast_prostheses;Start
 Breast_reconstruction;Start
 Breast_self-examination;Start
 Brenner_tumour;Start
-Bristol-Myers_Squibb;Start
 Brodmann_area_1;Start
 Brodmann_area_17;Start
 Brodmann_area_2;Start
@@ -12242,7 +12194,6 @@ Bulbar_palsy;Start
 Bulbar_urethral_necrosis;Start
 Bundle_branch_block;Start
 Bundle_of_His;Start
-Buprenorphine;Start
 Burping;Start
 Burst_fracture;Start
 Burst_suppression;Start
@@ -12340,7 +12291,6 @@ Cervical_polyp;Start
 Cervical_spine_disorder;Start
 Cervicectomy;Start
 Cervicitis;Start
-Cetirizine;Start
 Chain_of_survival;Start
 Chancre;Start
 Chancroid;Start
@@ -12649,7 +12599,6 @@ Dosing;Start
 Drain_(surgery);Start
 Drooling;Start
 Drug_detoxification;Start
-Drug_fraud;Start
 Dual-energy_X-ray_absorptiometry;Start
 Dual_diagnosis;Start
 Dukes'_disease;Start
@@ -12780,7 +12729,6 @@ Esophagectomy;Start
 Esophagitis;Start
 Esotropia;Start
 Essential_hypertension;Start
-Essential_medicines;Start
 Essential_nutrient;Start
 Essure;Start
 Estratest;Start
@@ -13658,7 +13606,6 @@ Minimally_conscious_state;Start
 Minimally_invasive_cardiac_surgery;Start
 Minor_physical_anomalies;Start
 Miosis;Start
-Misoprostol;Start
 Mitochondrial_myopathy;Start
 Mitral_valve_repair;Start
 Mittelschmerz;Start
@@ -14088,7 +14035,6 @@ Photodermatitis;Start
 Photodynamic_therapy;Start
 Photorefractive_keratectomy;Start
 Photorejuvenation;Start
-Photosensitivity;Start
 Phototoxicity;Start
 Phyllodes_tumor;Start
 Physical_fitness;Start
@@ -14111,7 +14057,6 @@ Placental_expulsion;Start
 Plasma_cell;Start
 Plasmapheresis;Start
 Plasmodium_knowlesi;Start
-Platensimycin;Start
 Pleomorphic_adenoma;Start
 Plethysmograph;Start
 Pleurodesis;Start
@@ -14952,7 +14897,6 @@ Vancomycin-resistant_Enterococcus;Start
 Vancomycin-resistant_Staphylococcus_aureus;Start
 Vanishing_bile_duct_syndrome;Start
 Vanishing_twin;Start
-Vardenafil;Start
 Varicella_zoster_virus;Start
 Varus_deformity;Start
 Vascular_access_steal_syndrome;Start
@@ -15695,7 +15639,6 @@ Endoluminal_capsule_monitoring;Stub
 Endoscopic_nasopharyngectomy;Stub
 Endoscopic_stenting;Stub
 Endotheliitis;Stub
-Enkephalinase_inhibitor;Stub
 Enteritis;Stub
 Enterocolitis;Stub
 Enteropathy;Stub
@@ -18127,7 +18070,6 @@ Sarah_Wollaston;B
 Scar;B
 Science_and_inventions_of_Leonardo_da_Vinci;B
 Sebaceous_gland;B
-Seeding_trial;B
 Self-expandable_metallic_stent;B
 Self-help_groups_for_mental_health;B
 Sell_v._United_States;B
@@ -18370,7 +18312,6 @@ Antonín_Heveroch;C
 António_Egas_Moniz;C
 Anwara_Ali;C
 Aortic_insufficiency;C
-Apamin;C
 Apical_dendrite;C
 Apperceptive_agnosia;C
 Applied_Biosystems;C
@@ -18597,7 +18538,6 @@ Conjugate_gaze_palsy;C
 Conorenal_syndrome;C
 Constitutional_challenges_to_the_Patient_Protection_and_Affordable_Care_Act;C
 Constructional_apraxia;C
-Conteben;C
 Contraceptive_mandate_(United_States);C
 Control_of_chromosome_duplication;C
 Controversies_related_to_chronic_fatigue_syndrome;C
@@ -18665,14 +18605,12 @@ Dhat_syndrome;C
 Diastematomyelia;C
 Diastolic_heart_failure;C
 Diazinon;C
-Dichloroacetic_acid;C
 Dichotic_listening;C
 Digital_radiography;C
 Digoxin_toxicity;C
 Diktyoma;C
 Diocletian_Lewis;C
 Diprosopus;C
-Discovery_and_development_of_antiandrogens;C
 Disinfectant;C
 Disinhibition;C
 Distal_spinal_muscular_atrophy_type_1;C
@@ -18754,7 +18692,6 @@ Ethanol_use_and_sleep;C
 Ethics_of_circumcision;C
 Eumycetoma;C
 European_Society_of_Gynaecological_Oncology;C
-Evidence-based_pharmacy_in_developing_countries;C
 Experimental_treatment_of_androgenic_alopecia;C
 Experiments_in_immunology;C
 Exposure_assessment;C
@@ -18976,7 +18913,6 @@ Idiopathic_pure_sudomotor_failure;C
 Ignacio_A._Santos_School_of_Medicine;C
 Ileo-anal_pouch;C
 Illness_and_injuries_during_spaceflight;C
-ImClone_Systems;C
 Imerslund-Gräsbeck_syndrome;C
 Immigrant_health_care_in_the_United_States;C
 Immune_tolerance_in_pregnancy;C
@@ -19388,7 +19324,6 @@ Philadelphia_Lazaretto;C
 Philip_Stieg;C
 Philip_Verheyen;C
 Physician_self-referral;C
-Physicians'_Desk_Reference;C
 Physicians_for_Human_Rights-Israel;C
 Piblokto;C
 Pick's_disease;C
@@ -19422,7 +19357,6 @@ Prehistoric_medicine;C
 Premovement_neuronal_activity;C
 Prenatal_care_in_the_United_States;C
 Prenatal_nutrition;C
-Prescription_drug_purchasing_pool;C
 President's_Commission_on_the_HIV_Epidemic;C
 Pressure-volume_loop_analysis_in_cardiology;C
 Pressure_support_ventilation;C
@@ -19564,7 +19498,6 @@ Short-lasting_unilateral_neuralgiform_headache_with_conjunctival_injection_and_t
 Siddhartha_Mukherjee;C
 Silver_Spring_monkeys;C
 Simon_Paulli;C
-Sinclair_Method;C
 Sir_Henry_Northcote,_4th_Baronet;C
 Sir_William_Dunn_Institute_of_Biochemistry;C
 Sleepwalking;C
@@ -20020,7 +19953,6 @@ Albert_Szent-Györgyi_Medical_University;Start
 Alberto_Barton;Start
 Albright's_hereditary_osteodystrophy;Start
 Alcohol_and_breast_cancer;Start
-Alcohol_and_sex;Start
 Alcohol_and_weight;Start
 Alcohol_equivalence;Start
 Alcohol_septal_ablation;Start
@@ -20895,9 +20827,7 @@ Cellular_neuroscience;Start
 Cementoblastoma;Start
 Cenani–Lenz_syndactylism;Start
 Cenn_Fáelad_mac_Ailella;Start
-CenterWatch;Start
 Center_for_Devices_and_Radiological_Health;Start
-Center_for_Drug_Evaluation_and_Research;Start
 Center_for_Health_Market_Innovations;Start
 Center_for_Health_Transformation;Start
 Center_for_Information_Technology;Start
@@ -21115,7 +21045,6 @@ Clonal_selection;Start
 Clonally_transmissible_cancer;Start
 Clone_(cell_biology);Start
 Cloned_enzyme_donor_immunoassay;Start
-Clorotepine;Start
 Closed-eye_hallucination;Start
 Closed_head_injury;Start
 Clostridial_necrotizing_enteritis;Start
@@ -21146,7 +21075,6 @@ Cognitive_rehabilitation_therapy;Start
 Cognitive_remediation_therapy;Start
 Cohen_syndrome;Start
 Cold-Food_Powder;Start
-Cold_turkey;Start
 Coliform_bacteria;Start
 Colin_Butler;Start
 Collagenopathy,_types_II_and_XI;Start
@@ -21621,7 +21549,6 @@ Ebbe_Hoff;Start
 Ebers_Papyrus;Start
 Ebolavirus;Start
 Ebstein's_anomaly;Start
-Ecamsule;Start
 Echinococcus_multilocularis;Start
 Echinocyte;Start
 Eco-friendly_dentistry;Start
@@ -21991,7 +21918,6 @@ Filum_terminale;Start
 Final_FRCA;Start
 Finger_agnosia;Start
 Fink_effect;Start
-Fioricet;Start
 Fire_service_in_France;Start
 First-degree_atrioventricular_block;Start
 First_Affiliated_Hospital_of_Xinjiang_Medical_University;Start
@@ -23328,7 +23254,6 @@ Leukaemia_&_Lymphoma_Research;Start
 Leukemia_&_Lymphoma;Start
 Leukemia_&_Lymphoma_Society;Start
 Leukemia_(journal);Start
-Leukemia_inhibitory_factor;Start
 Leukoaraiosis;Start
 Leukocyte_adhesion_deficiency;Start
 Leukocyte_adhesion_deficiency-1;Start
@@ -23724,7 +23649,6 @@ Metastasis_suppressor;Start
 Metatarsophalangeal_joint_sprain;Start
 Methodic_school;Start
 Methomyl;Start
-Methyldopa;Start
 Methylmalonic_acidemia;Start
 Metoidioplasty;Start
 Metro_West_Ambulance;Start
@@ -24047,7 +23971,6 @@ Neural_mechanisms_of_mindfulness_meditation;Start
 Neuralgia-inducing_cavitational_osteonecrosis;Start
 Neurally_adjusted_ventilatory_assist;Start
 Neurasthenia;Start
-Neuroaid;Start
 Neuroanthropology;Start
 Neuroblastoma_Children's_Cancer_Alliance_UK;Start
 Neuroeffector_junction;Start
@@ -24111,7 +24034,6 @@ Nodular_lymphocyte_predominant_Hodgkin's_lymphoma;Start
 Noerine_Kaleeba;Start
 Non-profit_hospital;Start
 Nonbacterial_thrombotic_endocarditis;Start
-Nonbenzodiazepine;Start
 Nonpuerperal_mastitis;Start
 Nonunion;Start
 Noori_(goat);Start
@@ -24488,8 +24410,6 @@ Phadebas;Start
 Phagophobia;Start
 Phalloplasty;Start
 Phantom_eye_syndrome;Start
-Pharmaceutical_industry_in_India;Start
-Pharmaceutical_industry_in_the_United_Kingdom;Start
 Pharmaceutical_packaging;Start
 Pharmacy_Practice_Research_Trust;Start
 Pharmacy_research;Start
@@ -24710,7 +24630,6 @@ Prosencephalon;Start
 Prostate_Cancer_Foundation;Start
 Prosthetist;Start
 Protalix_BioTherapeutics;Start
-Protamine;Start
 Protandim;Start
 Protease-sensitive_prionopathy;Start
 Protein_C_deficiency;Start
@@ -25883,7 +25802,6 @@ Trombiculosis;Start
 Tropical_eosinophilia;Start
 Tropical_medicine;Start
 Tropical_theileriosis;Start
-Tropicamide;Start
 Trypanosoma;Start
 Tuality_Healthcare;Start
 Tuber_cinereum;Start
@@ -28028,7 +27946,6 @@ Dinacharya;Stub
 Dinotoxin;Stub
 Diphilus_(physician);Stub
 Dipygus;Stub
-Diquafosol;Stub
 Direct_Fick_method;Stub
 Direct_agglutination_test;Stub
 Direct_fluorescent_antibody;Stub
@@ -28082,7 +27999,6 @@ Drainage_(medical);Stub
 Drinking_Water_Inspectorate;Stub
 Drip_chamber;Stub
 Drug-induced_aseptic_meningitis;Stub
-Drug_Effectiveness_Review_Project;Stub
 Drug_Resource_Enhancement_against_Aids_and_Malnutrition;Stub
 Drug_addiction_in_infants;Stub
 Drunk_walking;Stub
@@ -28259,7 +28175,6 @@ Epileptologist;Stub
 Episcleral_layer;Stub
 Epithelial-myoepithelial_carcinoma;Stub
 Epithelioid_cell;Stub
-Epristeride;Stub
 Epstein–Barr_virus_viral-capsid_antigen;Stub
 Equal_Access;Stub
 Equine_herpesvirus_5;Stub
@@ -28303,7 +28218,6 @@ Ethilon;Stub
 Ethylmercury;Stub
 Etiology,_Concept_and_Prophylaxis_of_Childbed_Fever;Stub
 Etofenprox;Stub
-Etynodiol_diacetate;Stub
 Eucestoda;Stub
 Eugène-Louis_Doyen;Stub
 Eupnea;Stub
@@ -30074,7 +29988,6 @@ Mechanical_hemolytic_anemia;Stub
 Mechanomyogram;Stub
 Meckelian_groove;Stub
 MedCoast_Ambulance_Service;Stub
-MedWatch;Stub
 Medarex;Stub
 Medflight;Stub
 Medial_cord;Stub
@@ -30113,7 +30026,6 @@ Medical_humanities;Stub
 Medical_oddity;Stub
 Medical_organization;Stub
 Medical_pluralism;Stub
-Medical_science_liaison;Stub
 Medicare,_Medicaid,_and_SCHIP_Balanced_Budget_Refinement_Act_of_1999;Stub
 Medicare_Payment_Advisory_Commission;Stub
 Medicare_and_Medicaid_Extenders_Act_of_2010;Stub
@@ -31030,7 +30942,6 @@ Phacodonesis;Stub
 Phaedra_complex;Stub
 Phagocyte_bactericidal_dysfunction;Stub
 PharMed;Stub
-PharmFree;Stub
 Pharyngeal_tubercle;Stub
 Phenoxy_herbicide;Stub
 Phenylacetic_acid;Stub
@@ -31459,7 +31370,6 @@ Rhinomanometry;Stub
 Rhinoscope;Stub
 Rhizomelia;Stub
 Rhode_Island_Patient_Advocacy_Coalition;Stub
-Rhoeadine;Stub
 Rib_spreader;Stub
 Ribose-5-phosphate_isomerase_deficiency;Stub
 Richard_D._Feinman;Stub
@@ -31931,7 +31841,6 @@ Sue_Rodriguez;Stub
 Sufficient_causes;Stub
 Sugarman_syndrome;Stub
 Sulcus_sign;Stub
-Sulfabenzamide;Stub
 Sulfatide;Stub
 Sulfatidosis;Stub
 Sun_Simiao;Stub
@@ -32553,7 +32462,6 @@ Xeromammography;Stub
 Xeroradiography;Stub
 Ya'qub_ibn_Ishaq_al-Israili;Stub
 Yale_Child_Study_Center;Stub
-Yellow_Card_Scheme;Stub
 Yeoman's_test;Stub
 Yi_Nao;Stub
 Yim–Ebbin_syndrome;Stub
@@ -32671,7 +32579,6 @@ Acropustulosis;Disambig
 Affected_community;Disambig
 Agenesis;Disambig
 Angina_(disambiguation);Disambig
-Anticorticosteroid;Disambig
 Barber's_itch;Disambig
 Bazex_syndrome;Disambig
 Bipolar_spectrum_disorder;Disambig
@@ -32786,7 +32693,6 @@ Varices;Disambig
 Volar_carpal_branch;Disambig
 2009_flu_pandemic_in_Singapore;Redirect
 2009_flu_pandemic_in_Thailand;Redirect
-21_CFR_820;Redirect
 4p-_syndrome;Redirect
 A-type_inclusion;Redirect
 A4V;Redirect
@@ -32954,7 +32860,6 @@ Angiokeratoma_corporis_diffusum;Redirect
 Angiokeratoma_of_Mibelli;Redirect
 Angiokeratoma_of_the_scrotum_and_vulva;Redirect
 Angioosteohypertrophy_syndrome;Redirect
-Angiotensin-converting-enzyme_inhibitor;Redirect
 Angiotropic_large_cell_lymphoma;Redirect
 Anhidrotic_ectodermal_dysplasia;Redirect
 Ankle-foot_orthosis;Redirect
@@ -33004,7 +32909,6 @@ Associate_of_respiratory_therapy;Redirect
 Asteatotic_eczema;Redirect
 Atopic_winter_feet;Redirect
 Atrial_canal;Redirect
-Atrial_natriuretic_factor_receptor;Redirect
 Atrioventricular_canal_defect;Redirect
 Atrophia_maculosa_cutis;Redirect
 Atrophic_actinic_keratosis;Redirect
@@ -33062,7 +32966,6 @@ Bar_room's_fracture;Redirect
 Bar_rooms_fracture;Redirect
 Baragnosis;Redirect
 Barber's_interdigital_pilonidal_sinus;Redirect
-Barbourin;Redirect
 Barcoo_rot;Redirect
 Barley_itch;Redirect
 Barometric_pressure_therapy;Redirect
@@ -33192,7 +33095,6 @@ Busacca_nodules;Redirect
 Buschke–Fischer–Brauer_disease;Redirect
 Buschke–Löwenstein_tumor;Redirect
 Bushke_disease;Redirect
-CAB_Abstracts_Archive;Redirect
 CAP_syndrome;Redirect
 CDO_syndrome;Redirect
 CEDNIK_syndrome;Redirect
@@ -33512,8 +33414,6 @@ Delusions_of_parasitosis;Redirect
 Dengue;Redirect
 Dental_sinus;Redirect
 Depapillation;Redirect
-Depon;Redirect
-Derbisol;Redirect
 Dercum's_disease;Redirect
 Dermal_dendrocytoma;Redirect
 Dermal_duct_tumor;Redirect
@@ -33739,7 +33639,6 @@ Esodeviation;Redirect
 Espundia;Redirect
 Essential_fatty_acid_deficiency;Redirect
 Eucrasia;Redirect
-Eugeroic;Redirect
 Euler–Liljestrand_mechanism;Redirect
 Euphoria_(emotion);Redirect
 Europain;Redirect
@@ -33835,7 +33734,6 @@ Flagellate_mushroom_dermatitis;Redirect
 Flagellate_pigmentation_from_bleomycin;Redirect
 Flail_mandible;Redirect
 Flat_warts;Redirect
-Flavin-containing_monooxygenase_system;Redirect
 Flea_bites;Redirect
 Flegel's_disease;Redirect
 Flesh-eating_bacteria_syndrome;Redirect
@@ -33906,7 +33804,6 @@ Gargoylism;Redirect
 Garment_nevus;Redirect
 Garré's_sclerosing_osteomyelitis;Redirect
 Gastric_juice;Redirect
-Gastroprokinetic_agent;Redirect
 Gelastic;Redirect
 Gender-based_medicine;Redirect
 General_essential_telangiectasia;Redirect
@@ -34248,7 +34145,6 @@ Intravascular_lymphomatosis;Redirect
 Intravenous_atypical_vascular_proliferation;Redirect
 Intravenous_digital_subtraction_angiography;Redirect
 Invasive_(medical);Redirect
-Inverse_antagonist;Redirect
 Inverse_lichen_planus;Redirect
 Ionotophoresis;Redirect
 Isaacs_syndrome;Redirect
@@ -34308,7 +34204,6 @@ Keloid_morphea;Redirect
 Keloidal_blastomycosis;Redirect
 Keloidal_scar;Redirect
 Kenya_fly_dermatitis;Redirect
-Keralac_lotion;Redirect
 Keratin_cyst;Redirect
 Keratoacanthoma_centrifugum_marginatum;Redirect
 Keratoderma_blennorrhagica;Redirect
@@ -34482,7 +34377,6 @@ Lupus_erythematosus–lichen_planus_overlap_syndrome;Redirect
 Lupus_panniculitis;Redirect
 Lupus_profundus;Redirect
 Lupus_verrucosus;Redirect
-Lutetium_(177Lu)_DOTA-octreotate;Redirect
 Lyell's_syndrome;Redirect
 Lyme_borreliosis;Redirect
 Lymphadenosis_benigna_cutis;Redirect
@@ -34569,7 +34463,6 @@ Mediterranean_spotted_fever;Redirect
 Medium-sized_congenital_nevocytic_nevus;Redirect
 Meesmann_juvenile_epithelial_corneal_dystrophy;Redirect
 Megalocephaly;Redirect
-Megesterol;Redirect
 Meischer's_granuloma;Redirect
 Melanocytic_nevus_of_acral_skin;Redirect
 Melanocytic_nevus_with_intraepidermal_ascent_of_cells;Redirect
@@ -35171,7 +35064,6 @@ Proliferating_pilar_tumor;Redirect
 Proliferating_trichilemmal_tumor;Redirect
 Proliferative_periostitis;Redirect
 Proliferative_verrucous_leukoplakia;Redirect
-Prometrium;Redirect
 Prostate-specific_membrane_antigen;Redirect
 Prostatic_intraepithelial_neoplasia;Redirect
 Prostatic_neoplasms;Redirect
@@ -35234,7 +35126,6 @@ Pyogenic_osteomyelitis;Redirect
 Pyogenic_paronychia;Redirect
 Pyridoxine_excess;Redirect
 Qualified_independent_contractor;Redirect
-Quaternary_ammonium_muscle_relaxants;Redirect
 Quaternary_care;Redirect
 Quaternium-15_hypersensitivity;Redirect
 Quie_syndrome;Redirect
@@ -35349,7 +35240,6 @@ Saber_tibia;Redirect
 Sacral_agenesis;Redirect
 Sacral_regression;Redirect
 Saddle_embolus;Redirect
-Safety_cap_(medicine);Redirect
 Salivary_duct_calculus;Redirect
 Salivary_gland_cancer;Redirect
 Salmon_patch;Redirect
@@ -35467,7 +35357,6 @@ Sinus_arrhythmia;Redirect
 Sinus_augmentation;Redirect
 Sinus_histiocytosis_with_massive_lymphadenopathy;Redirect
 Sipple_syndrome;Redirect
-Sirturo;Redirect
 Sixth_disease;Redirect
 Skeletal_disorders;Redirect
 Skin_fossa;Redirect
@@ -35639,7 +35528,6 @@ Takahara's_disease;Redirect
 Takayasu_arteritis;Redirect
 Talon_noir;Redirect
 Talusitis;Redirect
-Tamiflu_resistance_in_the_2009_flu_pandemic;Redirect
 Tar_keratosis;Redirect
 Tar_wart;Redirect
 Tarantula_bite;Redirect
@@ -35727,7 +35615,6 @@ Trigeminal_trophic_syndrome;Redirect
 Trisomy_21;Redirect
 Troisier's_sign;Redirect
 Troisier–Hanot–Chauffard_syndrome;Redirect
-Tropical_Diseases_Bulletin;Redirect
 Tropical_anhidrotic_asthenia;Redirect
 Tropical_immersion_foot;Redirect
 Tropical_phagedena;Redirect
@@ -35779,7 +35666,6 @@ Undulant_fever;Redirect
 Unguis_incarnatus;Redirect
 Unilateral_laterothoracic_exanthem;Redirect
 Unilesional_mycosis_fungoides;Redirect
-Universal_antidote;Redirect
 University_of_Wales_College_of_Medicine;Redirect
 Unna–Thost_disease;Redirect
 Unna–Thost_keratoderma;Redirect
@@ -36224,7 +36110,6 @@ Canadian_Cardiovascular_Society_grading_of_angina_pectoris;Unassessed
 Cannabis_dependence;Unassessed
 Cardiobacterium_hominis;Unassessed
 Carlos_Cordon-Cardo;Unassessed
-Certolizumab_pegol;Unassessed
 Childhood_development_of_fine_motor_skills;Unassessed
 Chiropractic_professional_ethics;Unassessed
 Chiropractor;Unassessed
@@ -36243,7 +36128,6 @@ Dental_torque_wrench;Unassessed
 Dentistry_in_the_Philippines;Unassessed
 Developmental_dysfluency;Unassessed
 Diana_Gittins;Unassessed
-Discovery_and_development_of_angiotensin_receptor_blockers;Unassessed
 Disruptive_physician;Unassessed
 Doctor_of_Audiology;Unassessed
 Drug_delivery_to_the_brain;Unassessed
@@ -36357,7 +36241,6 @@ Paraptosis;Unassessed
 Passive_physiological_intervertebral_movements;Unassessed
 Patient_navigators;Unassessed
 Pauwel's_angle;Unassessed
-Pentoxifylline;Unassessed
 Physical_therapy_in_the_Philippines;Unassessed
 Pipkin_classification;Unassessed
 Platelet_rich_fibrin;Unassessed

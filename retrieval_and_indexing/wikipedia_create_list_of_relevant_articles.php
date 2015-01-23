@@ -35,14 +35,10 @@ do {
     $i += $limit;
 } while ($tr_count != 1);
 
-// Remove duplicates
-$article_labels_unique = array_unique($article_labels);
-
-$output_file_content = implode($article_labels_unique, "\n");
+$output_file_content = implode($article_labels, "\n");
 file_put_contents("./wikipedia/relevant_articles_credibility.txt", $output_file_content);
 
-echo count($article_labels) - count($article_labels_unique) . " dulplicate(s)\n";
-echo count($article_labels_unique) . " total\n";
+echo count($article_labels) . " total\n";
 
 /**
  * returns list of articles (array)

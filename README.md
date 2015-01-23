@@ -27,7 +27,9 @@ with a command such as "php start_crawl.php").
 
 1.  optional
     *  Run `pubmed_oa_fetch.php` to fetch OA article IDs from the PMC OA Web Service
+
     *  Run `pubmed_oa_remove_duplicates.php` to remove duplicate IDs
+
     *  Run `pubmed_oa_insert_into_db.php` to insert all IDs in a SQLite3 DB
 
 2.  Run `pubmed_fetch.php`:
@@ -42,7 +44,12 @@ pubmed_fetch.php, reads PubMed entries, and writes extracted content to the Solr
 ###Fetching and indexing Wikipedia
 
 1.  optional (get a free [API key](https://translate.yandex.com/developers/) and store it in the property file `config.php`)
+
+    *  If a new list of MeSH Descriptors (preferred terms only) is available at [http://www.nlm.nih.gov/mesh/filelist.html](http://www.nlm.nih.gov/mesh/filelist.html) download the list to the wikipedia folder an run `generate_new_english_terms.sh mshd20XX.txt`
+
     *  Run `wikipedia_create_list_of_relevant_articles.php`
+
+    *  Run `wikipedia_remove_duplicates.php` to remove duplicate IDs
 
     *  Run `wikipedia_langlinks_translate_de.php` to use the Wikipedia langlink as the german
 translation of the article
