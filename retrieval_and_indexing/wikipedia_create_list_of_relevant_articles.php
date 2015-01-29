@@ -13,7 +13,7 @@
  * Matthias Samwald, March 2013, samwald (at) gmx.at
  */
 
-require_once './simple_html_dom.php';
+require_once 'lib/DomParser/simple_html_dom.php';
 
 $article_labels = Array();
 $limit = 200;
@@ -53,7 +53,9 @@ function get_toolserver_response($offset, $project) {
 
     $matches_returned = Array();
 
-    $html = file_get_html($url);
+    $options = array('http' => array('user_agent' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:35.0) Gecko/20100101 Firefox/35.0'));
+    $context = stream_context_create($options);
+    $html = file_get_html($url, FALSE, $context);
 
     $GLOBALS["tr_count"] = 0;
 
@@ -61,17 +63,10 @@ function get_toolserver_response($offset, $project) {
 
         $GLOBALS["tr_count"] ++;
 
-        //echo $element . "--------------------------\n";
-        preg_match("/\"http\:\/\/en\.wikipedia\.org\/w\/index\.php\?title\=([^\"]+)/", $element, $matches);
+        preg_match("/\"https\:\/\/en\.wikipedia\.org\/w\/index\.php\?title\=([^\"]+)/", $element, $matches);
         if (isset($matches[1]) && filter_articles($matches[1])) {
 
             $match = urldecode(str_replace("%20", "_", $matches[1]));
-//            echo $match . ", ";
-
-
-            if (strpos($match, ';') !== false) {
-                echo $match . "\n";
-            }
 
             $quality = $element->find('b', 1)->plaintext;
 
@@ -83,7 +78,7 @@ function get_toolserver_response($offset, $project) {
             $matches_returned[] = $match . ";" . $quality;
         }
     }
-    echo count($matches_returned) . ": " . $url . "\n";
+    echo count($matches_returned) . " (" . $url . ")\n";
     return $matches_returned;
 }
 
