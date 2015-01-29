@@ -53,7 +53,7 @@ while (false !== ($file = readdir($handle))) {
             $article_title = $article->MedlineCitation->Article->ArticleTitle;
             
             // Fetch conclusion
-            $conclusion = $article->xpath("/PubmedArticle/MedlineCitation/Article/Abstract/AbstractText[@NlmCategory='CONCLUSIONS']");
+            $conclusions = $article->xpath("/PubmedArticle/MedlineCitation/Article/Abstract/AbstractText[@NlmCategory='CONCLUSIONS']");
 
             // Fetch abstract text
             $abstract_text = "";
@@ -64,31 +64,10 @@ while (false !== ($file = readdir($handle))) {
                 $abstract_text .= $abstract_text_xml_element;
             }
             $abstract_text = trim($abstract_text);
-
-            if (isset($conclusion[0])) {
-                $abstract_conclusion_section_text = $conclusion[0];
-            } else {                
-                // Extract conclusions section
-                $abstract_conclusion_section_text = "";
-                preg_match("/conclusion[s]?[.]?[:]? ([^©^Â]+)/i", $abstract_text, $abstract_conclusion_section_text);
-                if (isset($abstract_conclusion_section_text [1])) {
-                    $abstract_conclusion_section_text = trim($abstract_conclusion_section_text [1]);
-                } else {
-                    $abstract_conclusion_section_text = "";
-                    $abstracts = $article->xpath("/PubmedArticle/MedlineCitation/Article/Abstract/AbstractText");
-                    preg_match_all("/.*?(?:\.|\?|!|\:)(\s|$)/", $abstracts[0], $sentences);
-                    $number_sentences = count($sentences[0]);
-                    $last_n_sentences = array();
-                    for ($i = max($number_sentences - 4, 0); $i < $number_sentences; $i++) {
-                        $last_n_sentences[] = trim($sentences[0][$i]);
-                    }
-                    $abstract_conclusion_section_text = implode(" ", $last_n_sentences);
-                }
-            }
-
+            
             if ($abstract_text == "")
                 continue;
-
+            
             // Fetch ISO abbreviation of journal title
             $iso_abbreviation = $article->MedlineCitation->Article->Journal->ISOAbbreviation;
 
@@ -99,14 +78,30 @@ while (false !== ($file = readdir($handle))) {
             $date_release = $article->PubmedData->History;       
             $date_release_year = $date_release->xpath("//PubMedPubDate[@PubStatus=\"pmc-release\"]/Year");
             $date_release_month = $date_release->xpath("//PubMedPubDate[@PubStatus=\"pmc-release\"]/Month");
-            $date_release_day = $date_release->xpath("//PubMedPubDate[@PubStatus=\"pmc-release\"]/Day");
-            
-//            if (count($date_release_year) !== 0){
-//            
-//            $date_release_full = $date_release_year[0] . "-" . str_pad($date_release_month[0], 2, '0', STR_PAD_LEFT) . "-" . str_pad($date_release_day[0], 2, '0', STR_PAD_LEFT) . "T12:00:00Z";
-//            
-//            echo "date: " . $date_release_full . "\n";
-//            }                              
+            $date_release_day = $date_release->xpath("//PubMedPubDate[@PubStatus=\"pmc-release\"]/Day"); 
+
+            // Extract conclusions section            
+            if (isset($conclusions[0])) {
+                $abstract_conclusion_section_text = (string)$conclusions[0];
+            } else {                
+                // Extract conclusions section with regex
+                $abstract_conclusion_section_text = "";
+                preg_match("/conclusion[s]?[.]?[:]? ([^©^Â]+)/i", $abstract_text, $abstract_conclusion_section_text_tmp);
+                if (isset($abstract_conclusion_section_text_tmp [1])) {
+                    $abstract_conclusion_section_text = trim($abstract_conclusion_section_text_tmp [1]);
+                }
+//                else {
+//                    $abstract_conclusion_section_text = "";
+//                    $abstracts = $article->xpath("/PubmedArticle/MedlineCitation/Article/Abstract/AbstractText");
+//                    preg_match_all("/.*?(?:\.|\?|!|\:)(\s|$)/", $abstracts[0], $sentences);
+//                    $number_sentences = count($sentences[0]);
+//                    $last_n_sentences = array();
+//                    for ($i = max($number_sentences - 4, 0); $i < $number_sentences; $i++) {
+//                        $last_n_sentences[] = trim($sentences[0][$i]);
+//                    }
+//                    $abstract_conclusion_section_text = implode(" ", $last_n_sentences);
+//                }
+            }                            
 
             $output = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><update><add><doc>\n";
 
@@ -145,7 +140,6 @@ while (false !== ($file = readdir($handle))) {
                 $output .= "<field name='pmcid'>" . $pmc[0] . "</field>\n";
                 $result = $db->querySingle('SELECT id FROM pubmed where id = "' . $pmc[0] . '"');
                 if ($result === trim($pmc[0])) {
-//                    echo $article_title . "\n";
                     $output .= "<field name='oa'>t</field>\n";
                 }
             }

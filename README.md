@@ -1,9 +1,9 @@
 FindMeEvidence
-================
+==============
 
 An open-source medical search engine
 
-Installation
+Install Solr
 ------------
 
 1.  Download Apache Tomcat and Apache Solr
@@ -21,7 +21,11 @@ Create Solr Index
 
 The folder retrieval_and_indexing contains scripts for fetching external content, indexing it in Solr, as well 
 as creating synonym mappings. The scripts should be called from the command line (e.g.,
-with a command such as "php start_crawl.php").
+with a command such as "php -f start_crawl.php").
+
+###Preparatory Work
+
+Define constants `SOLR_URL` and `SOLR_URL_DIC` in `config.php` to point to the Solr cores.
 
 ###Fetching and indexing PubMed
 

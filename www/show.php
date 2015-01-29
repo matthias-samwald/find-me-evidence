@@ -57,6 +57,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                 switch ($category) {
                     case "Pubmed":                        
                         
+                        //if release date of journal is not in the future 
                         $showPubReader = false;                        
                         if ($pmcid !== ""){                          
                             if ($date_release !== ""){
