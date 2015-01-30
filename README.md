@@ -8,11 +8,11 @@ Install Solr
 
 1.  Download Apache Tomcat and Apache Solr
 
-2.  Copy /example/solr to your SOLR_HOME and replace solrconfig.xml, schema.xml and synonyms.txt from collection1
+2.  Copy example/solr to your SOLR_HOME and replace solrconfig.xml, schema.xml and synonyms.txt from collection1
 
 3.  Copy solr_configuration/solr.xml to CATALINA_HOME/conf/Catalina/localhost (point to your SOLR_HOME and Solr WebApp)
 
-4.  Copy the jars from solr/example/lib/ext into your container's main lib directory
+4.  Copy all jars from example/lib/ext into your container's main lib directory (CATALINA_HOME/lib)
 
 5.  Copy solr_configuration/collection2 to SOLR_HOME/solr and use the Core Admin to add the core
 
@@ -21,7 +21,7 @@ Create Solr Index
 
 The folder retrieval_and_indexing contains scripts for fetching external content, indexing it in Solr, as well 
 as creating synonym mappings. The scripts should be called from the command line (e.g.,
-with a command such as "php -f start_crawl.php").
+with a command such as "php start_crawl.php").
 
 ###Preparatory Work
 
@@ -101,3 +101,8 @@ collection containing the index., e.g., as `[SOLR_HOME]/collection1/conf/synonym
 This simple script removes document from the index that match a certain Solr query.
 Can be used to clean up unwanted stuff that slipped through in earlier indexing
 steps.
+
+Log to a Log File
+-----------------
+
+Set the log level and the name of the file to write to in `www/logger_config.xml`.
