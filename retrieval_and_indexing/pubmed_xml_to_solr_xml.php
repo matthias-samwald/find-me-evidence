@@ -127,7 +127,9 @@ while (false !== ($file = readdir($handle))) {
             $output .= "<field name='mimeType'>text/plain</field>\n";
             $output .= "<field name='category'>Pubmed</field>\n";
             $output .= "<field name='dataset_priority'>8</field>\n";
-            $output .= "<field name='persid'>" . $doi[0] . "</field>\n";            
+            if (isset($doi[0])) {
+                $output .= "<field name='persid'>" . $doi[0] . "</field>\n";
+            }            
 //            $output .= "<field name='citedin_count'>" . $citedin_count . "</field>\n";
             foreach ($authors as $author) {
                 $output .= "<field name='author'>" . $author . "</field>\n";
