@@ -21,7 +21,7 @@ Create Solr Index
 
 The folder retrieval_and_indexing contains scripts for fetching external content, indexing it in Solr, as well 
 as creating synonym mappings. The scripts should be called from the command line (e.g.,
-with a command such as "php start_crawl.php").
+with a command such as "php start_crawl.php"). Prior to running the scripts, please ensure that the CURL & SQLite modules and a JAVA JRE are installed (in Ubuntu simply do a `sudo apt-get install php5-curl php5-sqlite openjdk-8-jre`).
 
 ###Preparatory Work
 
