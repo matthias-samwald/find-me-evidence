@@ -15,7 +15,7 @@ $successfully_processed_entries = 0;
 
 // Load dictionary
 $dictionary = array();
-if (($handle = fopen('./wikipedia/es_translated_relevant_articles_credibility.txt', 'r')) !== FALSE) {
+if (($handle = fopen('./wikipedia/es_de_translated_relevant_articles_credibility.txt', 'r')) !== FALSE) {
     while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
         $entry = array($row[1], $row[2], $row[3]);
         $dictionary[$row[0]] = $entry;
@@ -24,9 +24,10 @@ if (($handle = fopen('./wikipedia/es_translated_relevant_articles_credibility.tx
 }
 
 // Iterate through XML files in the directory
-$handle = opendir('wikipedia');
+$handle = opendir('./wikipedia');
 while (false !== ($file = readdir($handle))) {
     $extension = strtolower(substr(strrchr($file, '.'), 1));
+    echo $extension . "\n";
     if ($extension == "xml") {
 
         $file = new Chunk($file, array('element' => 'page', 'path' => './wikipedia/', 'chunkSize' => 3000));
@@ -44,6 +45,7 @@ while (false !== ($file = readdir($handle))) {
 
             // Fetch article title
             $article_title = $article->title;
+            echo $article_title . "\n";
             $url_id = urlencode(str_replace(" ", "_", $article_title));
 
             $entry = $dictionary[(string) $article_title];
