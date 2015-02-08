@@ -65,13 +65,6 @@ if ($user_query != "") {
         return pos;
         }
         })(jQuery);
-    
-        $(document).ready(function(){
-            $("#translation").click(function(){
-                $("#q").val($(this).text())
-                updateAutocomplete();
-            });
-        });
         
 	// Delay function, used for having a short delay after user typed something before initiating request to autocomplete service
 	var delay = (function(){
@@ -101,21 +94,15 @@ if ($user_query != "") {
 
 	// Update the autocomplete list
 	function updateAutocomplete() {
-        var $ul = $('#autocomplete'),
-            $trans = $('#translation');    
+        var $ul = $('#autocomplete'),   
             $input = $('#q'),
             value = $input.val(),
             html = "",
-            language = "",
-            noautocompletion = true;
+            language = "";
     
         $("input:radio[name=language]:checked").each(function(){
             language = $(this).val();
         });
-        
-        if (language === "") {
-            $trans.html("");
-        }
         
         if ( value && value.length > 3 ) {
             //$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
@@ -134,19 +121,15 @@ if ($user_query != "") {
                 $.each( response, function ( i, val ) {
                     if (i === 0 && val !== "") {
                         if (language ==="ger") {
-                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); pubmedAutocomplete(true);\'><img src="images/gb.png" alt="english" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
+                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); pubmedAutocomplete(true); $("#q").focus();\'><img src="images/gb.png" alt="english" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
                         }
                         else if (language ==="esp") {
-                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); pubmedAutocomplete(true);\'><img src="images/esp.png" alt="spanish" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
+                            html += '<li onclick=\'$("#q").val("' + escapeHtmlAndRemove(val) + '"); pubmedAutocomplete(true); $("#q").focus();\'><img src="images/esp.png" alt="spanish" class="ui-li-icon ui-li-thumb">' + val + ' <small>(suggested translation)</small></li>';
                         }
                     } else if ( i !== 0 && val !== ""){                        
                         html += '<li onclick=\'$("#q").val("' + escapeHtml(val) + '"); $("#search_form").submit();\'>' + val + '</li>';
-                        noautocompletion = false;
                     }
-                });                
-//                if (noautocompletion) {
-//                    html += '<li>no autocompletion available</li>';
-//                }                
+                });                            
                 $ul.html( html );
                 $ul.listview( "refresh" );
                 $ul.trigger( "updatelayout");
