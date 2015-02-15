@@ -241,7 +241,7 @@ if ($user_query != "") {
 			</div>
 			<?php
 					if ($query_results_are_based_on_automatic_correction == true) {
-						print ("<div style='padding-bottom:1em'><p>You original query <em>$user_query</em> did not yield any results. Showing results for <em><b>$corrected_query</b></em> instead.</p></div>\n") ;
+						print ("<div style='padding-bottom:1em'><p>Your original query <em>$user_query</em> did not yield any results. Showing results for <em><b>$corrected_query</b></em> instead.</p></div>\n") ;
 					}
 					?> 
 			<div>
