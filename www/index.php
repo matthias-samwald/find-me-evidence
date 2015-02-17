@@ -100,6 +100,8 @@ if ($user_query != "") {
             html = "",
             language = "";
     
+        $ul.html("");
+    
         $("input:radio[name=language]:checked").each(function(){
             language = $(this).val();
         });
