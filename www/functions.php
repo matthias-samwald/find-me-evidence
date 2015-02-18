@@ -87,12 +87,17 @@ function get_solr($id) {
 	return $xml;
 }
 function xpath($xml, $xpath_expression, $return_entire_array = false) {
-	$result_array = $xml->xpath ( $xpath_expression );
-	if ($return_entire_array == false) {
-		return $result_array [0];
-	} else {
-		return $result_array;
-	}
+        $result_array = $xml->xpath($xpath_expression);
+        if ($return_entire_array == false) {
+            //to avoid an undefined offset
+            if (isset($result_array [0])) {
+                return $result_array [0];
+            } else {
+                return "";
+            }
+        } else {
+            return $result_array;
+        }
 }
 function get_facet_count($xml, $category) {
 	global $categories;
