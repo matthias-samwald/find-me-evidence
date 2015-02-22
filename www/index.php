@@ -108,7 +108,8 @@ if ($user_query != "") {
         
         if ( value && value.length > 3 ) {
             //$ul.html( "<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>" );
-       
+            
+            if ( language !== "")
             $.ajax({
             	url: "translate.php",
 				dataType: "json",
