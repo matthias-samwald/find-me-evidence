@@ -264,8 +264,8 @@ if ($user_query != "") {
 							if (substr ( $id, 0, 35 ) == "http://www.ncbi.nlm.nih.gov/pubmed/")
 								print ("show.php?id=" . urlencode ( $id )) ;
 							else
-								print ($id) ;
-							?>">
+								print ("redirect.php?url=" . urlencode ( $id )) ;
+							?>" rel="external">
                                                         
                                                         <?php if ($suspicious === "true"): ?>
                                                         <p class="ui-li-aside"><span style="font-size : small; color : #FF0000;">quality rating not available or low</span></p>

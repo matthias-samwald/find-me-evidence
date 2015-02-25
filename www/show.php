@@ -72,18 +72,18 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                         }
                         
                         if ($pmcid === "" || !$showPubReader){
-                            echo '<p><a href="' . $id . '">View in PubMed</a></p>';
+                            echo '<p><a href="redirect.php?url=' . urlencode($id) . '" rel="external">View in PubMed</a></p>';
                         }                        
                         if ($showPubReader){
                             if($oa === "true") {
-                                echo '<p><a href="#popupOA" data-rel="popup"><img src="images/OA-icon.gif" alt=OA /></a> <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
+                                echo '<p><a href="#popupOA" data-rel="popup"><img src="images/OA-icon.gif" alt=OA /></a> <a href="redirect.php?url=http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader" rel="external">PMC Fulltext</a></p>';
                             } else {
-                                echo '<p><a href="http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader">PMC Fulltext</a></p>';
+                                echo '<p><a href="redirect.php?url=http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader" rel="external">PMC Fulltext</a></p>';
                             }
                         }
                         
                         if ($persid !== "") {
-                            echo '<p><a href="http://dx.doi.org/' . $persid . '">View (via DOI)</a></p>';
+                            echo '<p><a href="redirect.php?url=http://dx.doi.org/' . $persid . '" rel="external">View (via DOI)</a></p>';
                         }
 //                        if ($pdf_link !== "") {
 //                            echo '<p><img src="images/OA-icon.gif" alt=OA /> <a href="' . $pdf_link . '">PDF</a></p>';
@@ -91,7 +91,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                         break;
 
                     default:
-                        echo '<a href="' . $id . '">' . $id . '</a>';
+                        echo '<a href="redirect.php?url=' . $id . '" rel="external">' . urlencode($id) . '</a>';
                         break;
                 }
                 ?>       
