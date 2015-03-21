@@ -6,7 +6,7 @@ An open-source medical search engine
 Install Solr
 ------------
 
-1.  Download Apache Tomcat and Apache Solr
+1.  Download Apache Tomcat and Apache Solr 4.X
 
 2.  Copy example/solr to your SOLR_HOME and replace solrconfig.xml, schema.xml and synonyms.txt from collection1
 
