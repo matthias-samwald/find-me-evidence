@@ -57,7 +57,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                 switch ($category) {
                     case "Pubmed":                        
                         
-                        //if release date of journal is not in the future 
+                        //if release date of journal is not in the future and PMCID exists 
                         $showPubReader = false;                        
                         if ($pmcid !== ""){                          
                             if ($date_release !== ""){
@@ -72,18 +72,18 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                         }
                         
                         if ($pmcid === "" || !$showPubReader){
-                            echo '<p><a href="redirect.php?url=' . urlencode($id) . '" rel="external">View in PubMed</a></p>';
+                            echo '<p>' . writeRedirect($id, "View in PubMed") . '</a></p>';                            
                         }                        
                         if ($showPubReader){
                             if($oa === "true") {
-                                echo '<p><a href="#popupOA" data-rel="popup"><img src="images/OA-icon.gif" alt=OA /></a> <a href="redirect.php?url=http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader" rel="external">PMC Fulltext</a></p>';
+                                echo '<p><a href="#popupOA" data-rel="popup"><img src="images/OA-icon.gif" alt=OA /></a> ' . writeRedirect($pmcid, "PMC Fulltext", "http://www.ncbi.nlm.nih.gov/pmc/articles/", "/?report=reader") . '</a></p>';
                             } else {
-                                echo '<p><a href="redirect.php?url=http://www.ncbi.nlm.nih.gov/pmc/articles/' . $pmcid . '/?report=reader" rel="external">PMC Fulltext</a></p>';
+                                echo '<p>' . writeRedirect($pmcid, "PMC Fulltext", "http://www.ncbi.nlm.nih.gov/pmc/articles/", "/?report=reader") . '</a></p>';
                             }
                         }
                         
                         if ($persid !== "") {
-                            echo '<p><a href="redirect.php?url=http://dx.doi.org/' . $persid . '" rel="external">View (via DOI)</a></p>';
+                            echo '<p>' . writeRedirect($persid, "View (via DOI)", "http://dx.doi.org/") . '</a></p>';
                         }
 //                        if ($pdf_link !== "") {
 //                            echo '<p><img src="images/OA-icon.gif" alt=OA /> <a href="' . $pdf_link . '">PDF</a></p>';
@@ -91,7 +91,7 @@ $title = xpath ( $xml, "doc/arr[@name='title']/str" );
                         break;
 
                     default:
-                        echo '<a href="redirect.php?url=' . $id . '" rel="external">' . urlencode($id) . '</a>';
+                        echo writeRedirect($id, $id) . '</a>';
                         break;
                 }
                 ?>       

@@ -7,6 +7,8 @@ define('SOLR_URL_DIC', "http://localhost:8080/solr/collection2");
 
 $max_rows = 15;
 
+define('REDIRECT', true);
+
 // List of categories, containg a mapping of "Category for display"=>"Category for filtering in Solr"
 $categories = Array (
 		"Evidence-based summary" => "Evidence-based summary",

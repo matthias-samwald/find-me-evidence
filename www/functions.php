@@ -148,3 +148,11 @@ function endsWith($haystack, $needle) {
 function startsWith($haystack, $needle) {
     return $needle === "" || strpos($haystack, $needle) === 0;
 }
+
+function writeRedirect($url, $linktext = "", $prefix = "", $postfix = "") {
+    if (REDIRECT) {
+        return "<a href=\"redirect.php?url=" . $prefix . urlencode($url) . $postfix . "\" rel=\"external\">" . $linktext;
+    } else {
+        return "<a href=\"" . $prefix . $url . $postfix . "\">" . $linktext;
+    }
+}

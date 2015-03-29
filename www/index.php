@@ -185,10 +185,15 @@ if ($user_query != "") {
 				data-transition="fade">Help</a>
 		</div>
 		-->
-		
-		<div data-role="header" class="jqm-header" style="text-align: center; padding: 3px">
-			<img src="images/findmeevidence-logo.png" alt="FindMeEvidence" />
-		</div>
+                
+                <!--If you need to to create a header that doesn't follow the default configuration, 
+                simply wrap your custom styled markup in a container div inside the header container 
+                and the plugin won't apply the automatic button logic so you can write custom styles 
+                for laying out the content in your header.-->
+
+                <div data-role="header" class="jqm-header" style="text-align: center; padding: 3px">
+                    <div><a href="index.php"><img src="images/findmeevidence-logo.png" alt="FindMeEvidence" /></a></div>
+                </div>
 		
 		<div data-role="content">
 			<div style="padding-top: 10px; padding-bottom: 0px">
@@ -259,13 +264,13 @@ if ($user_query != "") {
                                                 $suspicious = (string)xpath ( $doc, "bool[@name='suspicious']" );
                                                 $oa = (string)xpath ( $doc, "bool[@name='oa']" ); ?>
                                                 
-						<li <?php if($suspicious === "true") print ('data-icon="alert"'); ?>><a
-						href="<?php
+						<li <?php if($suspicious === "true") print ('data-icon="alert"'); ?>>
+                                                        <?php
 							if (substr ( $id, 0, 35 ) == "http://www.ncbi.nlm.nih.gov/pubmed/")
-								print ("show.php?id=" . urlencode ( $id )) ;
+								print ("<a href=\"show.php?id=" . urlencode ( $id ) . "\">") ;
 							else
-								print ("redirect.php?url=" . urlencode ( $id )) ;
-							?>" rel="external">
+								print (writeRedirect($id)) ;
+                                                        ?>
                                                         
                                                         <?php if ($suspicious === "true"): ?>
                                                         <p class="ui-li-aside"><span style="font-size : small; color : #FF0000;">quality rating not available or low</span></p>
@@ -294,8 +299,9 @@ if ($user_query != "") {
 								</p> <?php elseif($snippets = xpath($doc, "//lst[@name='highlighting']/lst[@name='${id}']/arr[@name='body']/str", true)): ?>
 								<p class="text_snippet">
 									<?php print("... " . implode(" ... ", $snippets) . " ..."); ?>
-								</p> <?php endif; ?>                                                                
-						</a></li>
+								</p> <?php endif; ?>
+                                                        <?php print("</a>"); ?>
+						</li>
 					<?php	
 					endforeach;
 					?>
