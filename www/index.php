@@ -32,6 +32,19 @@ if ($user_query != "") {
 	$page_title .= ": Search results for " . htmlspecialchars ( urldecode ( $user_query ) );
 }
 
+$http_lang = substr($_SERVER["HTTP_ACCEPT_LANGUAGE"], 0, 2);
+switch ($http_lang) {
+    case 'de':
+        $show_de = true;
+        break;
+    case 'es':
+        $show_es = true;
+        break;
+    default:
+        $show_es = true;
+        $show_de = true;
+}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -211,12 +224,16 @@ if ($user_query != "") {
                                         <ul id="autocomplete" data-role="listview" data-inset="true"></ul>
                                         
                                         <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-                                            <input type="radio" name="language" id="langger" value="ger"
+                                            <?php if($show_de): ?>
+                                                <input type="radio" name="language" id="langger" value="ger"
                                                    onclick="updateAutocomplete();" data-theme="c"/>
-                                            <label for="langger">suggest german to english</label>
-                                            <input type="radio" name="language" id="langesp" value="esp"
+                                                <label for="langger">suggest german to english</label>
+                                            <?php endif; ?>
+                                            <?php if($show_es): ?>
+                                                <input type="radio" name="language" id="langesp" value="esp"
                                                    onclick="updateAutocomplete();" data-theme="c"/>
-                                            <label for="langesp">suggest spanish to english</label>
+                                                <label for="langesp">suggest spanish to english</label>
+                                            <?php endif; ?>
                                         </fieldset>
                                         
 					<fieldset data-role="controlgroup" data-type="horizontal"
@@ -347,12 +364,16 @@ if ($user_query != "") {
 				<ul id="autocomplete" data-role="listview" data-inset="true"></ul>                                                           
                                 
                                 <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
-                                    <input type="radio" name="language" id="langger" value="ger"
-                                        onclick="updateAutocomplete();" data-theme="c"/>
-                                    <label for="langger">suggest german to english</label>
-                                    <input type="radio" name="language" id="langesp" value="esp"
-                                        onclick="updateAutocomplete();" data-theme="c"/>
-                                    <label for="langesp">suggest spanish to english</label>
+                                    <?php if($show_de): ?>
+                                        <input type="radio" name="language" id="langger" value="ger"
+                                            onclick="updateAutocomplete();" data-theme="c"/>
+                                        <label for="langger">suggest german to english</label>
+                                    <?php endif; ?>
+                                    <?php if($show_es): ?>
+                                        <input type="radio" name="language" id="langesp" value="esp"
+                                            onclick="updateAutocomplete();" data-theme="c"/>
+                                        <label for="langesp">suggest spanish to english</label>
+                                    <?php endif; ?>   
                                 </fieldset>
                                 
 			</form>
