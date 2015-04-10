@@ -57,7 +57,7 @@ function query_solr($q, $category, $rows, $offset = 0) {
 	"&hl=true" . 	// switch highlighting on
 	"&hl.fl=body" . 	// use this field for highlighting
 	// "&hl.snippets=2" . 	// set maximum number of snippets per field generated. Default is 1.
-	"&hl.fragsize=380" . 	// set size of a snippet (in characters)
+	"&hl.fragsize=180" . 	// set size of a snippet (in characters)
 	// "&hl.fragmenter=regex" . "&hl.regex.slop=0.6" .	// specifies the factor by which the regex fragmenter can stray from the ideal fragment size
 	// "&hl.regex.pattern=\w[^\.!\?]{100,500}[\.!\?]" . 	// regex for matching sentences ... does not work too well? TODO: Should also be modified not to match commas in numbers, but only commas followed by a whitespace
 	"&hl.mergeContiguous=true" . 	// merge the two snippets into one when they are contiguous
