@@ -2,7 +2,7 @@ Run FindMeEvidence Docker Container
 -----------------------------------
 
 1.  build the image (optional): `docker build -t gpetz/find-me-evidence .`
-`
+
 2.  start the container: `docker run -d -p 8080:8080 -p 80:80 -t gpetz/find-me-evidence` 
 
 3.  start a shell session inside the running container: `docker exec -it <CONTAINER ID> bash`
