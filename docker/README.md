@@ -3,7 +3,7 @@ Run FindMeEvidence Docker Container
 
 1.  build the image (optional): `docker build -t gpetz/find-me-evidence .`
 
-2.  start the container: `docker run --cap-add SYS_PTRACE -d -p 8080:8080 -p 80:80 -t gpetz/find-me-evidence` 
+2.  start the container: `docker run --cap-add SYS_PTRACE--security-opt=apparmor:unconfined -d -p 8080:8080 -p 80:80 -t gpetz/find-me-evidence` 
 
 3.  load and reload `<Docker Host IP>:8080/solr` in your Browser to add [collection2]
 
