@@ -13,12 +13,11 @@ $start = microtime(true);
 $processed_entries = 0;
 $successfully_processed_entries = 0;
 
-// Load dictionary
-$dictionary = array();
-if (($handle = fopen('./wikipedia/es_de_translated_relevant_articles_credibility.txt', 'r')) !== FALSE) {
+$credibility = array();
+if (($handle = fopen('./wikipedia/relevant_articles_credibility.txt', 'r')) !== FALSE) {
     while (($row = fgetcsv($handle, 1000, ';')) !== FALSE) {
-        $entry = array($row[1], $row[2], $row[3]);
-        $dictionary[$row[0]] = $entry;
+        $entry = array($row[1]);
+        $credibility[str_replace("_", " ", $row[0])] = $entry;
     }
     fclose($handle);
 }
@@ -48,7 +47,7 @@ while (false !== ($file = readdir($handle))) {
             echo $article_title . "\n";
             $url_id = urlencode(str_replace(" ", "_", $article_title));
 
-            $entry = $dictionary[(string) $article_title];
+            $entry = $credibility[(string) $article_title];
 
             $suspicious = true;
 
