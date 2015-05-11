@@ -12,3 +12,10 @@ Run FindMeEvidence Docker Container
 5.  run inside the container: `root@:<CONTAINER ID>/opt/find-me-evidence-1.1/retrieval_and_indexing# php wikipedia_translations_to_solr_xml.php` to index the translations to the second dictionary Solr core (if [collection2] is not available, try to add it manually, run https://github.com/matthias-samwald/find-me-evidence/blob/master/docker/start.sh#L4)
 
 6.  access to FindMeEvidence: &lt;Docker Host IP&gt;:80 and Solr: &lt;Docker Host IP&gt;:8080/solr
+
+Run Seperate Docker Container For Solr And Apache
+-------------------------------------------------
+
+1. run Solr Container: `docker run -v /home/path_to_index/solr4.10.4/solr:/opt/solr/example/solr -itd --cap-add SYS_PTRACE --security-opt=apparmor:unconfined --name solr_instance -p 8081:8080 fme_solr`
+
+2. run Apache Container: `docker run -itd -p 81:80 --link solr_instance:solr fme_apache`
