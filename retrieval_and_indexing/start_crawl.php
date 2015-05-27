@@ -234,10 +234,22 @@ function crawl_via_links_on_page($site_name, $site_url, $regex_for_identifying_u
 	preg_match_all ($regex_for_identifying_urls, $sitemap, $url_matches, PREG_PATTERN_ORDER);  // e.g., "/<loc>[^<]+<\/loc>/" for Sitemaps
 	$urls = $url_matches[1];
 	
+        $ch = curl_init();    // initialize curl handle
+        
 	foreach ($urls as $url) {
 		print "Downloading $url \n";
 		$html = "";
-		$html = file_get_contents($url);
+		curl_setopt($ch, CURLOPT_URL, $url); // set url to post to
+                curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // allow redirects
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // return into a variable
+                curl_setopt($ch, CURLOPT_TIMEOUT, 10); // times out after 4s
+                curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:11.0) Gecko/20100101 Firefox/11.0");
+                $cookie_file = "cookie1.txt";
+                curl_setopt($ch, CURLOPT_COOKIESESSION, true);
+                curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+                curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie_file);
+                $html = curl_exec($ch); // run the whole process
 		if ($html == "") continue;
 		
 		// Get title of HTML page
@@ -265,5 +277,7 @@ function crawl_via_links_on_page($site_name, $site_url, $regex_for_identifying_u
 		
 		sleep($interval_between_requests);
 	}
+        
+        curl_close($ch);
 }
 ?>
