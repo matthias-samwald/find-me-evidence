@@ -16,6 +16,6 @@ Run FindMeEvidence Docker Container
 Run Seperate Docker Container For Solr And Apache
 -------------------------------------------------
 
-1. run Solr Container: `docker run -v /home/path_to_index/solr4.10.4/solr:/opt/solr/example/solr -itd --cap-add SYS_PTRACE --security-opt=apparmor:unconfined --name solr_instance -p 8081:8080 fme_solr`
+1. run Solr Container: `docker run --restart=always -v /home/path_to_index/solr4.10.4/solr:/opt/solr/example/solr -d --cap-add SYS_PTRACE --security-opt=apparmor:unconfined --name solr_instance -p 8081:8080 fme_solr`
 
-2. run Apache Container: `docker run -itd -p 81:80 --link solr_instance:solr fme_apache`
+2. run Apache Container: `docker run --restart=always -d -p 81:80 --link solr_instance:solr fme_apache`
