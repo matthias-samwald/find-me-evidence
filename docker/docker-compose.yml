@@ -1,0 +1,14 @@
+fmesolr:
+ build: fme_solr/
+# volumes:
+#  - /home/path_to_index/solr4.10.4/solr:/opt/solr/example/solr
+ cap_add:
+  - SYS_PTRACE
+ security_opt:
+  - apparmor:unconfined
+fmeapache:
+ build: fme_apache/
+ ports:
+  - "80:80"
+ links:
+  - fmesolr:solr
